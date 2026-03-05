@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.room.runtime)
+    implementation(libs.core.splashscreen)
     annotationProcessor(libs.room.compiler)
     implementation(libs.recyclerview)
     implementation(libs.lifecycle.viewmodel)
