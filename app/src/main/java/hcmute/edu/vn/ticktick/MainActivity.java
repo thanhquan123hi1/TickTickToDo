@@ -1,109 +1,208 @@
 package hcmute.edu.vn.ticktick;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import hcmute.edu.vn.ticktick.adapter.TaskAdapter;
 import hcmute.edu.vn.ticktick.database.Task;
+import hcmute.edu.vn.ticktick.main.TaskListController;
+import hcmute.edu.vn.ticktick.navigation.NavPanel;
+import hcmute.edu.vn.ticktick.navigation.NavRailController;
+import hcmute.edu.vn.ticktick.navigation.PanelContentFactory;
+import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.NavPanelCallback;
+import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.ViewDestination;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
 
+/**
+ * Thin coordinator: binds views, wires collaborators together, handles back press.
+ * All navigation logic lives in {@link PanelContentFactory} / {@link NavPanel} /
+ * {@link NavRailController}; all data logic lives in {@link TaskListController}.
+ */
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavPanelCallback, NavPanel.Host {
 
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private MaterialToolbar toolbar;
-    private RecyclerView recyclerTasks;
-    private FloatingActionButton fabAddTask;
-    private TextView tvEmpty;
-    private View addTaskBar;
+    // --- Views ---
+    private MaterialToolbar    toolbar;
+    private RecyclerView       recyclerTasks;
+    private TextView           tvEmpty;
+    private LinearLayout       navRail;
+    private LinearLayout       expandedPanel;
+    private View               overlayDim;
+    private TextView           tvPanelTitle;
+    private LinearLayout       panelContent;
 
-    private TaskAdapter taskAdapter;
-    private TaskViewModel viewModel;
+    // --- Rail buttons ---
+    private ImageButton railBtnTasks, railBtnCalendar, railBtnFilter;
+    private ImageButton railBtnTools, railBtnCompleted, railBtnSettings;
 
-    // Current view mode
-    private enum ViewMode {
-        NEXT_7_DAYS, TODAY, INBOX, CATEGORY, THIS_WEEK, UNSCHEDULED, COMPLETED
-    }
-    private ViewMode currentMode = ViewMode.NEXT_7_DAYS;
-    private int currentCategoryId = -1;
+    // --- Collaborators ---
+    private NavPanel            navPanel;
+    private NavRailController   railController;
+    private PanelContentFactory panelFactory;
+    private TaskListController  taskListController;
+    private TaskAdapter         taskAdapter;
+    private TaskViewModel       viewModel;
+
+    // --- State ---
+    private ViewDestination currentDestination = ViewDestination.NEXT_7_DAYS;
+    private int             currentCategoryId  = -1;
+
+    // -------------------------------------------------------------------------
+    // Lifecycle
+    // -------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize ViewModel
+        bindViews();
+        setupCollaborators();
+        setupToolbar();
+        setupRecyclerView();
+        setupRailButtons();
+        setupFab();
+        setupBackPress();
+
+        // Default view
+        railController.setActive(railBtnTasks);
+        navigateTo(ViewDestination.NEXT_7_DAYS, -1);
+    }
+
+    // -------------------------------------------------------------------------
+    // NavPanel.Host implementation
+    // -------------------------------------------------------------------------
+
+    @Override public LinearLayout getNavRail()       { return navRail; }
+    @Override public LinearLayout getExpandedPanel() { return expandedPanel; }
+    @Override public View         getOverlayDim()    { return overlayDim; }
+    @Override public int          resolveColor(int res)  { return getResources().getColor(res, null); }
+
+    // -------------------------------------------------------------------------
+    // NavPanelCallback implementation
+    // -------------------------------------------------------------------------
+
+    @Override
+    public void navigateTo(ViewDestination destination, int categoryId) {
+        currentDestination = destination;
+        switch (destination) {
+            case NEXT_7_DAYS: toolbar.setTitle(R.string.nav_next_7_days);
+                taskListController.loadNext7Days(); break;
+            case TODAY:       toolbar.setTitle(R.string.nav_today);
+                taskListController.loadToday(getString(R.string.section_today)); break;
+            case INBOX:       toolbar.setTitle(R.string.nav_inbox);
+                taskListController.loadInbox(getString(R.string.nav_inbox)); break;
+            case CATEGORY:
+                currentCategoryId = categoryId;
+                taskListController.loadCategory(categoryId, toolbar.getTitle().toString()); break;
+            case THIS_WEEK:   toolbar.setTitle(R.string.filter_this_week);
+                taskListController.loadThisWeek(getString(R.string.filter_this_week)); break;
+            case UNSCHEDULED: toolbar.setTitle(R.string.filter_unscheduled);
+                taskListController.loadUnscheduled(getString(R.string.filter_unscheduled)); break;
+            case COMPLETED:   toolbar.setTitle(R.string.filter_completed);
+                taskListController.loadCompleted(getString(R.string.filter_completed)); break;
+        }
+    }
+
+    @Override
+    public void closePanel() {
+        navPanel.close();
+    }
+
+    // -------------------------------------------------------------------------
+    // Private setup helpers
+    // -------------------------------------------------------------------------
+
+    private void bindViews() {
+        toolbar        = findViewById(R.id.toolbar);
+        recyclerTasks  = findViewById(R.id.recycler_tasks);
+        tvEmpty        = findViewById(R.id.tv_empty);
+        navRail        = findViewById(R.id.nav_rail);
+        expandedPanel  = findViewById(R.id.expanded_panel);
+        overlayDim     = findViewById(R.id.overlay_dim);
+        tvPanelTitle   = findViewById(R.id.tv_panel_title);
+        panelContent   = findViewById(R.id.panel_content);
+
+        railBtnTasks     = findViewById(R.id.rail_btn_tasks);
+        railBtnCalendar  = findViewById(R.id.rail_btn_calendar);
+        railBtnFilter    = findViewById(R.id.rail_btn_filter);
+        railBtnTools     = findViewById(R.id.rail_btn_tools);
+        railBtnCompleted = findViewById(R.id.rail_btn_completed);
+        railBtnSettings  = findViewById(R.id.rail_btn_settings);
+    }
+
+    private void setupCollaborators() {
         viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-
-        // Bind views
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
-        recyclerTasks = findViewById(R.id.recycler_tasks);
-        fabAddTask = findViewById(R.id.fab_add_task);
-        tvEmpty = findViewById(R.id.tv_empty);
-        addTaskBar = findViewById(R.id.add_task_bar);
-
-        // Setup toolbar
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.drawer_open, R.string.drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // Setup navigation
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_next_7_days);
-
-        // Setup RecyclerView
         taskAdapter = new TaskAdapter();
-        recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
-        recyclerTasks.setAdapter(taskAdapter);
-
-        // Task click -> open BottomSheet to edit
-        taskAdapter.setOnTaskClickListener(task -> showTaskDetail(task));
-
-        // Task checkbox -> toggle completion
+        taskAdapter.setOnTaskClickListener(this::showTaskDetail);
         taskAdapter.setOnTaskCheckListener((task, isChecked) -> {
             task.setCompleted(isChecked);
             viewModel.updateTask(task);
         });
 
-        // FAB -> add new task
-        fabAddTask.setOnClickListener(v -> showTaskDetail(null));
+        navPanel       = new NavPanel(this);
+        railController = new NavRailController(
+                railBtnTasks, railBtnCalendar, railBtnFilter,
+                railBtnTools, railBtnCompleted, railBtnSettings);
+        panelFactory   = new PanelContentFactory(this, panelContent, tvPanelTitle, this);
+        taskListController = new TaskListController(viewModel, taskAdapter, this,
+                isEmpty -> updateEmptyState(isEmpty));
+
+        overlayDim.setOnClickListener(v -> closePanel());
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+    }
+
+    private void setupRecyclerView() {
+        recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
+        recyclerTasks.setAdapter(taskAdapter);
+    }
+
+    private void setupFab() {
+        FloatingActionButton fab   = findViewById(R.id.fab_add_task);
+        View addTaskBar            = findViewById(R.id.add_task_bar);
+        fab.setOnClickListener(v       -> showTaskDetail(null));
         addTaskBar.setOnClickListener(v -> showTaskDetail(null));
+    }
 
-        // Load default view (7 ngày tới)
-        loadNext7DaysView();
+    private void setupRailButtons() {
+        railBtnTasks.setOnClickListener(v     -> togglePanel(railBtnTasks,     panelFactory::buildTasksPanel));
+        railBtnCalendar.setOnClickListener(v  -> togglePanel(railBtnCalendar,  panelFactory::buildCalendarPanel));
+        railBtnFilter.setOnClickListener(v    -> togglePanel(railBtnFilter,    panelFactory::buildFilterPanel));
+        railBtnTools.setOnClickListener(v     -> togglePanel(railBtnTools,     panelFactory::buildToolsPanel));
+        railBtnSettings.setOnClickListener(v  -> togglePanel(railBtnSettings,  panelFactory::buildSettingsPanel));
 
-        // Handle back press
+        railBtnCompleted.setOnClickListener(v -> {
+            closePanel();
+            railController.setActive(railBtnCompleted);
+            navigateTo(ViewDestination.COMPLETED, -1);
+        });
+
+        findViewById(R.id.btn_avatar).setOnClickListener(v ->
+                togglePanel(null, panelFactory::buildProfilePanel));
+    }
+
+    private void setupBackPress() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START);
+                if (navPanel.isOpen()) {
+                    closePanel();
                 } else {
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
@@ -112,191 +211,28 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
+    // -------------------------------------------------------------------------
+    // UI helpers
+    // -------------------------------------------------------------------------
 
-        if (id == R.id.nav_today) {
-            currentMode = ViewMode.TODAY;
-            toolbar.setTitle(R.string.nav_today);
-            loadTodayView();
-        } else if (id == R.id.nav_next_7_days) {
-            currentMode = ViewMode.NEXT_7_DAYS;
-            toolbar.setTitle(R.string.nav_next_7_days);
-            loadNext7DaysView();
-        } else if (id == R.id.nav_inbox) {
-            currentMode = ViewMode.INBOX;
-            toolbar.setTitle(R.string.nav_inbox);
-            loadInboxView();
-        } else if (id == R.id.nav_work) {
-            currentMode = ViewMode.CATEGORY;
-            currentCategoryId = 1;
-            toolbar.setTitle(R.string.cat_work);
-            loadCategoryView(1);
-        } else if (id == R.id.nav_study) {
-            currentMode = ViewMode.CATEGORY;
-            currentCategoryId = 2;
-            toolbar.setTitle(R.string.cat_study);
-            loadCategoryView(2);
-        } else if (id == R.id.nav_travel) {
-            currentMode = ViewMode.CATEGORY;
-            currentCategoryId = 3;
-            toolbar.setTitle(R.string.cat_travel);
-            loadCategoryView(3);
-        } else if (id == R.id.nav_this_week) {
-            currentMode = ViewMode.THIS_WEEK;
-            toolbar.setTitle(R.string.filter_this_week);
-            loadThisWeekView();
-        } else if (id == R.id.nav_unscheduled) {
-            currentMode = ViewMode.UNSCHEDULED;
-            toolbar.setTitle(R.string.filter_unscheduled);
-            loadUnscheduledView();
-        } else if (id == R.id.nav_completed) {
-            currentMode = ViewMode.COMPLETED;
-            toolbar.setTitle(R.string.filter_completed);
-            loadCompletedView();
-        }
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    // ============ View Loading Methods ============
-
-    private void loadNext7DaysView() {
-        // Grouped view: Hôm nay / Ngày mai / Sắp tới
-        removeAllObservers();
-
-        final List<Task> todayList = new ArrayList<>();
-        final List<Task> tomorrowList = new ArrayList<>();
-        final List<Task> upcomingList = new ArrayList<>();
-
-        viewModel.getTasksForToday().observe(this, tasks -> {
-            todayList.clear();
-            if (tasks != null) todayList.addAll(tasks);
-            taskAdapter.setGroupedData(todayList, tomorrowList, upcomingList);
-            updateEmptyState();
-        });
-
-        viewModel.getTasksForTomorrow().observe(this, tasks -> {
-            tomorrowList.clear();
-            if (tasks != null) tomorrowList.addAll(tasks);
-            taskAdapter.setGroupedData(todayList, tomorrowList, upcomingList);
-            updateEmptyState();
-        });
-
-        viewModel.getTasksUpcoming().observe(this, tasks -> {
-            upcomingList.clear();
-            if (tasks != null) upcomingList.addAll(tasks);
-            taskAdapter.setGroupedData(todayList, tomorrowList, upcomingList);
-            updateEmptyState();
-        });
-    }
-
-    private void loadTodayView() {
-        removeAllObservers();
-        viewModel.getTasksForToday().observe(this, tasks -> {
-            taskAdapter.setFlatData(getString(R.string.section_today), tasks);
-            updateEmptyState();
-        });
-    }
-
-    private void loadInboxView() {
-        removeAllObservers();
-        viewModel.getInboxTasks().observe(this, tasks -> {
-            taskAdapter.setFlatData(getString(R.string.nav_inbox), tasks);
-            updateEmptyState();
-        });
-    }
-
-    private void loadCategoryView(int categoryId) {
-        removeAllObservers();
-        viewModel.getTasksByCategory(categoryId).observe(this, tasks -> {
-            taskAdapter.setFlatData(toolbar.getTitle().toString(), tasks);
-            updateEmptyState();
-        });
-    }
-
-    private void loadThisWeekView() {
-        removeAllObservers();
-        viewModel.getTasksThisWeek().observe(this, tasks -> {
-            taskAdapter.setFlatData(getString(R.string.filter_this_week), tasks);
-            updateEmptyState();
-        });
-    }
-
-    private void loadUnscheduledView() {
-        removeAllObservers();
-        viewModel.getUnscheduledTasks().observe(this, tasks -> {
-            taskAdapter.setFlatData(getString(R.string.filter_unscheduled), tasks);
-            updateEmptyState();
-        });
-    }
-
-    private void loadCompletedView() {
-        removeAllObservers();
-        viewModel.getCompletedTasks().observe(this, tasks -> {
-            taskAdapter.setFlatData(getString(R.string.filter_completed), tasks);
-            updateEmptyState();
-        });
-    }
-
-    // ============ Helper Methods ============
-
-    private void removeAllObservers() {
-        // Remove previous observers to avoid stale data
-        viewModel.getTasksForToday().removeObservers(this);
-        viewModel.getTasksForTomorrow().removeObservers(this);
-        viewModel.getTasksUpcoming().removeObservers(this);
-        viewModel.getTasksNext7Days().removeObservers(this);
-        viewModel.getInboxTasks().removeObservers(this);
-        viewModel.getUnscheduledTasks().removeObservers(this);
-        viewModel.getCompletedTasks().removeObservers(this);
-        viewModel.getTasksThisWeek().removeObservers(this);
-    }
-
-    private void updateEmptyState() {
-        if (taskAdapter.isEmpty()) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            recyclerTasks.setVisibility(View.GONE);
+    private void togglePanel(ImageButton btn, Runnable panelBuilder) {
+        if (navPanel.isOpen() && railController.getActiveButton() == btn) {
+            closePanel();
         } else {
-            tvEmpty.setVisibility(View.GONE);
-            recyclerTasks.setVisibility(View.VISIBLE);
+            railController.setActive(btn);
+            panelBuilder.run();
+            navPanel.open();
         }
     }
 
     private void showTaskDetail(Task task) {
-        TaskDetailBottomSheet bottomSheet = TaskDetailBottomSheet.newInstance(task);
-        bottomSheet.setOnTaskSavedListener(() -> {
-            // Refresh current view after save
-            refreshCurrentView();
-        });
-        bottomSheet.show(getSupportFragmentManager(), "TASK_DETAIL");
+        TaskDetailBottomSheet sheet = TaskDetailBottomSheet.newInstance(task);
+        sheet.setOnTaskSavedListener(() -> navigateTo(currentDestination, currentCategoryId));
+        sheet.show(getSupportFragmentManager(), "TASK_DETAIL");
     }
 
-    private void refreshCurrentView() {
-        switch (currentMode) {
-            case NEXT_7_DAYS:
-                loadNext7DaysView();
-                break;
-            case TODAY:
-                loadTodayView();
-                break;
-            case INBOX:
-                loadInboxView();
-                break;
-            case CATEGORY:
-                loadCategoryView(currentCategoryId);
-                break;
-            case THIS_WEEK:
-                loadThisWeekView();
-                break;
-            case UNSCHEDULED:
-                loadUnscheduledView();
-                break;
-            case COMPLETED:
-                loadCompletedView();
-                break;
-        }
+    private void updateEmptyState(boolean isEmpty) {
+        tvEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerTasks.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 }

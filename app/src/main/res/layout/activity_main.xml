@@ -1,114 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <!-- Main Content -->
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <!-- ===== MAIN CONTENT (bên phải rail) ===== -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="60dp">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary"
-                app:titleTextColor="@color/white"
-                app:title="@string/nav_next_7_days" />
-        </com.google.android.material.appbar.AppBarLayout>
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/primary"
+                    app:titleTextColor="@color/text_on_primary"
+                    app:title="@string/nav_next_7_days" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <!-- Add Task Bar -->
             <LinearLayout
-                android:id="@+id/add_task_bar"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@color/surface"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_add"
-                    android:tint="@color/primary"
-                    android:contentDescription="@string/btn_add_task" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/btn_add_task"
-                    android:textColor="@color/primary"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider" />
-
-            <!-- Task RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_tasks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/background"
-                android:clipToPadding="false"
-                android:paddingBottom="80dp" />
-        </LinearLayout>
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Empty state -->
-        <TextView
-            android:id="@+id/tv_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/msg_no_tasks"
-            android:textColor="@color/text_secondary"
-            android:textSize="16sp"
-            android:visibility="gone" />
+                <!-- Add Task Bar -->
+                <LinearLayout
+                    android:id="@+id/add_task_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="@color/surface"
+                    android:clickable="true"
+                    android:focusable="true">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/btn_add_task"
-            android:src="@drawable/ic_add"
-            app:backgroundTint="@color/primary"
-            app:tint="@color/white" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/accent"
+                        android:contentDescription="@string/btn_add_task" />
 
-    <!-- Navigation Drawer -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/btn_add_task"
+                        android:textColor="@color/accent"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider" />
+
+                <!-- Task RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_tasks"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background"
+                    android:clipToPadding="false"
+                    android:paddingBottom="80dp" />
+            </LinearLayout>
+
+            <!-- Empty state -->
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/msg_no_tasks"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/btn_add_task"
+                android:src="@drawable/ic_add"
+                app:backgroundTint="@color/accent"
+                app:tint="@color/text_on_primary" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+
+    <!-- ===== OVERLAY đen mờ (chỉ phủ phần content, không phủ rail) ===== -->
+    <View
+        android:id="@+id/overlay_dim"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu" />
+        android:layout_marginStart="60dp"
+        android:background="#66000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <!-- ===== LEFT NAVIGATION RAIL (cố định, luôn nằm trên cùng) ===== -->
+    <LinearLayout
+        android:id="@+id/nav_rail"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/surface"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:elevation="12dp">
+
+        <!-- Avatar -->
+        <FrameLayout
+            android:id="@+id/btn_avatar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:padding="10dp"
+                android:src="@drawable/ic_avatar_placeholder"
+                android:contentDescription="@string/nav_avatar" />
+        </FrameLayout>
+
+        <!-- Top Group: 3 chức năng chính -->
+        <ImageButton
+            android:id="@+id/rail_btn_tasks"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_inbox"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/nav_rail_tasks" />
+
+        <ImageButton
+            android:id="@+id/rail_btn_calendar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_calendar"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/nav_calendar" />
+
+        <ImageButton
+            android:id="@+id/rail_btn_filter"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_filter"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/nav_filters" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Bottom Group: 3 tiện ích -->
+        <ImageButton
+            android:id="@+id/rail_btn_tools"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_timer"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/nav_tools" />
+
+        <ImageButton
+            android:id="@+id/rail_btn_completed"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_completed"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/filter_completed" />
+
+        <ImageButton
+            android:id="@+id/rail_btn_settings"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:src="@drawable/ic_settings"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:contentDescription="@string/nav_settings" />
+    </LinearLayout>
+
+    <!-- ===== EXPANDED PANEL (slide ra từ bên phải rail) ===== -->
+    <LinearLayout
+        android:id="@+id/expanded_panel"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="60dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_panel_rounded"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <!-- Panel Header -->
+        <TextView
+            android:id="@+id/tv_panel_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/divider" />
+
+        <!-- Panel Content (scrollable) -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/panel_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

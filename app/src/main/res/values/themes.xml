@@ -8,4 +8,35 @@
     </style>
 
     <style name="Theme.TickTick" parent="Base.Theme.TickTick" />
+
+    <!-- NavigationView item shape with rounded corners -->
+    <style name="NavItemShape" parent="Widget.Material3.NavigationView">
+        <item name="itemShapeAppearance">@style/NavItemShapeAppearance</item>
+        <item name="itemShapeFillColor">@color/nav_item_selector</item>
+        <item name="itemIconTint">@color/nav_item_icon_selector</item>
+        <item name="itemTextColor">@color/nav_item_text_selector</item>
+        <item name="itemShapeInsetStart">8dp</item>
+        <item name="itemShapeInsetEnd">8dp</item>
+        <item name="itemShapeInsetTop">4dp</item>
+        <item name="itemShapeInsetBottom">4dp</item>
+    </style>
+
+    <style name="NavItemShapeAppearance" parent="ShapeAppearance.Material3.Corner.Medium">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    //splash screen
+    <style name="Theme.TickTick.Splash" parent="Theme.SplashScreen">
+
+        <!-- màu nền -->
+        <item name="windowSplashScreenBackground">@color/primary</item>
+
+        <!-- icon ở giữa -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+
+        <!-- theme sau khi splash kết thúc -->
+        <item name="postSplashScreenTheme">@style/Theme.TickTick</item>
+
+    </style>
 </resources>

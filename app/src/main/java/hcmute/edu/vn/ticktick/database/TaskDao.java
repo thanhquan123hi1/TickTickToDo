@@ -67,4 +67,8 @@ public interface TaskDao {
     // Get task by ID
     @Query("SELECT * FROM tasks WHERE id = :id")
     Task getTaskById(int id);
+
+    // Tasks for a specific date range (Calendar view)
+    @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDay AND dueDate < :endOfDay ORDER BY dueDate ASC, createdAt ASC")
+    LiveData<List<Task>> getTasksForDate(long startOfDay, long endOfDay);
 }

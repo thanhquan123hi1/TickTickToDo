@@ -60,8 +60,46 @@
     <string name="drawer_open">Mở menu</string>
     <string name="drawer_close">Đóng menu</string>
 
+    <!-- Navigation Rail -->
+    <string name="nav_avatar">Hồ sơ</string>
+    <string name="nav_rail_tasks">Công việc</string>
+    <string name="nav_settings">Cài đặt</string>
+    <string name="nav_profile_title">Hồ sơ của tôi</string>
+    <string name="nav_profile_info">Thông tin tài khoản</string>
+    <string name="nav_profile_theme">Giao diện</string>
+    <string name="nav_profile_about">Giới thiệu</string>
+    <string name="nav_settings_notification">Thông báo</string>
+    <string name="nav_settings_language">Ngôn ngữ</string>
+    <string name="nav_settings_backup">Sao lưu dữ liệu</string>
+
     <!-- Select -->
     <string name="select_date">Chọn ngày</string>
     <string name="select_time">Chọn giờ</string>
     <string name="select_category">Chọn danh mục</string>
+
+    <!-- Navigation - Tools -->
+    <string name="nav_tools">Công cụ</string>
+    <string name="nav_calendar">Lịch</string>
+    <string name="nav_countdown">Đồng hồ đếm ngược</string>
+
+    <!-- Calendar -->
+    <string name="msg_no_tasks_on_date">Không có công việc nào trong ngày này</string>
+
+    <!-- Countdown Timer -->
+    <string name="countdown_set_time">Đặt thời gian đếm ngược</string>
+    <string name="countdown_set_time_warning">Vui lòng đặt thời gian lớn hơn 0</string>
+    <string name="countdown_hours">Giờ</string>
+    <string name="countdown_minutes">Phút</string>
+    <string name="countdown_seconds">Giây</string>
+    <string name="countdown_start">Bắt đầu</string>
+    <string name="countdown_pause">Tạm dừng</string>
+    <string name="countdown_resume">Tiếp tục</string>
+    <string name="countdown_reset">Đặt lại</string>
+    <string name="countdown_running">Đang chạy…</string>
+    <string name="countdown_paused">Đã tạm dừng</string>
+    <string name="countdown_finished">Hết giờ!</string>
+    <string name="countdown_finished_title">Hết giờ!</string>
+    <string name="countdown_finished_message">Thời gian đếm ngược đã kết thúc.</string>
+    <string name="countdown_presets">Chọn nhanh:</string>
+    <string name="btn_ok">OK</string>
 </resources>

@@ -79,6 +79,10 @@ public class TaskViewModel extends AndroidViewModel {
         );
     }
 
+    public LiveData<List<Task>> getTasksForDate(long startOfDay, long endOfDay) {
+        return taskDao.getTasksForDate(startOfDay, endOfDay);
+    }
+
     // === Category queries ===
 
     public LiveData<List<Category>> getAllCategories() {
