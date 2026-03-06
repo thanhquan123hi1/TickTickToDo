@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <!-- này dùng để làm thanh tool bar -->
+    <!-- thanh tool bar dùng để làm thanh tiêu đề cho app -->
+    <!-- containeer bao bọc bên ngoài -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
-
+        <!-- Đây chính là thanh công cụ thực tế mà người dùng nhìn thấy. Các thuộc tính bên trong dùng để tùy chỉnh giao diện của nó -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_calendar"
             android:layout_width="match_parent"
@@ -20,7 +23,8 @@
             app:navigationIconTint="@color/text_on_primary"
             app:title="@string/nav_calendar" />
     </com.google.android.material.appbar.AppBarLayout>
-
+    <!-- sử dụng linear layout -->
+    <!-- sắp xếp từ trên xuống dưới nhờ vertical-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,13 +37,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/surface" />
-
+        <!-- kẻ line -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider" />
 
         <!-- Selected date label -->
+        <!-- hiển thị thông tin mà người dùng nhập -->
+
         <TextView
             android:id="@+id/tv_selected_date"
             android:layout_width="match_parent"
@@ -56,6 +62,8 @@
             android:background="@color/divider" />
 
         <!-- Task list for selected date -->
+        <!-- hiên thị các task -->
+        <!-- height =  0  , weight = 1 sẽ cho nó chiếm toàn bộ phânf trống -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_calendar_tasks"
             android:layout_width="match_parent"
@@ -66,6 +74,7 @@
             android:paddingBottom="80dp" />
 
         <!-- Empty state -->
+
         <TextView
             android:id="@+id/tv_calendar_empty"
             android:layout_width="match_parent"
@@ -76,7 +85,10 @@
             android:textColor="@color/text_secondary"
             android:textSize="15sp"
             android:visibility="gone" />
+
+
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_task_calendar"
@@ -88,5 +100,6 @@
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/primary"
         app:tint="@color/text_on_primary" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
