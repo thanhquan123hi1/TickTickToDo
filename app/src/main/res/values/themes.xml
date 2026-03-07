@@ -33,7 +33,7 @@
         <item name="windowSplashScreenBackground">@color/primary</item>
 
         <!-- icon ở giữa -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_plashscreen</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
 
         <!-- theme sau khi splash kết thúc -->
         <item name="postSplashScreenTheme">@style/Theme.TickTick</item>
