@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+: Đây là một loại Layout dạng "xếp chồng". Khác với LinearLayout (xếp nối tiếp nhau), mọi thứ bạn đặt vào bên trong FrameLayout mặc định sẽ đè lên nhau (giống như các lớp của một cái bánh hamburger) và nằm ở góc trên cùng bên trái. -->
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

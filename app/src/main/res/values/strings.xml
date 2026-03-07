@@ -2,6 +2,7 @@
     <string name="app_name">TickTick</string>
 
     <!-- Navigation Drawer -->
+    <!-- này là ở nhóm đầu tiên -->
     <string name="nav_today">Hôm nay</string>
     <string name="nav_next_7_days">7 ngày tới</string>
     <string name="nav_inbox">Hộp thư đến</string>
@@ -40,6 +41,7 @@
     <string name="btn_cancel">Hủy</string>
     <string name="btn_add_task">Thêm công việc</string>
     <string name="btn_add_checklist">Thêm mục con</string>
+    <string name="btn_add_category">+ Thêm danh mục</string>
 
     <!-- Priority levels -->
     <string name="priority_none">Không ưu tiên</string>

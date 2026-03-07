@@ -6,9 +6,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
 import hcmute.edu.vn.ticktick.CalendarActivity;
 import hcmute.edu.vn.ticktick.CountdownActivity;
 import hcmute.edu.vn.ticktick.R;
+import hcmute.edu.vn.ticktick.database.AppDatabase;
+import hcmute.edu.vn.ticktick.database.Category;
+import hcmute.edu.vn.ticktick.ui.AddCategoryDialog;
 
 /**
  * Builds the content (rows) for every side-panel section.
@@ -58,6 +65,7 @@ public class PanelContentFactory {
         tvPanelTitle.setText(R.string.nav_rail_tasks);
         clearContent();
 
+        // Smart views cố định
         addItem(R.drawable.ic_today,  R.string.nav_today,      () -> navigate(ViewDestination.TODAY,      -1));
         addItem(R.drawable.ic_week,   R.string.nav_next_7_days, () -> navigate(ViewDestination.NEXT_7_DAYS, -1));
         addItem(R.drawable.ic_inbox,  R.string.nav_inbox,      () -> navigate(ViewDestination.INBOX,      -1));
@@ -65,9 +73,14 @@ public class PanelContentFactory {
         panelContent.addView(itemBuilder.buildDivider());
         panelContent.addView(itemBuilder.buildSectionTitle(context.getString(R.string.nav_lists)));
 
-        addItem(R.drawable.ic_work,   R.string.cat_work,   () -> navigate(ViewDestination.CATEGORY, 1));
-        addItem(R.drawable.ic_study,  R.string.cat_study,  () -> navigate(ViewDestination.CATEGORY, 2));
-        addItem(R.drawable.ic_travel, R.string.cat_travel, () -> navigate(ViewDestination.CATEGORY, 3));
+        // Load danh sách category từ database
+        loadCategoriesFromDatabase();
+
+        // Nút thêm danh mục mới
+        panelContent.addView(itemBuilder.buildAddCategoryItem(
+                context.getString(R.string.btn_add_category),
+                this::showAddCategoryDialog
+        ));
     }
 
     public void buildCalendarPanel() {
@@ -130,6 +143,96 @@ public class PanelContentFactory {
     // -------------------------------------------------------------------------
     // Private helpers
     // -------------------------------------------------------------------------
+
+    /**
+     * Load danh sách category từ database và thêm vào panel.
+     * Chạy trên background thread, cập nhật UI trên main thread.
+     */
+    private void loadCategoriesFromDatabase() {
+        AppDatabase db = AppDatabase.getDatabase(context);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<Category> categories = db.categoryDao().getAllCategoriesSync();
+
+            // Cập nhật UI trên main thread
+            if (context instanceof AppCompatActivity) {
+                ((AppCompatActivity) context).runOnUiThread(() -> {
+                    // Tìm vị trí sau section title "Danh sách" để chèn categories
+                    // Xóa các item category cũ (nếu có) và thêm mới
+                    addCategoryItemsToPanel(categories);
+                });
+            }
+        });
+    }
+
+    /**
+     * Thêm các item category vào panel content.
+     * @param categories Danh sách category từ database.
+     */
+    private void addCategoryItemsToPanel(List<Category> categories) {
+        // Tìm index sau divider và section title
+        int insertIndex = findCategoryInsertIndex();
+
+        for (Category cat : categories) {
+            int iconRes = getIconResIdByName(cat.getIconName());
+            LinearLayout item = itemBuilder.buildItem(
+                    iconRes,
+                    cat.getName(),
+                    () -> navigate(ViewDestination.CATEGORY, cat.getId())
+            );
+            panelContent.addView(item, insertIndex);
+            insertIndex++;
+        }
+    }
+
+    /**
+     * Tìm vị trí trong panel để chèn category items.
+     * Vị trí này nằm sau section title "Danh sách".
+     */
+    private int findCategoryInsertIndex() {
+        // Mặc định: sau smart views (3) + divider (1) + section title (1) = index 5
+        // Nhưng để chính xác hơn, đếm số view hiện tại
+        return panelContent.getChildCount();
+    }
+
+    /**
+     * Hiển thị dialog thêm category mới.
+     */
+    private void showAddCategoryDialog() {
+        if (context instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) context;
+            AddCategoryDialog dialog = AddCategoryDialog.newInstance();
+            dialog.setOnCategoryAddedListener(category -> {
+                // Reload panel sau khi thêm category
+                buildTasksPanel();
+            });
+            dialog.show(activity.getSupportFragmentManager(), "ADD_CATEGORY");
+        }
+    }
+
+    /**
+     * Map tên icon (lưu trong database) sang resource ID drawable.
+     * @param iconName Tên icon, ví dụ: "ic_work", "ic_study"
+     * @return Resource ID, hoặc ic_list nếu không tìm thấy.
+     */
+    private int getIconResIdByName(String iconName) {
+        if (iconName == null) return R.drawable.ic_list;
+
+        switch (iconName) {
+            case "ic_work":     return R.drawable.ic_work;
+            case "ic_study":    return R.drawable.ic_study;
+            case "ic_travel":   return R.drawable.ic_travel;
+            case "ic_list":     return R.drawable.ic_list;
+            case "ic_star":     return R.drawable.ic_star;
+            case "ic_inbox":    return R.drawable.ic_inbox;
+            case "ic_calendar": return R.drawable.ic_calendar;
+            case "ic_timer":    return R.drawable.ic_timer;
+            case "ic_filter":   return R.drawable.ic_filter;
+            case "ic_check":    return R.drawable.ic_check;
+            case "ic_today":    return R.drawable.ic_today;
+            case "ic_week":     return R.drawable.ic_week;
+            default:            return R.drawable.ic_list;
+        }
+    }
 
     private void navigate(ViewDestination dest, int categoryId) {
         callback.navigateTo(dest, categoryId);
