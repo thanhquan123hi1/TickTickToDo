@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         implements NavPanelCallback, NavPanel.Host {
 
     // --- Views ---
+    // Cac bien nay map truc tiep voi id trong res/layout/activity_main.xml.
     private MaterialToolbar    toolbar;
     private RecyclerView       recyclerTasks;
     private TextView           tvEmpty;
@@ -46,10 +47,12 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout       panelContent;
 
     // --- Rail buttons ---
+    // Nhom nut dieu huong ben trai (id: rail_btn_* trong activity_main.xml).
     private ImageButton railBtnTasks, railBtnCalendar, railBtnFilter;
     private ImageButton railBtnTools, railBtnCompleted, railBtnSettings;
 
     // --- Collaborators ---
+    // Cac thanh phan tach rieng trach nhiem: nav, du lieu, adapter, state.
     private NavPanel            navPanel;
     private NavRailController   railController;
     private PanelContentFactory panelFactory;
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Khoi tao giao dien va gan hanh vi cho tung khoi chuc nang.
         bindViews();
         setupCollaborators();
         setupToolbar();
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void navigateTo(ViewDestination destination, int categoryId) {
+        // Doi man hinh logic (bo loc/nhom task) va cap nhat title toolbar.
         currentDestination = destination;
         switch (destination) {
             case NEXT_7_DAYS: toolbar.setTitle(R.string.nav_next_7_days);
@@ -130,6 +135,7 @@ public class MainActivity extends AppCompatActivity
     // -------------------------------------------------------------------------
 
     private void bindViews() {
+        // Map bien Java -> view id trong activity_main.xml.
         toolbar        = findViewById(R.id.toolbar);
         recyclerTasks  = findViewById(R.id.recycler_tasks);
         tvEmpty        = findViewById(R.id.tv_empty);
@@ -148,6 +154,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupCollaborators() {
+        // Khoi tao cac doi tuong xu ly du lieu va dieu huong, Activity chi dieu phoi.
         viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         taskAdapter = new TaskAdapter();
         taskAdapter.setOnTaskClickListener(this::showTaskDetail);
@@ -168,15 +175,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupToolbar() {
+        // Gan toolbar trong layout lam ActionBar cua Activity.
         setSupportActionBar(toolbar);
     }
 
     private void setupRecyclerView() {
+        // Cau hinh danh sach task theo chieu doc.
         recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
         recyclerTasks.setAdapter(taskAdapter);
     }
 
     private void setupFab() {
+        // FAB va add task bar deu mo form tao task moi.
         FloatingActionButton fab   = findViewById(R.id.fab_add_task);
         View addTaskBar            = findViewById(R.id.add_task_bar);
         fab.setOnClickListener(v       -> showTaskDetail(null));
@@ -184,23 +194,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupRailButtons() {
+        // Moi nut rail mo 1 panel noi dung tuong ung.
         railBtnTasks.setOnClickListener(v     -> togglePanel(railBtnTasks,     panelFactory::buildTasksPanel));
         railBtnCalendar.setOnClickListener(v  -> togglePanel(railBtnCalendar,  panelFactory::buildCalendarPanel));
         railBtnFilter.setOnClickListener(v    -> togglePanel(railBtnFilter,    panelFactory::buildFilterPanel));
         railBtnTools.setOnClickListener(v     -> togglePanel(railBtnTools,     panelFactory::buildToolsPanel));
         railBtnSettings.setOnClickListener(v  -> togglePanel(railBtnSettings,  panelFactory::buildSettingsPanel));
 
+        // Nut completed di thang vao bo loc "Da hoan thanh".
         railBtnCompleted.setOnClickListener(v -> {
             closePanel();
             railController.setActive(railBtnCompleted);
             navigateTo(ViewDestination.COMPLETED, -1);
         });
 
+        // Avatar mo panel ho so, khong active nut rail nao.
         findViewById(R.id.btn_avatar).setOnClickListener(v ->
                 togglePanel(null, panelFactory::buildProfilePanel));
     }
 
     private void setupBackPress() {
+        // Neu panel dang mo thi dong panel truoc, chua thoat man hinh ngay.
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -219,6 +233,7 @@ public class MainActivity extends AppCompatActivity
     // -------------------------------------------------------------------------
 
     private void togglePanel(ImageButton btn, Runnable panelBuilder) {
+        // Click lai cung nut dang active -> dong panel; nguoc lai build va mo panel.
         if (navPanel.isOpen() && railController.getActiveButton() == btn) {
             closePanel();
         } else {
@@ -229,12 +244,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showTaskDetail(Task task) {
+        // Mo bottom sheet tao/sua task; luu xong thi reload theo destination hien tai.
         TaskDetailBottomSheet sheet = TaskDetailBottomSheet.newInstance(task);
         sheet.setOnTaskSavedListener(() -> navigateTo(currentDestination, currentCategoryId));
         sheet.show(getSupportFragmentManager(), "TASK_DETAIL");
     }
 
     private void updateEmptyState(boolean isEmpty) {
+        // Khi khong co task: hien thong bao rong, an danh sach.
         tvEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         recyclerTasks.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }

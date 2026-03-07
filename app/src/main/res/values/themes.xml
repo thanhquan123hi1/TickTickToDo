@@ -6,7 +6,12 @@
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowBackground">@color/background</item>
     </style>
-
+    <!-- Base.Theme.TickTickLà theme gốc của app, kế thừa Theme.Material3.DayNight.NoActionBar.Nó đặt các màu chính như colorPrimary, colorAccent, và android:windowBackground.
+* Theme.TickTickLà theme chính dùng công khai trong app, kế thừa từ theme gốc để dễ mở rộng sau này.
+* NavItemShapeĐịnh kiểu cho item trong NavigationView:- bo góc item qua itemShapeAppearance- màu nền/icon/text theo trạng thái bằng các selector- khoảng đệm trên/dưới/trái/phải bằng các itemShapeInset...
+* NavItemShapeAppearanceĐịnh nghĩa hình dạng bo góc cho nav item, với góc rounded và kích thước 12dp.
+* Theme.TickTick.SplashTheme cho splash screen (Android12+):- màu nền splash- icon ở giữa- theme sẽ áp dụng sau khi splash kết thúc (postSplashScreenTheme)
+ -->
     <style name="Theme.TickTick" parent="Base.Theme.TickTick" />
 
     <!-- NavigationView item shape with rounded corners -->
@@ -33,7 +38,7 @@
         <item name="windowSplashScreenBackground">@color/primary</item>
 
         <!-- icon ở giữa -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_plashscreen</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/tiktik</item>
 
         <!-- theme sau khi splash kết thúc -->
         <item name="postSplashScreenTheme">@style/Theme.TickTick</item>

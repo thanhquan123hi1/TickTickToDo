@@ -76,6 +76,55 @@ public class PanelItemBuilder {
         return tv;
     }
 
+    /**
+     * Tạo nút "+ Thêm danh mục" với style đặc biệt.
+     * Icon dấu cộng màu accent, text màu accent.
+     * @param title Text hiển thị (ví dụ: "+ Thêm danh mục")
+     * @param onClick Hành động khi click
+     * @return LinearLayout item
+     */
+    public LinearLayout buildAddCategoryItem(String title, Runnable onClick) {
+        LinearLayout item = new LinearLayout(context);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setGravity(Gravity.CENTER_VERTICAL);
+
+        int hPad = dp(16);
+        int vPad = dp(12);
+        item.setPadding(hPad, vPad, hPad, vPad);
+        item.setBackground(AppCompatResources.getDrawable(context, R.drawable.bg_panel_item_ripple));
+        item.setClickable(true);
+        item.setFocusable(true);
+
+        LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        itemLp.setMargins(0, dp(8), 0, dp(2));
+        item.setLayoutParams(itemLp);
+
+        // Icon dấu cộng màu accent
+        ImageView icon = new ImageView(context);
+        int size = dp(22);
+        LinearLayout.LayoutParams iconLp = new LinearLayout.LayoutParams(size, size);
+        icon.setLayoutParams(iconLp);
+        icon.setImageResource(R.drawable.ic_add);
+        icon.setColorFilter(context.getResources().getColor(R.color.accent, null));
+        item.addView(icon);
+
+        // Text màu accent
+        TextView tv = new TextView(context);
+        LinearLayout.LayoutParams tvLp = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        tvLp.setMarginStart(dp(14));
+        tv.setLayoutParams(tvLp);
+        tv.setText(title);
+        tv.setTextSize(15);
+        tv.setTextColor(context.getResources().getColor(R.color.accent, null));
+        item.addView(tv);
+
+        item.setOnClickListener(v -> onClick.run());
+        return item;
+    }
+
     // -------------------------------------------------------------------------
     // Private helpers
     // -------------------------------------------------------------------------
