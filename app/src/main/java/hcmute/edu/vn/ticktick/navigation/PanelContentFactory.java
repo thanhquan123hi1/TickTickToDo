@@ -2,11 +2,15 @@ package hcmute.edu.vn.ticktick.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -30,15 +34,17 @@ public class PanelContentFactory {
 
     /** Callbacks fired when a panel item is tapped. */
     public interface NavPanelCallback {
-        void navigateTo(ViewDestination destination, int categoryId);
+        void navigateTo(ViewDestination destination, int categoryId, String titleOverride);
         void closePanel();
+        void openDateRangeFilter();
     }
 
     /** Represents every navigation destination that the panel can trigger. */
     public enum ViewDestination {
+        ALL_TASKS,
         TODAY, NEXT_7_DAYS, INBOX,
         CATEGORY,
-        THIS_WEEK, UNSCHEDULED, COMPLETED
+        THIS_WEEK, UNSCHEDULED, COMPLETED, DATE_RANGE
     }
 
     private final Context context;
@@ -46,6 +52,7 @@ public class PanelContentFactory {
     private final TextView tvPanelTitle;
     private final PanelItemBuilder itemBuilder;
     private final NavPanelCallback callback;
+    private static final String TAG_CATEGORY_ITEM = "panel_category_item";
 
     public PanelContentFactory(Context context,
                                 LinearLayout panelContent,
@@ -66,10 +73,10 @@ public class PanelContentFactory {
         tvPanelTitle.setText(R.string.nav_rail_tasks);
         clearContent();
 
-        // Smart views cố định
-        addItem(R.drawable.ic_today,  R.string.nav_today,      () -> navigate(ViewDestination.TODAY,      -1));
-        addItem(R.drawable.ic_week,   R.string.nav_next_7_days, () -> navigate(ViewDestination.NEXT_7_DAYS, -1));
-        addItem(R.drawable.ic_inbox,  R.string.nav_inbox,      () -> navigate(ViewDestination.INBOX,      -1));
+        addItem(R.drawable.ic_list,   R.string.nav_all_tasks,   () -> navigate(ViewDestination.ALL_TASKS,    -1, context.getString(R.string.nav_all_tasks)));
+        addItem(R.drawable.ic_today,  R.string.nav_today,       () -> navigate(ViewDestination.TODAY,        -1, context.getString(R.string.nav_today)));
+        addItem(R.drawable.ic_week,   R.string.nav_next_7_days, () -> navigate(ViewDestination.NEXT_7_DAYS,  -1, context.getString(R.string.nav_next_7_days)));
+        addItem(R.drawable.ic_inbox,  R.string.nav_inbox,       () -> navigate(ViewDestination.INBOX,        -1, context.getString(R.string.nav_inbox)));
 
         panelContent.addView(itemBuilder.buildDivider());
         panelContent.addView(itemBuilder.buildSectionTitle(context.getString(R.string.nav_lists)));
@@ -92,28 +99,32 @@ public class PanelContentFactory {
             callback.closePanel();
             context.startActivity(new Intent(context, CalendarActivity.class));
         });
-        addItem(R.drawable.ic_today, R.string.nav_today,           () -> navigate(ViewDestination.TODAY,     -1));
-        addItem(R.drawable.ic_week,  R.string.filter_this_week,    () -> navigate(ViewDestination.THIS_WEEK, -1));
+        addItem(R.drawable.ic_today, R.string.nav_today,
+                () -> navigate(ViewDestination.TODAY, -1, context.getString(R.string.nav_today)));
+        addItem(R.drawable.ic_week, R.string.filter_this_week,
+                () -> navigate(ViewDestination.THIS_WEEK, -1, context.getString(R.string.filter_this_week)));
     }
 
     public void buildFilterPanel() {
         tvPanelTitle.setText(R.string.nav_filters);
         clearContent();
 
-        addItem(R.drawable.ic_week,      R.string.filter_this_week,   () -> navigate(ViewDestination.THIS_WEEK,   -1));
-        addItem(R.drawable.ic_filter,    R.string.filter_unscheduled, () -> navigate(ViewDestination.UNSCHEDULED, -1));
-        addItem(R.drawable.ic_completed, R.string.filter_completed,   () -> navigate(ViewDestination.COMPLETED,   -1));
-        addItem(R.drawable.ic_star,      R.string.priority_high, () -> {
-            Toast.makeText(context, R.string.priority_high, Toast.LENGTH_SHORT).show();
-            callback.closePanel();
-        });
+        addItem(R.drawable.ic_calendar, R.string.filter_date_range, this::openDateRangePicker);
+        addItem(R.drawable.ic_week, R.string.filter_this_week,
+                () -> navigate(ViewDestination.THIS_WEEK, -1, context.getString(R.string.filter_this_week)));
+        addItem(R.drawable.ic_filter, R.string.filter_unscheduled,
+                () -> navigate(ViewDestination.UNSCHEDULED, -1, context.getString(R.string.filter_unscheduled)));
+        addItem(R.drawable.ic_completed, R.string.filter_completed,
+                () -> navigate(ViewDestination.COMPLETED, -1, context.getString(R.string.filter_completed)));
+        addItem(R.drawable.ic_inbox, R.string.filter_clear,
+                () -> navigate(ViewDestination.ALL_TASKS, -1, context.getString(R.string.nav_all_tasks)));
     }
 
     public void buildToolsPanel() {
         tvPanelTitle.setText(R.string.nav_tools);
         clearContent();
 
-        addItem(R.drawable.ic_timer,    R.string.nav_countdown, () -> {
+        addItem(R.drawable.ic_timer, R.string.nav_countdown, () -> {
             callback.closePanel();
             context.startActivity(new Intent(context, CountdownActivity.class));
         });
@@ -170,18 +181,29 @@ public class PanelContentFactory {
      * @param categories Danh sách category từ database.
      */
     private void addCategoryItemsToPanel(List<Category> categories) {
-        // Tìm index sau divider và section title
+        clearInjectedCategoryItems();
         int insertIndex = findCategoryInsertIndex();
 
         for (Category cat : categories) {
             int iconRes = getIconResIdByName(cat.getIconName());
-            LinearLayout item = itemBuilder.buildItem(
+            LinearLayout item = itemBuilder.buildCategoryItem(
                     iconRes,
                     cat.getName(),
-                    () -> navigate(ViewDestination.CATEGORY, cat.getId())
+                    () -> navigate(ViewDestination.CATEGORY, cat.getId(), cat.getName()),
+                    anchor -> showCategoryOptions(anchor, cat)
             );
+            item.setTag(TAG_CATEGORY_ITEM);
             panelContent.addView(item, insertIndex);
             insertIndex++;
+        }
+    }
+
+    private void clearInjectedCategoryItems() {
+        for (int i = panelContent.getChildCount() - 1; i >= 0; i--) {
+            View child = panelContent.getChildAt(i);
+            if (TAG_CATEGORY_ITEM.equals(child.getTag())) {
+                panelContent.removeViewAt(i);
+            }
         }
     }
 
@@ -192,7 +214,7 @@ public class PanelContentFactory {
     private int findCategoryInsertIndex() {
         // Mặc định: sau smart views (3) + divider (1) + section title (1) = index 5
         // Nhưng để chính xác hơn, đếm số view hiện tại
-        return panelContent.getChildCount();
+        return Math.max(0, panelContent.getChildCount() - 1);
     }
 
     /**
@@ -202,12 +224,84 @@ public class PanelContentFactory {
         if (context instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) context;
             AddCategoryDialog dialog = AddCategoryDialog.newInstance();
-            dialog.setOnCategoryAddedListener(category -> {
-                // Reload panel sau khi thêm category
-                buildTasksPanel();
+            dialog.setOnCategoryChangedListener(new AddCategoryDialog.OnCategoryChangedListener() {
+                @Override
+                public void onCategorySaved(Category category, boolean isEdit) {
+                    buildTasksPanel();
+                }
+
+                @Override
+                public void onCategoryDeleted(Category category) {
+                    buildTasksPanel();
+                }
             });
             dialog.show(activity.getSupportFragmentManager(), "ADD_CATEGORY");
         }
+    }
+
+    /**
+     * Hiển thị dialog sửa category.
+     */
+    private void showEditCategoryDialog(Category category) {
+        if (context instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) context;
+            AddCategoryDialog dialog = AddCategoryDialog.newInstance(category);
+            dialog.setOnCategoryChangedListener(new AddCategoryDialog.OnCategoryChangedListener() {
+                @Override
+                public void onCategorySaved(Category updatedCategory, boolean isEdit) {
+                    buildTasksPanel();
+                }
+
+                @Override
+                public void onCategoryDeleted(Category deletedCategory) {
+                    buildTasksPanel();
+                }
+            });
+            dialog.show(activity.getSupportFragmentManager(), "EDIT_CATEGORY");
+        }
+    }
+
+    /**
+     * Hiển thị menu tùy chọn cho category (sửa/xóa).
+     */
+    private void showCategoryOptions(View anchor, Category category) {
+        PopupMenu popupMenu = new PopupMenu(context, anchor);
+        popupMenu.getMenu().add(0, 1, 0, R.string.btn_edit);
+        popupMenu.getMenu().add(0, 2, 1, R.string.btn_delete);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == 1) {
+                showEditCategoryDialog(category);
+                return true;
+            }
+            if (item.getItemId() == 2) {
+                showDeleteCategoryDialog(category);
+                return true;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
+    private void showDeleteCategoryDialog(Category category) {
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.dialog_delete_category_title)
+                .setMessage(R.string.dialog_delete_category_message)
+                .setPositiveButton(R.string.btn_delete, (dialog, which) -> deleteCategory(category))
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    private void deleteCategory(Category category) {
+        AppDatabase db = AppDatabase.getDatabase(context);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            db.categoryDao().delete(category);
+            if (context instanceof AppCompatActivity) {
+                ((AppCompatActivity) context).runOnUiThread(() -> {
+                    Toast.makeText(context, R.string.msg_category_deleted, Toast.LENGTH_SHORT).show();
+                    buildTasksPanel();
+                });
+            }
+        });
     }
 
     /**
@@ -247,14 +341,18 @@ public class PanelContentFactory {
         }
     }
 
-    private void navigate(ViewDestination dest, int categoryId) {
-        callback.navigateTo(dest, categoryId);
+    private void openDateRangePicker() {
+        callback.closePanel();
+        callback.openDateRangeFilter();
+    }
+
+    private void navigate(ViewDestination dest, int categoryId, String titleOverride) {
+        callback.navigateTo(dest, categoryId, titleOverride);
         callback.closePanel();
     }
 
     private void addItem(int iconRes, int labelRes, Runnable onClick) {
-        panelContent.addView(
-                itemBuilder.buildItem(iconRes, context.getString(labelRes), onClick));
+        panelContent.addView(itemBuilder.buildItem(iconRes, context.getString(labelRes), onClick));
     }
 
     private void clearContent() {

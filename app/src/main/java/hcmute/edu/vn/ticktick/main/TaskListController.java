@@ -1,6 +1,8 @@
 package hcmute.edu.vn.ticktick.main;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,94 +25,121 @@ public class TaskListController {
     }
 
     private final TaskViewModel viewModel;
-    private final TaskAdapter   adapter;
+    private final TaskAdapter adapter;
     private final LifecycleOwner owner;
     private final EmptyStateListener emptyStateListener;
+    private final String todayTitle;
+    private final String tomorrowTitle;
+    private final String upcomingTitle;
+
+    private final List<LiveData<?>> activeSources = new ArrayList<>();
 
     public TaskListController(TaskViewModel viewModel,
                                TaskAdapter adapter,
                                LifecycleOwner owner,
-                               EmptyStateListener emptyStateListener) {
-        this.viewModel          = viewModel;
-        this.adapter            = adapter;
-        this.owner              = owner;
+                               EmptyStateListener emptyStateListener,
+                               String todayTitle,
+                               String tomorrowTitle,
+                               String upcomingTitle) {
+        this.viewModel = viewModel;
+        this.adapter = adapter;
+        this.owner = owner;
         this.emptyStateListener = emptyStateListener;
+        this.todayTitle = todayTitle;
+        this.tomorrowTitle = tomorrowTitle;
+        this.upcomingTitle = upcomingTitle;
     }
 
     // -------------------------------------------------------------------------
     // Load methods (one per view mode)
     // -------------------------------------------------------------------------
 
+    public void loadAllTasks(String sectionTitle) {
+        clearActiveSources();
+        observeSource(viewModel.getAllActiveTasks(), tasks -> {
+            adapter.setFlatData(sectionTitle, tasks);
+            notifyEmpty();
+        });
+    }
+
     public void loadNext7Days() {
-        removeAllObservers();
+        clearActiveSources();
 
         final List<Task> today    = new ArrayList<>();
         final List<Task> tomorrow = new ArrayList<>();
         final List<Task> upcoming = new ArrayList<>();
 
-        viewModel.getTasksForToday().observe(owner, tasks -> {
+        observeSource(viewModel.getTasksForToday(), tasks -> {
             today.clear();
             if (tasks != null) today.addAll(tasks);
-            adapter.setGroupedData(today, tomorrow, upcoming);
+            adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
-        viewModel.getTasksForTomorrow().observe(owner, tasks -> {
+        observeSource(viewModel.getTasksForTomorrow(), tasks -> {
             tomorrow.clear();
             if (tasks != null) tomorrow.addAll(tasks);
-            adapter.setGroupedData(today, tomorrow, upcoming);
+            adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
-        viewModel.getTasksUpcoming().observe(owner, tasks -> {
+        observeSource(viewModel.getTasksUpcoming(), tasks -> {
             upcoming.clear();
             if (tasks != null) upcoming.addAll(tasks);
-            adapter.setGroupedData(today, tomorrow, upcoming);
+            adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
     }
 
     public void loadToday(String sectionTitle) {
-        removeAllObservers();
-        viewModel.getTasksForToday().observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getTasksForToday(), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
     }
 
     public void loadInbox(String sectionTitle) {
-        removeAllObservers();
-        viewModel.getInboxTasks().observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getInboxTasks(), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
     }
 
     public void loadCategory(int categoryId, String sectionTitle) {
-        removeAllObservers();
-        viewModel.getTasksByCategory(categoryId).observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getTasksByCategory(categoryId), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
     }
 
     public void loadThisWeek(String sectionTitle) {
-        removeAllObservers();
-        viewModel.getTasksThisWeek().observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getTasksThisWeek(), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
     }
 
     public void loadUnscheduled(String sectionTitle) {
-        removeAllObservers();
-        viewModel.getUnscheduledTasks().observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getUnscheduledTasks(), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
     }
 
     public void loadCompleted(String sectionTitle) {
-        removeAllObservers();
-        viewModel.getCompletedTasks().observe(owner, tasks -> {
+        clearActiveSources();
+        observeSource(viewModel.getCompletedTasks(), tasks -> {
+            adapter.setFlatData(sectionTitle, tasks);
+            notifyEmpty();
+        });
+    }
+
+    public void loadDateRange(String sectionTitle, long startDate, long endDateExclusive) {
+        clearActiveSources();
+        observeSource(viewModel.getTasksForDateRange(startDate, endDateExclusive), tasks -> {
             adapter.setFlatData(sectionTitle, tasks);
             notifyEmpty();
         });
@@ -120,14 +149,16 @@ public class TaskListController {
     // Private helpers
     // -------------------------------------------------------------------------
 
-    private void removeAllObservers() {
-        viewModel.getTasksForToday().removeObservers(owner);
-        viewModel.getTasksForTomorrow().removeObservers(owner);
-        viewModel.getTasksUpcoming().removeObservers(owner);
-        viewModel.getInboxTasks().removeObservers(owner);
-        viewModel.getUnscheduledTasks().removeObservers(owner);
-        viewModel.getCompletedTasks().removeObservers(owner);
-        viewModel.getTasksThisWeek().removeObservers(owner);
+    private void clearActiveSources() {
+        for (LiveData<?> source : activeSources) {
+            source.removeObservers(owner);
+        }
+        activeSources.clear();
+    }
+
+    private <T> void observeSource(LiveData<T> source, Observer<T> observer) {
+        activeSources.add(source);
+        source.observe(owner, observer);
     }
 
     private void notifyEmpty() {

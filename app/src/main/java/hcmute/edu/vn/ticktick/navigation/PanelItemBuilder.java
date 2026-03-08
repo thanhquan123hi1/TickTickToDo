@@ -27,25 +27,31 @@ public class PanelItemBuilder {
 
     /** Creates a tappable row with an icon and a label. */
     public LinearLayout buildItem(int iconRes, String title, Runnable onClick) {
-        LinearLayout item = new LinearLayout(context);
-        item.setOrientation(LinearLayout.HORIZONTAL);
-        item.setGravity(Gravity.CENTER_VERTICAL);
-
-        int hPad = dp(16);
-        int vPad = dp(12);
-        item.setPadding(hPad, vPad, hPad, vPad);
-        item.setBackground(AppCompatResources.getDrawable(context, R.drawable.bg_panel_item_ripple));
-        item.setClickable(true);
-        item.setFocusable(true);
-
-        LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        itemLp.setMargins(0, dp(2), 0, dp(2));
-        item.setLayoutParams(itemLp);
-
+        LinearLayout item = buildBaseItem(dp(2));
         item.addView(buildIcon(iconRes));
         item.addView(buildLabel(title));
+        item.setOnClickListener(v -> onClick.run());
+        return item;
+    }
+
+    /** Creates a tappable row for category with an icon, label and a more options menu. */
+    public LinearLayout buildCategoryItem(int iconRes,
+                                          String title,
+                                          Runnable onClick,
+                                          View.OnClickListener onMoreClick) {
+        LinearLayout item = buildBaseItem(dp(2));
+        item.addView(buildIcon(iconRes));
+        item.addView(buildLabel(title));
+
+        ImageView more = new ImageView(context);
+        LinearLayout.LayoutParams moreLp = new LinearLayout.LayoutParams(dp(24), dp(24));
+        more.setLayoutParams(moreLp);
+        more.setImageResource(R.drawable.ic_more_vert);
+        more.setColorFilter(context.getResources().getColor(R.color.text_secondary, null));
+        more.setPadding(dp(2), dp(2), dp(2), dp(2));
+        more.setOnClickListener(onMoreClick);
+        item.addView(more);
+
         item.setOnClickListener(v -> onClick.run());
         return item;
     }
@@ -84,24 +90,8 @@ public class PanelItemBuilder {
      * @return LinearLayout item
      */
     public LinearLayout buildAddCategoryItem(String title, Runnable onClick) {
-        LinearLayout item = new LinearLayout(context);
-        item.setOrientation(LinearLayout.HORIZONTAL);
-        item.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout item = buildBaseItem(dp(8));
 
-        int hPad = dp(16);
-        int vPad = dp(12);
-        item.setPadding(hPad, vPad, hPad, vPad);
-        item.setBackground(AppCompatResources.getDrawable(context, R.drawable.bg_panel_item_ripple));
-        item.setClickable(true);
-        item.setFocusable(true);
-
-        LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        itemLp.setMargins(0, dp(8), 0, dp(2));
-        item.setLayoutParams(itemLp);
-
-        // Icon dấu cộng màu accent
         ImageView icon = new ImageView(context);
         int size = dp(22);
         LinearLayout.LayoutParams iconLp = new LinearLayout.LayoutParams(size, size);
@@ -110,7 +100,6 @@ public class PanelItemBuilder {
         icon.setColorFilter(context.getResources().getColor(R.color.accent, null));
         item.addView(icon);
 
-        // Text màu accent
         TextView tv = new TextView(context);
         LinearLayout.LayoutParams tvLp = new LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
@@ -128,6 +117,26 @@ public class PanelItemBuilder {
     // -------------------------------------------------------------------------
     // Private helpers
     // -------------------------------------------------------------------------
+
+    private LinearLayout buildBaseItem(int topMargin) {
+        LinearLayout item = new LinearLayout(context);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setGravity(Gravity.CENTER_VERTICAL);
+
+        int hPad = dp(16);
+        int vPad = dp(12);
+        item.setPadding(hPad, vPad, hPad, vPad);
+        item.setBackground(AppCompatResources.getDrawable(context, R.drawable.bg_panel_item_ripple));
+        item.setClickable(true);
+        item.setFocusable(true);
+
+        LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        itemLp.setMargins(0, topMargin, 0, dp(2));
+        item.setLayoutParams(itemLp);
+        return item;
+    }
 
     private ImageView buildIcon(int iconRes) {
         ImageView icon = new ImageView(context);

@@ -16,19 +16,24 @@
 
     <!-- Section Headers -->
     <string name="section_today">今天</string>
+    <string name="section_tomorrow">明天</string>
+    <string name="section_upcoming">即将到来</string>
 
     <!-- Task Detail -->
     <string name="task_title_hint">任务标题</string>
     <string name="task_description_hint">描述 / 备注</string>
     <string name="task_priority">优先级</string>
     <string name="task_category">分类</string>
+    <string name="task_surface_caption">今天你想完成什么？</string>
 
     <!-- Buttons -->
     <string name="btn_save">保存</string>
     <string name="btn_delete">删除</string>
     <string name="btn_cancel">取消</string>
+    <string name="btn_edit">编辑</string>
     <string name="btn_add_task">添加任务</string>
     <string name="btn_add_category">+ 添加分类</string>
+    <string name="btn_manage_category">管理分类</string>
 
     <!-- Priority levels -->
     <string name="priority_none">无优先级</string>
@@ -40,7 +45,10 @@
     <string name="msg_task_added">任务已添加</string>
     <string name="msg_task_updated">任务已更新</string>
     <string name="msg_task_deleted">任务已删除</string>
-    <string name="msg_no_tasks">暂无任务</string>
+    <string name="msg_no_tasks">还没有任务，从一个小目标开始吧。</string>
+    <string name="msg_category_added">分类已添加</string>
+    <string name="msg_category_updated">分类已更新</string>
+    <string name="msg_category_deleted">分类已删除</string>
 
     <!-- Navigation Rail -->
     <string name="nav_avatar">个人资料</string>
@@ -90,4 +98,23 @@
     <string name="language_vietnamese">越南语</string>
     <string name="language_english">英语</string>
     <string name="language_chinese">中文</string>
+
+    <!-- Profile Defaults -->
+    <string name="greeting_morning">早上好</string>
+    <string name="greeting_afternoon">下午好</string>
+    <string name="greeting_evening">晚上好</string>
+    <string name="profile_name_default">Monica Gamage</string>
+    <string name="profile_handle_default">\@monicagamage</string>
+    <string name="profile_action_label">我的资料</string>
+
+    <!-- Category Dialog -->
+    <string name="category_dialog_title_add">添加分类</string>
+    <string name="category_dialog_title_edit">编辑分类</string>
+    <string name="category_name_hint">分类名称</string>
+    <string name="category_icon_label">选择图标</string>
+    <string name="dialog_delete_category_title">删除分类？</string>
+    <string name="dialog_delete_category_message">使用此分类的任务将被移回收件箱。</string>
+    <string name="error_task_title_required">请输入任务标题</string>
+    <string name="error_category_name_required">请输入分类名称</string>
+    <string name="error_category_icon_required">请选择图标</string>
 </resources>

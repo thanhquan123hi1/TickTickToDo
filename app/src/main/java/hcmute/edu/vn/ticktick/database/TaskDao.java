@@ -13,13 +13,16 @@ import java.util.List;
 public interface TaskDao {
 
     @Insert
-    void insert(Task task);
+    long insert(Task task);
 
     @Update
     void update(Task task);
 
     @Delete
     void delete(Task task);
+
+    @Query("SELECT * FROM tasks WHERE completed = 0 ORDER BY CASE WHEN dueDate = 0 THEN 1 ELSE 0 END, dueDate ASC, createdAt ASC")
+    LiveData<List<Task>> getAllActiveTasks();
 
     // Hôm nay: tasks with dueDate between start and end of today
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDay AND dueDate < :endOfDay AND completed = 0 ORDER BY dueDate ASC")
@@ -56,4 +59,7 @@ public interface TaskDao {
     // Tasks for a specific date range (Calendar view)
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDay AND dueDate < :endOfDay ORDER BY dueDate ASC, createdAt ASC")
     LiveData<List<Task>> getTasksForDate(long startOfDay, long endOfDay);
+
+    @Query("SELECT * FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive AND completed = 0 ORDER BY dueDate ASC, createdAt ASC")
+    LiveData<List<Task>> getTasksForDateRange(long startDate, long endDateExclusive);
 }

@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Arrays;
@@ -23,33 +24,20 @@ import hcmute.edu.vn.ticktick.adapter.IconPickerAdapter;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Category;
 
-/**
- * Dialog cho phép người dùng thêm một danh mục (category) mới.
- * Người dùng nhập tên và chọn icon từ grid.
- */
 public class AddCategoryDialog extends DialogFragment {
 
-    /**
-     * Callback khi category được thêm thành công.
-     */
-    public interface OnCategoryAddedListener {
-        void onCategoryAdded(Category category);
+    public interface OnCategoryChangedListener {
+        void onCategorySaved(Category category, boolean isEdit);
+        void onCategoryDeleted(Category category);
     }
 
-    private OnCategoryAddedListener listener;
-
-    // Views trong dialog
+    private OnCategoryChangedListener listener;
     private TextInputEditText etCategoryName;
     private RecyclerView recyclerIcons;
     private IconPickerAdapter iconAdapter;
-
-    // Tên icon được chọn (lưu vào database)
     private String selectedIconName = null;
+    private Category editingCategory;
 
-    /**
-     * Danh sách tên icon có sẵn trong app.
-     * Tên này khớp với tên file trong drawable (bỏ tiền tố "ic_").
-     */
     private static final List<String> ICON_NAMES = Arrays.asList(
             "ic_work",
             "ic_study",
@@ -65,9 +53,6 @@ public class AddCategoryDialog extends DialogFragment {
             "ic_week"
     );
 
-    /**
-     * Danh sách resource ID tương ứng với ICON_NAMES.
-     */
     private static final List<Integer> ICON_RES_IDS = Arrays.asList(
             R.drawable.ic_work,
             R.drawable.ic_study,
@@ -83,99 +68,129 @@ public class AddCategoryDialog extends DialogFragment {
             R.drawable.ic_week
     );
 
-    /**
-     * Tạo instance mới của dialog.
-     */
     public static AddCategoryDialog newInstance() {
         return new AddCategoryDialog();
     }
 
-    /**
-     * Gán callback khi thêm category thành công.
-     */
-    public void setOnCategoryAddedListener(OnCategoryAddedListener listener) {
+    public static AddCategoryDialog newInstance(@NonNull Category category) {
+        AddCategoryDialog dialog = new AddCategoryDialog();
+        dialog.editingCategory = category;
+        return dialog;
+    }
+
+    public void setOnCategoryChangedListener(OnCategoryChangedListener listener) {
         this.listener = listener;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // Inflate layout dialog
-        View view = LayoutInflater.from(requireContext())
-                .inflate(R.layout.dialog_add_category, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_category, null);
 
-        // Bind views
         etCategoryName = view.findViewById(R.id.et_category_name);
         recyclerIcons = view.findViewById(R.id.recycler_icons);
-
-        // Setup icon picker grid (4 cột)
         setupIconPicker();
+        bindEditingState();
 
-        // Tạo AlertDialog với nút Lưu và Hủy
-        return new AlertDialog.Builder(requireContext())
-                .setTitle("Thêm danh mục mới")
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(isEditMode() ? R.string.category_dialog_title_edit : R.string.category_dialog_title_add)
                 .setView(view)
-                .setPositiveButton("Lưu", (dialog, which) -> saveCategory())
-                .setNegativeButton("Hủy", null)
-                .create();
+                .setPositiveButton(R.string.btn_save, (dialog, which) -> saveCategory())
+                .setNegativeButton(R.string.btn_cancel, null);
+
+        if (isEditMode()) {
+            builder.setNeutralButton(R.string.btn_delete, (dialog, which) -> confirmDeleteCategory());
+        }
+
+        return builder.create();
     }
 
-    /**
-     * Cấu hình RecyclerView hiển thị grid icon.
-     */
+    private boolean isEditMode() {
+        return editingCategory != null;
+    }
+
     private void setupIconPicker() {
-        // Grid 4 cột
         recyclerIcons.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-
-        // Tạo adapter với danh sách icon
         iconAdapter = new IconPickerAdapter(ICON_NAMES, ICON_RES_IDS);
-        iconAdapter.setOnIconSelectedListener((iconName, iconResId) -> {
-            selectedIconName = iconName;
-        });
-
+        iconAdapter.setOnIconSelectedListener((iconName, iconResId) -> selectedIconName = iconName);
         recyclerIcons.setAdapter(iconAdapter);
     }
 
-    /**
-     * Validate và lưu category mới vào database.
-     */
+    private void bindEditingState() {
+        if (!isEditMode()) return;
+        etCategoryName.setText(editingCategory.getName());
+        selectedIconName = editingCategory.getIconName();
+        iconAdapter.setSelectedIconByName(selectedIconName);
+    }
+
     private void saveCategory() {
-        // Lấy tên từ input
         String name = etCategoryName.getText() != null
                 ? etCategoryName.getText().toString().trim()
                 : "";
 
-        // Validate tên không rỗng
         if (name.isEmpty()) {
-            Toast.makeText(requireContext(), "Vui lòng nhập tên danh mục", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.error_category_name_required, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Validate đã chọn icon
         if (selectedIconName == null) {
-            Toast.makeText(requireContext(), "Vui lòng chọn biểu tượng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.error_category_icon_required, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Tạo category mới
-        Category category = new Category(name, selectedIconName);
+        final boolean isEdit = isEditMode();
+        final Category category = isEdit ? editingCategory : new Category();
+        category.setName(name);
+        category.setIconName(selectedIconName);
 
-        // Lưu vào database trên background thread
         AppDatabase db = AppDatabase.getDatabase(requireContext());
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            long id = db.categoryDao().insert(category);
-            category.setId((int) id);
+            if (isEdit) {
+                db.categoryDao().update(category);
+            } else {
+                long id = db.categoryDao().insert(category);
+                category.setId((int) id);
+            }
 
-            // Gọi callback trên main thread
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), "Đã thêm danh mục: " + name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            requireContext(),
+                            isEdit ? R.string.msg_category_updated : R.string.msg_category_added,
+                            Toast.LENGTH_SHORT
+                    ).show();
                     if (listener != null) {
-                        listener.onCategoryAdded(category);
+                        listener.onCategorySaved(category, isEdit);
+                    }
+                });
+            }
+        });
+    }
+
+    private void confirmDeleteCategory() {
+        if (!isEditMode()) return;
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.dialog_delete_category_title)
+                .setMessage(R.string.dialog_delete_category_message)
+                .setPositiveButton(R.string.btn_delete, (dialog, which) -> deleteCategory())
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    private void deleteCategory() {
+        if (!isEditMode()) return;
+        Category category = editingCategory;
+        AppDatabase db = AppDatabase.getDatabase(requireContext());
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            db.categoryDao().delete(category);
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    Toast.makeText(requireContext(), R.string.msg_category_deleted, Toast.LENGTH_SHORT).show();
+                    if (listener != null) {
+                        listener.onCategoryDeleted(category);
                     }
                 });
             }
         });
     }
 }
-

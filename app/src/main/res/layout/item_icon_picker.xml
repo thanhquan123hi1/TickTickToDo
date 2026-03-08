@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Item icon trong grid chọn icon cho category -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_margin="4dp">
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:layout_margin="6dp">
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:background="@drawable/bg_icon_selector"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:padding="12dp"
         android:scaleType="centerInside" />
-
 </FrameLayout>
-

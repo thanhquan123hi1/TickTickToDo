@@ -22,6 +22,17 @@ public class DateUtils {
     }
 
     /**
+     * Format a date range for section titles.
+     */
+    public static String formatDateRange(long startTimestamp, long endTimestamp) {
+        if (startTimestamp == 0 || endTimestamp == 0) return "";
+
+        String startText = formatDate(startTimestamp);
+        String endText = formatDate(endTimestamp);
+        return startText.equals(endText) ? startText : startText + " - " + endText;
+    }
+
+    /**
      * Get display text for a task's date
      * Shows "07:00" if today, "6 thg 9" if another day
      */
@@ -45,10 +56,11 @@ public class DateUtils {
     }
 
     /**
-     * Get start of today (00:00:00)
+     * Get start of a specific day (00:00:00.000 in local time).
      */
-    public static long getStartOfToday() {
+    public static long getStartOfDay(long timestamp) {
         Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -57,24 +69,41 @@ public class DateUtils {
     }
 
     /**
-     * Get end of today (23:59:59.999)
+     * Get start of the next day for a specific timestamp.
+     */
+    public static long getStartOfNextDay(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(getStartOfDay(timestamp));
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        return cal.getTimeInMillis();
+    }
+
+    /**
+     * Get start of today (00:00:00)
+     */
+    public static long getStartOfToday() {
+        return getStartOfDay(System.currentTimeMillis());
+    }
+
+    /**
+     * Get the exclusive end of today (start of tomorrow)
      */
     public static long getEndOfToday() {
-        return getStartOfToday() + 24 * 60 * 60 * 1000L;
+        return getStartOfNextDay(System.currentTimeMillis());
     }
 
     /**
      * Get start of tomorrow
      */
     public static long getStartOfTomorrow() {
-        return getStartOfToday() + 24 * 60 * 60 * 1000L;
+        return getEndOfToday();
     }
 
     /**
-     * Get end of tomorrow
+     * Get the exclusive end of tomorrow (start of the following day)
      */
     public static long getEndOfTomorrow() {
-        return getStartOfTomorrow() + 24 * 60 * 60 * 1000L;
+        return getStartOfNextDay(getStartOfTomorrow());
     }
 
     /**
@@ -108,7 +137,7 @@ public class DateUtils {
     }
 
     /**
-     * Get end of current week (Sunday 23:59:59)
+     * Get the exclusive end of current week (start of next week)
      */
     public static long getEndOfWeek() {
         return getStartOfWeek() + 7 * 24 * 60 * 60 * 1000L;

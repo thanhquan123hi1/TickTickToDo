@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,12 +14,12 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import hcmute.edu.vn.ticktick.adapter.TaskAdapter;
 import hcmute.edu.vn.ticktick.database.Task;
+import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
 
@@ -34,6 +35,8 @@ public class CalendarActivity extends BaseActivity {
     private TaskAdapter taskAdapter;
 
     private long selectedDateMillis;
+
+    private LiveData<java.util.List<Task>> currentDateSource;
 
     private static final SimpleDateFormat DISPLAY_FORMAT =
             new SimpleDateFormat("EEEE, dd/MM/yyyy", Locale.of("vi", "VN"));
@@ -68,7 +71,6 @@ public class CalendarActivity extends BaseActivity {
 
         taskAdapter.setOnTaskClickListener(task -> {
             TaskDetailBottomSheet bottomSheet = TaskDetailBottomSheet.newInstance(task);
-            bottomSheet.setOnTaskSavedListener(() -> loadTasksForDate(selectedDateMillis));
             bottomSheet.show(getSupportFragmentManager(), "TASK_DETAIL");
         });
 
@@ -79,23 +81,20 @@ public class CalendarActivity extends BaseActivity {
 
         // FAB -> add new task with pre-selected date
         fabAddTask.setOnClickListener(v -> {
-            Task newTask = new Task();
-            newTask.setDueDate(selectedDateMillis);
-            TaskDetailBottomSheet bottomSheet = TaskDetailBottomSheet.newInstance(newTask);
-            bottomSheet.setOnTaskSavedListener(() -> loadTasksForDate(selectedDateMillis));
+            TaskDetailBottomSheet bottomSheet = TaskDetailBottomSheet.newTask(selectedDateMillis, null);
             bottomSheet.show(getSupportFragmentManager(), "TASK_DETAIL");
         });
 
         // Set initial date to today
-        selectedDateMillis = getStartOfDay(System.currentTimeMillis());
+        selectedDateMillis = DateUtils.getStartOfDay(System.currentTimeMillis());
         updateSelectedDateLabel(selectedDateMillis);
         loadTasksForDate(selectedDateMillis);
 
         // Calendar date change listener
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            Calendar cal = Calendar.getInstance();
+            java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.set(year, month, dayOfMonth, 0, 0, 0);
-            cal.set(Calendar.MILLISECOND, 0);
+            cal.set(java.util.Calendar.MILLISECOND, 0);
             selectedDateMillis = cal.getTimeInMillis();
             updateSelectedDateLabel(selectedDateMillis);
             loadTasksForDate(selectedDateMillis);
@@ -107,13 +106,15 @@ public class CalendarActivity extends BaseActivity {
     }
 
     private void loadTasksForDate(long dateMillis) {
-        long startOfDay = getStartOfDay(dateMillis);
-        long endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+        long startOfDay = DateUtils.getStartOfDay(dateMillis);
+        long endOfDay = DateUtils.getStartOfNextDay(dateMillis);
 
-        // Remove previous observers
-        viewModel.getTasksForDate(startOfDay, endOfDay).removeObservers(this);
+        if (currentDateSource != null) {
+            currentDateSource.removeObservers(this);
+        }
 
-        viewModel.getTasksForDate(startOfDay, endOfDay).observe(this, tasks -> {
+        currentDateSource = viewModel.getTasksForDate(startOfDay, endOfDay);
+        currentDateSource.observe(this, tasks -> {
             if (tasks != null && !tasks.isEmpty()) {
                 String dateStr = DISPLAY_FORMAT.format(new Date(dateMillis));
                 taskAdapter.setFlatData(dateStr, tasks);
@@ -125,15 +126,5 @@ public class CalendarActivity extends BaseActivity {
                 tvEmpty.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private long getStartOfDay(long timeMillis) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeMillis);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTimeInMillis();
     }
 }

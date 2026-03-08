@@ -73,6 +73,17 @@ public class IconPickerAdapter extends RecyclerView.Adapter<IconPickerAdapter.Ic
         return null;
     }
 
+    /**
+     * Đặt icon được chọn theo tên.
+     * @param iconName Tên icon cần được chọn.
+     */
+    public void setSelectedIconByName(String iconName) {
+        int oldPosition = selectedPosition;
+        selectedPosition = iconNames.indexOf(iconName);
+        if (oldPosition >= 0) notifyItemChanged(oldPosition);
+        if (selectedPosition >= 0) notifyItemChanged(selectedPosition);
+    }
+
     @NonNull
     @Override
     public IconViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -128,4 +139,3 @@ public class IconPickerAdapter extends RecyclerView.Adapter<IconPickerAdapter.Ic
         }
     }
 }
-

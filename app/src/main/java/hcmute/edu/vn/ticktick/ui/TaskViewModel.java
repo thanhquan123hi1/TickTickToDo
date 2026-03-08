@@ -24,6 +24,10 @@ public class TaskViewModel extends AndroidViewModel {
 
     // === Task queries ===
 
+    public LiveData<List<Task>> getAllActiveTasks() {
+        return taskDao.getAllActiveTasks();
+    }
+
     public LiveData<List<Task>> getTasksForToday() {
         return taskDao.getTasksForToday(
                 DateUtils.getStartOfToday(),
@@ -72,9 +76,21 @@ public class TaskViewModel extends AndroidViewModel {
         return taskDao.getTasksForDate(startOfDay, endOfDay);
     }
 
+    public LiveData<List<Task>> getTasksForDateRange(long startDate, long endDateExclusive) {
+        return taskDao.getTasksForDateRange(startDate, endDateExclusive);
+    }
+
     // === Task operations ===
+
+    public void insertTask(Task task) {
+        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.insert(task));
+    }
 
     public void updateTask(Task task) {
         AppDatabase.databaseWriteExecutor.execute(() -> taskDao.update(task));
+    }
+
+    public void deleteTask(Task task) {
+        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.delete(task));
     }
 }

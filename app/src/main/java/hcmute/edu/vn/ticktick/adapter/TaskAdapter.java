@@ -45,21 +45,26 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * Set data with section grouping: Hôm nay, Ngày mai, Sắp tới
      */
-    public void setGroupedData(List<Task> todayTasks, List<Task> tomorrowTasks, List<Task> upcomingTasks) {
+    public void setGroupedData(String todayTitle,
+                               List<Task> todayTasks,
+                               String tomorrowTitle,
+                               List<Task> tomorrowTasks,
+                               String upcomingTitle,
+                               List<Task> upcomingTasks) {
         items.clear();
 
         if (todayTasks != null && !todayTasks.isEmpty()) {
-            items.add(new SectionHeader("Hôm nay", todayTasks.size()));
+            items.add(new SectionHeader(todayTitle, todayTasks.size()));
             items.addAll(todayTasks);
         }
 
         if (tomorrowTasks != null && !tomorrowTasks.isEmpty()) {
-            items.add(new SectionHeader("Ngày mai", tomorrowTasks.size()));
+            items.add(new SectionHeader(tomorrowTitle, tomorrowTasks.size()));
             items.addAll(tomorrowTasks);
         }
 
         if (upcomingTasks != null && !upcomingTasks.isEmpty()) {
-            items.add(new SectionHeader("Sắp tới", upcomingTasks.size()));
+            items.add(new SectionHeader(upcomingTitle, upcomingTasks.size()));
             items.addAll(upcomingTasks);
         }
 
@@ -179,7 +184,7 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (task.getDueDate() > 0 && task.getDueDate() < System.currentTimeMillis() && !task.isCompleted()) {
                     tvTime.setTextColor(itemView.getContext().getResources().getColor(R.color.overdue, null));
                 } else {
-                    tvTime.setTextColor(itemView.getContext().getResources().getColor(R.color.primary, null));
+                    tvTime.setTextColor(itemView.getContext().getResources().getColor(R.color.text_on_primary, null));
                 }
             } else {
                 tvTime.setVisibility(View.GONE);
