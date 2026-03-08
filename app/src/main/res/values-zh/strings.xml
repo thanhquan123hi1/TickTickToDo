@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TickTick</string>
+
+    <!-- Navigation Drawer -->
+    <string name="nav_today">今天</string>
+    <string name="nav_next_7_days">未来7天</string>
+    <string name="nav_inbox">收件箱</string>
+    <string name="nav_lists">列表</string>
+    <string name="nav_filters">筛选</string>
+
+    <!-- Categories -->
+    <string name="cat_work">工作</string>
+    <string name="cat_study">学习目标</string>
+    <string name="cat_travel">旅行计划</string>
+    <string name="cat_daily">日常任务</string>
+    <string name="cat_errands">杂务</string>
+
+    <!-- Filters -->
+    <string name="filter_this_week">本周</string>
+    <string name="filter_unscheduled">未安排</string>
+    <string name="filter_completed">已完成</string>
+
+    <!-- Section Headers -->
+    <string name="section_today">今天</string>
+    <string name="section_tomorrow">明天</string>
+    <string name="section_upcoming">即将到来</string>
+
+    <!-- Task Detail -->
+    <string name="task_title_hint">任务标题</string>
+    <string name="task_description_hint">描述 / 备注</string>
+    <string name="task_due_date">截止日期</string>
+    <string name="task_due_time">提醒时间</string>
+    <string name="task_priority">优先级</string>
+    <string name="task_category">分类</string>
+    <string name="task_checklist">子任务</string>
+
+    <!-- Buttons -->
+    <string name="btn_save">保存</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_add_task">添加任务</string>
+    <string name="btn_add_checklist">添加子项</string>
+    <string name="btn_add_category">+ 添加分类</string>
+
+    <!-- Priority levels -->
+    <string name="priority_none">无优先级</string>
+    <string name="priority_low">低</string>
+    <string name="priority_medium">中</string>
+    <string name="priority_high">高</string>
+
+    <!-- Messages -->
+    <string name="msg_task_added">任务已添加</string>
+    <string name="msg_task_updated">任务已更新</string>
+    <string name="msg_task_deleted">任务已删除</string>
+    <string name="msg_no_tasks">暂无任务</string>
+
+    <!-- Date format -->
+    <string name="date_format">yyyy/MM/dd</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">打开菜单</string>
+    <string name="drawer_close">关闭菜单</string>
+
+    <!-- Navigation Rail -->
+    <string name="nav_avatar">个人资料</string>
+    <string name="nav_rail_tasks">任务</string>
+    <string name="nav_settings">设置</string>
+    <string name="nav_profile_title">我的资料</string>
+    <string name="nav_profile_info">账户信息</string>
+    <string name="nav_profile_theme">主题</string>
+    <string name="nav_profile_about">关于</string>
+    <string name="nav_settings_notification">通知</string>
+    <string name="nav_settings_language">语言</string>
+    <string name="nav_settings_backup">备份数据</string>
+
+    <!-- Select -->
+    <string name="select_date">选择日期</string>
+    <string name="select_time">选择时间</string>
+    <string name="select_category">选择分类</string>
+
+    <!-- Navigation - Tools -->
+    <string name="nav_tools">工具</string>
+    <string name="nav_calendar">日历</string>
+    <string name="nav_countdown">倒计时</string>
+
+    <!-- Calendar -->
+    <string name="msg_no_tasks_on_date">当天没有任务</string>
+
+    <!-- Countdown Timer -->
+    <string name="countdown_set_time">设置倒计时</string>
+    <string name="countdown_set_time_warning">请设置大于0的时间</string>
+    <string name="countdown_hours">小时</string>
+    <string name="countdown_minutes">分钟</string>
+    <string name="countdown_seconds">秒</string>
+    <string name="countdown_start">开始</string>
+    <string name="countdown_pause">暂停</string>
+    <string name="countdown_resume">继续</string>
+    <string name="countdown_reset">重置</string>
+    <string name="countdown_running">运行中…</string>
+    <string name="countdown_paused">已暂停</string>
+    <string name="countdown_finished">时间到！</string>
+    <string name="countdown_finished_title">时间到！</string>
+    <string name="countdown_finished_message">倒计时已结束。</string>
+    <string name="countdown_presets">快速选择：</string>
+    <string name="btn_ok">确定</string>
+
+    <!-- Language Settings -->
+    <string name="language_title">选择语言</string>
+    <string name="language_system">跟随系统</string>
+    <string name="language_vietnamese">越南语</string>
+    <string name="language_english">英语</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_changed">语言已更改，正在重启应用…</string>
+</resources>
+

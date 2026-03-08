@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,7 @@ import hcmute.edu.vn.ticktick.database.Task;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends BaseActivity {
 
     private CalendarView calendarView;
     private RecyclerView recyclerTasks;

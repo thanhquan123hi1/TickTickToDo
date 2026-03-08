@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
@@ -16,9 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
-            app:titleTextColor="@color/text_on_primary"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
             app:navigationIconTint="@color/text_on_primary"
-            app:title="@string/nav_countdown" />
+            app:title="@string/nav_countdown"
+            app:titleTextColor="@color/text_on_primary" />
     </com.google.android.material.appbar.AppBarLayout>
     <!-- vertical là dọc -->
     <!-- horizontal là ngang -->

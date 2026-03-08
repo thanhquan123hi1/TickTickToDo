@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Radio button IDs for LanguageSelectionDialog -->
+    <item name="radio_lang_system" type="id" />
+    <item name="radio_lang_vi"     type="id" />
+    <item name="radio_lang_en"     type="id" />
+    <item name="radio_lang_zh"     type="id" />
+</resources>
+

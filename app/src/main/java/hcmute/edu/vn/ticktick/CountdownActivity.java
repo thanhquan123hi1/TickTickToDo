@@ -7,7 +7,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -23,7 +22,7 @@ import hcmute.edu.vn.ticktick.countdown.CountdownTimer;
  * input, and updating the display. All timer logic is delegated to {@link CountdownTimer}
  * and alarm playback to {@link AlarmPlayer}.
  */
-public class CountdownActivity extends AppCompatActivity implements CountdownTimer.Listener {
+public class CountdownActivity extends BaseActivity implements CountdownTimer.Listener {
 
     // --- Views ---
     private MaterialToolbar toolbar;

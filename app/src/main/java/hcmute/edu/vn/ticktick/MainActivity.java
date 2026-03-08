@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.core.splashscreen.SplashScreen;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +31,7 @@ import hcmute.edu.vn.ticktick.ui.TaskViewModel;
  * All navigation logic lives in {@link PanelContentFactory} / {@link NavPanel} /
  * {@link NavRailController}; all data logic lives in {@link TaskListController}.
  */
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavPanelCallback, NavPanel.Host {
 
     // --- Views ---

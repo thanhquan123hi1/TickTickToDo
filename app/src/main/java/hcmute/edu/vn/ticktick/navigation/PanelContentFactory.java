@@ -12,6 +12,7 @@ import java.util.List;
 
 import hcmute.edu.vn.ticktick.CalendarActivity;
 import hcmute.edu.vn.ticktick.CountdownActivity;
+import hcmute.edu.vn.ticktick.LanguageSelectionDialog;
 import hcmute.edu.vn.ticktick.R;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Category;
@@ -127,7 +128,7 @@ public class PanelContentFactory {
         clearContent();
 
         addItem(R.drawable.ic_settings, R.string.nav_settings_notification, () -> toast(R.string.nav_settings_notification));
-        addItem(R.drawable.ic_filter,   R.string.nav_settings_language,     () -> toast(R.string.nav_settings_language));
+        addItem(R.drawable.ic_filter,   R.string.nav_settings_language,     this::showLanguageDialog);
         addItem(R.drawable.ic_inbox,    R.string.nav_settings_backup,       () -> toast(R.string.nav_settings_backup));
     }
 
@@ -231,6 +232,18 @@ public class PanelContentFactory {
             case "ic_today":    return R.drawable.ic_today;
             case "ic_week":     return R.drawable.ic_week;
             default:            return R.drawable.ic_list;
+        }
+    }
+
+    /**
+     * Opens the language selection dialog.
+     * Keeps the panel open so the user can still see it behind the dialog.
+     */
+    private void showLanguageDialog() {
+        if (context instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) context;
+            LanguageSelectionDialog dialog = LanguageSelectionDialog.newInstance();
+            dialog.show(activity.getSupportFragmentManager(), "LANGUAGE_DIALOG");
         }
     }
 

@@ -104,4 +104,12 @@
     <string name="countdown_finished_message">Thời gian đếm ngược đã kết thúc.</string>
     <string name="countdown_presets">Chọn nhanh:</string>
     <string name="btn_ok">OK</string>
+
+    <!-- Language Settings -->
+    <string name="language_title">Chọn ngôn ngữ</string>
+    <string name="language_system">Theo hệ thống</string>
+    <string name="language_vietnamese">Tiếng Việt</string>
+    <string name="language_english">Tiếng Anh</string>
+    <string name="language_chinese">Tiếng Trung</string>
+    <string name="language_changed">Đã thay đổi ngôn ngữ. Đang khởi động lại ứng dụng…</string>
 </resources>
