@@ -124,7 +124,6 @@ public class TaskListController {
         viewModel.getTasksForToday().removeObservers(owner);
         viewModel.getTasksForTomorrow().removeObservers(owner);
         viewModel.getTasksUpcoming().removeObservers(owner);
-        viewModel.getTasksNext7Days().removeObservers(owner);
         viewModel.getInboxTasks().removeObservers(owner);
         viewModel.getUnscheduledTasks().removeObservers(owner);
         viewModel.getCompletedTasks().removeObservers(owner);

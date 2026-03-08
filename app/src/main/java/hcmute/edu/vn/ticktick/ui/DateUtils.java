@@ -12,8 +12,6 @@ public class DateUtils {
 
     private static final Locale VIETNAM_LOCALE = Locale.of("vi", "VN");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", VIETNAM_LOCALE);
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", VIETNAM_LOCALE);
-    private static final SimpleDateFormat FULL_FORMAT = new SimpleDateFormat("EEEE, dd/MM/yyyy", VIETNAM_LOCALE);
 
     /**
      * Format timestamp to dd/MM/yyyy
@@ -21,22 +19,6 @@ public class DateUtils {
     public static String formatDate(long timestamp) {
         if (timestamp == 0) return "";
         return DATE_FORMAT.format(new Date(timestamp));
-    }
-
-    /**
-     * Format timestamp to HH:mm
-     */
-    public static String formatTime(String time) {
-        if (time == null || time.isEmpty()) return "";
-        return time;
-    }
-
-    /**
-     * Format to full Vietnamese date: Thứ ..., dd/MM/yyyy
-     */
-    public static String formatFullDate(long timestamp) {
-        if (timestamp == 0) return "";
-        return FULL_FORMAT.format(new Date(timestamp));
     }
 
     /**
@@ -138,21 +120,5 @@ public class DateUtils {
     public static boolean isSameDay(Calendar cal1, Calendar cal2) {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-    }
-
-    /**
-     * Get Vietnamese day of week name
-     */
-    public static String getVietnameseDayOfWeek(int dayOfWeek) {
-        switch (dayOfWeek) {
-            case Calendar.MONDAY: return "Thứ Hai";
-            case Calendar.TUESDAY: return "Thứ Ba";
-            case Calendar.WEDNESDAY: return "Thứ Tư";
-            case Calendar.THURSDAY: return "Thứ Năm";
-            case Calendar.FRIDAY: return "Thứ Sáu";
-            case Calendar.SATURDAY: return "Thứ Bảy";
-            case Calendar.SUNDAY: return "Chủ Nhật";
-            default: return "";
-        }
     }
 }

@@ -18,8 +18,6 @@ public class CountdownTimer {
     private CountDownTimer countDownTimer;
     private long totalTimeMillis = 0;
     private long timeRemainingMillis = 0;
-    private boolean isRunning = false;
-    private boolean isPaused = false;
 
     private final Listener listener;
 
@@ -30,20 +28,14 @@ public class CountdownTimer {
     public void start(long hours, long minutes, long seconds) {
         totalTimeMillis = (hours * 3600L + minutes * 60L + seconds) * 1000L;
         timeRemainingMillis = totalTimeMillis;
-        isRunning = true;
-        isPaused = false;
         scheduleCountdown();
     }
 
     public void pause() {
         cancelInternal();
-        isPaused = true;
-        isRunning = false;
     }
 
     public void resume() {
-        isPaused = false;
-        isRunning = true;
         scheduleCountdown();
     }
 
@@ -51,29 +43,10 @@ public class CountdownTimer {
         cancelInternal();
         totalTimeMillis = 0;
         timeRemainingMillis = 0;
-        isRunning = false;
-        isPaused = false;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 
     public long getTotalTimeMillis() {
         return totalTimeMillis;
-    }
-
-    public long getTimeRemainingMillis() {
-        return timeRemainingMillis;
-    }
-
-    /** Returns true if totalTimeMillis is greater than zero. */
-    public boolean hasValidDuration() {
-        return totalTimeMillis > 0;
     }
 
     public void destroy() {
@@ -95,7 +68,6 @@ public class CountdownTimer {
             @Override
             public void onFinish() {
                 timeRemainingMillis = 0;
-                isRunning = false;
                 listener.onFinish();
             }
         }.start();

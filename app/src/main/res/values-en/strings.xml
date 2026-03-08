@@ -9,13 +9,6 @@
     <string name="nav_lists">Lists</string>
     <string name="nav_filters">Filters</string>
 
-    <!-- Categories -->
-    <string name="cat_work">Work</string>
-    <string name="cat_study">Study Goals</string>
-    <string name="cat_travel">Travel Plans</string>
-    <string name="cat_daily">Daily Tasks</string>
-    <string name="cat_errands">Errands</string>
-
     <!-- Filters -->
     <string name="filter_this_week">This Week</string>
     <string name="filter_unscheduled">Unscheduled</string>
@@ -23,24 +16,18 @@
 
     <!-- Section Headers -->
     <string name="section_today">Today</string>
-    <string name="section_tomorrow">Tomorrow</string>
-    <string name="section_upcoming">Upcoming</string>
 
     <!-- Task Detail -->
     <string name="task_title_hint">Task title</string>
     <string name="task_description_hint">Description / Notes</string>
-    <string name="task_due_date">Due Date</string>
-    <string name="task_due_time">Reminder Time</string>
     <string name="task_priority">Priority</string>
     <string name="task_category">Category</string>
-    <string name="task_checklist">Subtasks</string>
 
     <!-- Buttons -->
     <string name="btn_save">Save</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_add_task">Add Task</string>
-    <string name="btn_add_checklist">Add Subtask</string>
     <string name="btn_add_category">+ Add Category</string>
 
     <!-- Priority levels -->
@@ -54,13 +41,6 @@
     <string name="msg_task_updated">Task updated</string>
     <string name="msg_task_deleted">Task deleted</string>
     <string name="msg_no_tasks">No tasks</string>
-
-    <!-- Date format -->
-    <string name="date_format">MM/dd/yyyy</string>
-
-    <!-- Drawer -->
-    <string name="drawer_open">Open menu</string>
-    <string name="drawer_close">Close menu</string>
 
     <!-- Navigation Rail -->
     <string name="nav_avatar">Profile</string>
@@ -77,7 +57,6 @@
     <!-- Select -->
     <string name="select_date">Select Date</string>
     <string name="select_time">Select Time</string>
-    <string name="select_category">Select Category</string>
 
     <!-- Navigation - Tools -->
     <string name="nav_tools">Tools</string>
@@ -111,6 +90,4 @@
     <string name="language_vietnamese">Vietnamese</string>
     <string name="language_english">English</string>
     <string name="language_chinese">Chinese</string>
-    <string name="language_changed">Language changed. Restarting app…</string>
 </resources>
-

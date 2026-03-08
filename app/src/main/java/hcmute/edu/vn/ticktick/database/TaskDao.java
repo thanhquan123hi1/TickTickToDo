@@ -13,16 +13,13 @@ import java.util.List;
 public interface TaskDao {
 
     @Insert
-    long insert(Task task);
+    void insert(Task task);
 
     @Update
     void update(Task task);
 
     @Delete
     void delete(Task task);
-
-    @Query("SELECT * FROM tasks ORDER BY dueDate ASC, createdAt ASC")
-    LiveData<List<Task>> getAllTasks();
 
     // Hôm nay: tasks with dueDate between start and end of today
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDay AND dueDate < :endOfDay AND completed = 0 ORDER BY dueDate ASC")
@@ -35,10 +32,6 @@ public interface TaskDao {
     // Sắp tới (next 7 days, excluding today and tomorrow)
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDayAfterTomorrow AND dueDate < :endOfWeek AND completed = 0 ORDER BY dueDate ASC")
     LiveData<List<Task>> getTasksUpcoming(long startOfDayAfterTomorrow, long endOfWeek);
-
-    // 7 ngày tới (all tasks in next 7 days)
-    @Query("SELECT * FROM tasks WHERE dueDate >= :startOfToday AND dueDate < :endOfWeek AND completed = 0 ORDER BY dueDate ASC")
-    LiveData<List<Task>> getTasksNext7Days(long startOfToday, long endOfWeek);
 
     // Hộp thư đến (no category)
     @Query("SELECT * FROM tasks WHERE categoryId IS NULL AND completed = 0 ORDER BY dueDate ASC")
@@ -59,14 +52,6 @@ public interface TaskDao {
     // Tuần này
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfWeek AND dueDate < :endOfWeek AND completed = 0 ORDER BY dueDate ASC")
     LiveData<List<Task>> getTasksThisWeek(long startOfWeek, long endOfWeek);
-
-    // Count by category
-    @Query("SELECT COUNT(*) FROM tasks WHERE categoryId = :categoryId AND completed = 0")
-    LiveData<Integer> getTaskCountByCategory(int categoryId);
-
-    // Get task by ID
-    @Query("SELECT * FROM tasks WHERE id = :id")
-    Task getTaskById(int id);
 
     // Tasks for a specific date range (Calendar view)
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDay AND dueDate < :endOfDay ORDER BY dueDate ASC, createdAt ASC")

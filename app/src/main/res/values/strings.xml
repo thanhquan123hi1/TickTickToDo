@@ -9,13 +9,6 @@
     <string name="nav_lists">Danh sách</string>
     <string name="nav_filters">Bộ lọc</string>
 
-    <!-- Categories -->
-    <string name="cat_work">Công việc</string>
-    <string name="cat_study">Mục tiêu học tập</string>
-    <string name="cat_travel">Kế hoạch du lịch</string>
-    <string name="cat_daily">Việc hàng ngày</string>
-    <string name="cat_errands">Việc vặt</string>
-
     <!-- Filters -->
     <string name="filter_this_week">Tuần này</string>
     <string name="filter_unscheduled">Chưa lên lịch</string>
@@ -23,24 +16,18 @@
 
     <!-- Section Headers -->
     <string name="section_today">Hôm nay</string>
-    <string name="section_tomorrow">Ngày mai</string>
-    <string name="section_upcoming">Sắp tới</string>
 
     <!-- Task Detail -->
     <string name="task_title_hint">Tiêu đề công việc</string>
     <string name="task_description_hint">Mô tả / Ghi chú</string>
-    <string name="task_due_date">Ngày hết hạn</string>
-    <string name="task_due_time">Giờ nhắc nhở</string>
     <string name="task_priority">Độ ưu tiên</string>
     <string name="task_category">Danh mục</string>
-    <string name="task_checklist">Danh sách con</string>
 
     <!-- Buttons -->
     <string name="btn_save">Lưu</string>
     <string name="btn_delete">Xóa</string>
     <string name="btn_cancel">Hủy</string>
     <string name="btn_add_task">Thêm công việc</string>
-    <string name="btn_add_checklist">Thêm mục con</string>
     <string name="btn_add_category">+ Thêm danh mục</string>
 
     <!-- Priority levels -->
@@ -54,13 +41,6 @@
     <string name="msg_task_updated">Đã cập nhật công việc</string>
     <string name="msg_task_deleted">Đã xóa công việc</string>
     <string name="msg_no_tasks">Không có công việc nào</string>
-
-    <!-- Date format -->
-    <string name="date_format">dd/MM/yyyy</string>
-
-    <!-- Drawer -->
-    <string name="drawer_open">Mở menu</string>
-    <string name="drawer_close">Đóng menu</string>
 
     <!-- Navigation Rail -->
     <string name="nav_avatar">Hồ sơ</string>
@@ -77,7 +57,6 @@
     <!-- Select -->
     <string name="select_date">Chọn ngày</string>
     <string name="select_time">Chọn giờ</string>
-    <string name="select_category">Chọn danh mục</string>
 
     <!-- Navigation - Tools -->
     <string name="nav_tools">Công cụ</string>
@@ -111,5 +90,4 @@
     <string name="language_vietnamese">Tiếng Việt</string>
     <string name="language_english">Tiếng Anh</string>
     <string name="language_chinese">Tiếng Trung</string>
-    <string name="language_changed">Đã thay đổi ngôn ngữ. Đang khởi động lại ứng dụng…</string>
 </resources>

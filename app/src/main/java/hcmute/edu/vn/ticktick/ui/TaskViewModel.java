@@ -9,21 +9,17 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import hcmute.edu.vn.ticktick.database.AppDatabase;
-import hcmute.edu.vn.ticktick.database.Category;
 import hcmute.edu.vn.ticktick.database.Task;
 import hcmute.edu.vn.ticktick.database.TaskDao;
-import hcmute.edu.vn.ticktick.database.CategoryDao;
 
 public class TaskViewModel extends AndroidViewModel {
 
     private final TaskDao taskDao;
-    private final CategoryDao categoryDao;
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
         AppDatabase db = AppDatabase.getDatabase(application);
         taskDao = db.taskDao();
-        categoryDao = db.categoryDao();
     }
 
     // === Task queries ===
@@ -45,13 +41,6 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getTasksUpcoming() {
         return taskDao.getTasksUpcoming(
                 DateUtils.getStartOfDayAfterTomorrow(),
-                DateUtils.getEndOf7Days()
-        );
-    }
-
-    public LiveData<List<Task>> getTasksNext7Days() {
-        return taskDao.getTasksNext7Days(
-                DateUtils.getStartOfToday(),
                 DateUtils.getEndOf7Days()
         );
     }
@@ -83,23 +72,9 @@ public class TaskViewModel extends AndroidViewModel {
         return taskDao.getTasksForDate(startOfDay, endOfDay);
     }
 
-    // === Category queries ===
-
-    public LiveData<List<Category>> getAllCategories() {
-        return categoryDao.getAllCategories();
-    }
-
     // === Task operations ===
 
     public void updateTask(Task task) {
         AppDatabase.databaseWriteExecutor.execute(() -> taskDao.update(task));
-    }
-
-    public void insertTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.insert(task));
-    }
-
-    public void deleteTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.delete(task));
     }
 }
