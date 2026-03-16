@@ -1,6 +1,7 @@
 package hcmute.edu.vn.ticktick.ui;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,8 +12,11 @@ import java.util.List;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Task;
 import hcmute.edu.vn.ticktick.database.TaskDao;
+import hcmute.edu.vn.ticktick.widget.TaskWidgetProvider;
 
 public class TaskViewModel extends AndroidViewModel {
+
+    private static final String TAG = "TaskViewModel";
 
     private final TaskDao taskDao;
 
@@ -83,14 +87,26 @@ public class TaskViewModel extends AndroidViewModel {
     // === Task operations ===
 
     public void insertTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.insert(task));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            long id = taskDao.insert(task);
+            Log.d(TAG, "insertTask() id=" + id + " -> refresh widgets");
+            TaskWidgetProvider.refreshAllWidgets(getApplication());
+        });
     }
 
     public void updateTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.update(task));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            taskDao.update(task);
+            Log.d(TAG, "updateTask() taskId=" + task.getId() + " -> refresh widgets");
+            TaskWidgetProvider.refreshAllWidgets(getApplication());
+        });
     }
 
     public void deleteTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> taskDao.delete(task));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            taskDao.delete(task);
+            Log.d(TAG, "deleteTask() taskId=" + task.getId() + " -> refresh widgets");
+            TaskWidgetProvider.refreshAllWidgets(getApplication());
+        });
     }
 }

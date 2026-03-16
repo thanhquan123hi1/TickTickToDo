@@ -1,12 +1,15 @@
 package hcmute.edu.vn.ticktick;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Calendar;
 
 import hcmute.edu.vn.ticktick.adapter.TaskAdapter;
+import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Task;
 import hcmute.edu.vn.ticktick.main.TaskListController;
 import hcmute.edu.vn.ticktick.navigation.NavPanel;
@@ -29,6 +33,7 @@ import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.ViewDestination;
 import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
+import hcmute.edu.vn.ticktick.widget.TaskWidgetProvider;
 
 /**
  * Thin coordinator: binds views, wires collaborators together, handles back press.
@@ -94,6 +99,14 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         // Default view
         railController.setActive(railBtnTasks);
         navigateTo(ViewDestination.NEXT_7_DAYS, -1, null);
+        handleWidgetIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleWidgetIntent(intent);
     }
 
     // -------------------------------------------------------------------------
@@ -341,5 +354,46 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         // Cap nhat title cho toolbar va danh sach task.
         currentSectionTitle = title;
         tvTaskSurfaceTitle.setText(title);
+    }
+
+    private void handleWidgetIntent(Intent intent) {
+        if (intent == null || intent.getAction() == null) {
+            return;
+        }
+
+        String action = intent.getAction();
+        if (TaskWidgetProvider.ACTION_ADD_TASK.equals(action)) {
+            showTaskDetail(null);
+            consumeWidgetIntent(intent);
+            return;
+        }
+
+        if (TaskWidgetProvider.ACTION_OPEN_TASK_DETAIL.equals(action)) {
+            int taskId = intent.getIntExtra(TaskWidgetProvider.EXTRA_TASK_ID, -1);
+            if (taskId <= 0) {
+                consumeWidgetIntent(intent);
+                return;
+            }
+
+            AppDatabase.databaseWriteExecutor.execute(() -> {
+                Task task = AppDatabase.getDatabase(getApplicationContext()).taskDao().getTaskByIdSync(taskId);
+                runOnUiThread(() -> {
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    if (task == null) {
+                        Toast.makeText(this, R.string.msg_task_not_found, Toast.LENGTH_SHORT).show();
+                    } else {
+                        showTaskDetail(task);
+                    }
+                });
+            });
+            consumeWidgetIntent(intent);
+        }
+    }
+
+    private void consumeWidgetIntent(Intent intent) {
+        intent.setAction(null);
+        intent.removeExtra(TaskWidgetProvider.EXTRA_TASK_ID);
     }
 }

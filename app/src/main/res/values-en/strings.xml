@@ -44,6 +44,7 @@
     <string name="msg_task_added">Task added</string>
     <string name="msg_task_updated">Task updated</string>
     <string name="msg_task_deleted">Task deleted</string>
+    <string name="msg_task_not_found">Task not found.</string>
     <string name="msg_no_tasks">No tasks yet. Start with one small step.</string>
     <string name="msg_category_added">Category added</string>
     <string name="msg_category_updated">Category updated</string>
@@ -116,4 +117,39 @@
     <string name="error_task_title_required">Please enter a task title</string>
     <string name="error_category_name_required">Please enter a category name</string>
     <string name="error_category_icon_required">Please choose an icon</string>
+
+    <!-- Home Widget -->
+    <string name="widget_title">Tasks</string>
+    <string name="widget_add_task">Quick add</string>
+    <string name="widget_open_app">Open app</string>
+    <string name="widget_empty">No tasks yet</string>
+    <string name="widget_due_unscheduled">Unscheduled</string>
+    <string name="widget_due_format">Due: %1$s</string>
+    <string name="widget_description">Quick view of your tasks</string>
+    <string name="widget_task_completed_prefix">[x] %1$s</string>
+
+    <string name="widget_timer_title">Pomodoro</string>
+    <string name="widget_timer_start">Start</string>
+    <string name="widget_timer_pause">Pause</string>
+    <string name="widget_timer_reset">Reset</string>
+    <string name="widget_timer_running">Running</string>
+    <string name="widget_timer_paused">Paused</string>
+    <string name="widget_timer_done">Done</string>
+    <string name="widget_timer_duration_format">Session: %1$d min</string>
+
+    <string name="widget_settings_title">Widget Settings</string>
+    <string name="widget_mode_title">Widget mode</string>
+    <string name="widget_mode_tasks">Task list</string>
+    <string name="widget_mode_timer">Pomodoro timer</string>
+    <string name="widget_task_count">Number of tasks</string>
+    <string name="widget_include_completed">Include completed tasks</string>
+    <string name="widget_show_deadline">Show deadline</string>
+    <string name="widget_theme">Theme</string>
+    <string name="widget_theme_system">System default</string>
+    <string name="widget_theme_light">Light</string>
+    <string name="widget_theme_dark">Dark</string>
+    <string name="widget_timer_duration">Pomodoro duration</string>
+    <string name="widget_timer_custom">Custom</string>
+    <string name="widget_timer_custom_hint">Custom minutes (1-180)</string>
+    <string name="widget_save">Save settings</string>
 </resources>
