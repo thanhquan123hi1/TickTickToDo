@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -22,6 +23,7 @@ import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,6 +36,7 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText etTitle, etDescription;
     private MaterialButton btnSelectDate, btnSelectTime, btnSave, btnDelete, btnCancel;
+    private MaterialButton btnSelectReminders;
     private Spinner spinnerCategory, spinnerPriority;
     private TextView tvSheetHeading, tvSheetSubtitle, tvTaskStatus;
 
@@ -45,6 +48,17 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
     private List<Category> categories = new ArrayList<>();
     private OnTaskSavedListener savedListener;
     private TaskViewModel taskViewModel;
+
+    private final List<Integer> selectedReminderMinutes = new ArrayList<>();
+
+    private static final int[] REMINDER_PRESETS_MINUTES = new int[]{
+            30,
+            60,
+            180,
+            600,
+            1440,
+            2880
+    };
 
     public interface OnTaskSavedListener {
         void onTaskSaved();
@@ -91,6 +105,7 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
         btnSave = view.findViewById(R.id.btn_save_task);
         btnDelete = view.findViewById(R.id.btn_delete_task);
         btnCancel = view.findViewById(R.id.btn_cancel);
+        btnSelectReminders = view.findViewById(R.id.btn_select_reminders);
         spinnerCategory = view.findViewById(R.id.spinner_category);
         spinnerPriority = view.findViewById(R.id.spinner_priority);
 
@@ -101,10 +116,14 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
         setupTimePicker();
         setupButtons();
         bindHeader();
+        setupReminderPicker();
 
         // If editing existing task, populate fields
         if (isEditMode()) {
             populateFields();
+            loadTaskReminders();
+        } else {
+            updateReminderButtonText();
         }
     }
 
@@ -264,6 +283,74 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
         spinnerPriority.setSelection(Math.max(0, Math.min(3, editingTask.getPriority())));
     }
 
+    private void setupReminderPicker() {
+        btnSelectReminders.setOnClickListener(v -> showReminderDialog());
+    }
+
+    private void showReminderDialog() {
+        String[] labels = new String[REMINDER_PRESETS_MINUTES.length];
+        boolean[] checked = new boolean[REMINDER_PRESETS_MINUTES.length];
+
+        for (int i = 0; i < REMINDER_PRESETS_MINUTES.length; i++) {
+            int minutes = REMINDER_PRESETS_MINUTES[i];
+            labels[i] = DateUtils.formatReminderOffset(requireContext(), minutes);
+            checked[i] = selectedReminderMinutes.contains(minutes);
+        }
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.task_reminder)
+                .setMultiChoiceItems(labels, checked, (dialog, which, isChecked) -> {
+                    int value = REMINDER_PRESETS_MINUTES[which];
+                    if (isChecked) {
+                        if (!selectedReminderMinutes.contains(value)) {
+                            selectedReminderMinutes.add(value);
+                        }
+                    } else {
+                        selectedReminderMinutes.remove(Integer.valueOf(value));
+                    }
+                })
+                .setPositiveButton(R.string.btn_save, (dialog, which) -> {
+                    Collections.sort(selectedReminderMinutes);
+                    updateReminderButtonText();
+                })
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    private void loadTaskReminders() {
+        if (!isEditMode()) {
+            return;
+        }
+
+        taskViewModel.loadReminderMinutes(editingTask.getId(), reminderMinutes -> {
+            if (!isAdded()) {
+                return;
+            }
+            requireActivity().runOnUiThread(() -> {
+                selectedReminderMinutes.clear();
+                selectedReminderMinutes.addAll(reminderMinutes);
+                updateReminderButtonText();
+            });
+        });
+    }
+
+    private void updateReminderButtonText() {
+        if (!isAdded()) {
+            return;
+        }
+
+        if (selectedReminderMinutes.isEmpty()) {
+            btnSelectReminders.setText(getString(R.string.reminder_none));
+            return;
+        }
+
+        List<String> labels = new ArrayList<>();
+        for (int minutes : selectedReminderMinutes) {
+            labels.add(DateUtils.formatReminderOffset(requireContext(), minutes));
+        }
+        btnSelectReminders.setText(getString(R.string.reminder_selected_summary, String.join(", ", labels)));
+    }
+
     private void saveTask() {
         String title = etTitle.getText() != null ? etTitle.getText().toString().trim() : "";
         if (title.isEmpty()) {
@@ -287,10 +374,15 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
             task.setCategoryId(null);
         }
 
+        if (!selectedReminderMinutes.isEmpty() && selectedDueDate <= 0) {
+            Toast.makeText(requireContext(), R.string.reminder_need_due_date, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (isEditMode()) {
-            taskViewModel.updateTask(task);
+            taskViewModel.updateTask(task, new ArrayList<>(selectedReminderMinutes));
         } else {
-            taskViewModel.insertTask(task);
+            taskViewModel.insertTask(task, new ArrayList<>(selectedReminderMinutes));
         }
 
         String msg = isEditMode()

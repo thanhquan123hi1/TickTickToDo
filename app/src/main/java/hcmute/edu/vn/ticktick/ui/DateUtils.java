@@ -1,9 +1,13 @@
 package hcmute.edu.vn.ticktick.ui;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import hcmute.edu.vn.ticktick.R;
 
 /**
  * Utility class for Vietnamese date formatting and date calculations.
@@ -149,5 +153,40 @@ public class DateUtils {
     public static boolean isSameDay(Calendar cal1, Calendar cal2) {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    }
+
+    public static long getDueDateTimeMillis(long dueDate, String dueTime) {
+        if (dueDate <= 0) {
+            return 0L;
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(dueDate);
+
+        int hour = 9;
+        int minute = 0;
+        if (dueTime != null && dueTime.matches("\\d{2}:\\d{2}")) {
+            String[] parts = dueTime.split(":");
+            hour = Integer.parseInt(parts[0]);
+            minute = Integer.parseInt(parts[1]);
+        }
+
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
+    }
+
+    public static String formatReminderOffset(Context context, int minutesBefore) {
+        if (minutesBefore % (24 * 60) == 0) {
+            int days = minutesBefore / (24 * 60);
+            return context.getString(R.string.reminder_days_before, days);
+        }
+        if (minutesBefore % 60 == 0) {
+            int hours = minutesBefore / 60;
+            return context.getString(R.string.reminder_hours_before, hours);
+        }
+        return context.getString(R.string.reminder_minutes_before, minutesBefore);
     }
 }
