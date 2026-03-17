@@ -1,6 +1,9 @@
 package hcmute.edu.vn.ticktick;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,6 +46,8 @@ import hcmute.edu.vn.ticktick.widget.TaskWidgetProvider;
  * {@link NavRailController}; all data logic lives in {@link TaskListController}.
  */
 public class MainActivity extends BaseActivity implements NavPanelCallback, NavPanel.Host {
+
+    private static final int REQUEST_NOTIFICATIONS = 1001;
 
     // --- Views ---
     // Cac bien nay map truc tiep voi id trong res/layout/activity_main.xml.
@@ -95,6 +102,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         setupHeroActions();
         setupBackPress();
         updateGreeting();
+        maybeRequestNotificationPermission();
 
         // Default view
         railController.setActive(railBtnTasks);
@@ -391,5 +399,18 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
     private void consumeWidgetIntent(Intent intent) {
         intent.setAction(null);
         intent.removeExtra(TaskWidgetProvider.EXTRA_TASK_ID);
+    }
+
+    private void maybeRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                REQUEST_NOTIFICATIONS);
     }
 }

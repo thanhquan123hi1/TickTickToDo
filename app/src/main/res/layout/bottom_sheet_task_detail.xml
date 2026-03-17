@@ -157,6 +157,36 @@
                     app:iconTint="@color/primary_dark"
                     app:strokeColor="@color/divider" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task_reminder"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_reminders"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/reminder_none"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/text_primary"
+                    android:textSize="13sp"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_timer"
+                    app:iconTint="@color/primary_dark"
+                    app:strokeColor="@color/divider" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
