@@ -42,7 +42,7 @@ public class PanelContentFactory {
     /** Represents every navigation destination that the panel can trigger. */
     public enum ViewDestination {
         ALL_TASKS,
-        TODAY, NEXT_7_DAYS, INBOX,
+        TODAY, NEXT_7_DAYS,
         CATEGORY,
         THIS_WEEK, UNSCHEDULED, COMPLETED, DATE_RANGE
     }
@@ -76,7 +76,6 @@ public class PanelContentFactory {
         addItem(R.drawable.ic_list,   R.string.nav_all_tasks,   () -> navigate(ViewDestination.ALL_TASKS,    -1, context.getString(R.string.nav_all_tasks)));
         addItem(R.drawable.ic_today,  R.string.nav_today,       () -> navigate(ViewDestination.TODAY,        -1, context.getString(R.string.nav_today)));
         addItem(R.drawable.ic_week,   R.string.nav_next_7_days, () -> navigate(ViewDestination.NEXT_7_DAYS,  -1, context.getString(R.string.nav_next_7_days)));
-        addItem(R.drawable.ic_inbox,  R.string.nav_inbox,       () -> navigate(ViewDestination.INBOX,        -1, context.getString(R.string.nav_inbox)));
 
         panelContent.addView(itemBuilder.buildDivider());
         panelContent.addView(itemBuilder.buildSectionTitle(context.getString(R.string.nav_lists)));
@@ -116,7 +115,7 @@ public class PanelContentFactory {
                 () -> navigate(ViewDestination.UNSCHEDULED, -1, context.getString(R.string.filter_unscheduled)));
         addItem(R.drawable.ic_completed, R.string.filter_completed,
                 () -> navigate(ViewDestination.COMPLETED, -1, context.getString(R.string.filter_completed)));
-        addItem(R.drawable.ic_inbox, R.string.filter_clear,
+        addItem(R.drawable.ic_list, R.string.filter_clear,
                 () -> navigate(ViewDestination.ALL_TASKS, -1, context.getString(R.string.nav_all_tasks)));
     }
 
@@ -140,7 +139,7 @@ public class PanelContentFactory {
 
         addItem(R.drawable.ic_settings, R.string.nav_settings_notification, () -> toast(R.string.nav_settings_notification));
         addItem(R.drawable.ic_filter,   R.string.nav_settings_language,     this::showLanguageDialog);
-        addItem(R.drawable.ic_inbox,    R.string.nav_settings_backup,       () -> toast(R.string.nav_settings_backup));
+        addItem(R.drawable.ic_list,     R.string.nav_settings_backup,       () -> toast(R.string.nav_settings_backup));
     }
 
     public void buildProfilePanel() {
@@ -318,7 +317,6 @@ public class PanelContentFactory {
             case "ic_travel":   return R.drawable.ic_travel;
             case "ic_list":     return R.drawable.ic_list;
             case "ic_star":     return R.drawable.ic_star;
-            case "ic_inbox":    return R.drawable.ic_inbox;
             case "ic_calendar": return R.drawable.ic_calendar;
             case "ic_timer":    return R.drawable.ic_timer;
             case "ic_filter":   return R.drawable.ic_filter;

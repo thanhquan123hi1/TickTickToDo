@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -12,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TickTick">
         <activity
-            android:name=".MainActivity"
+            android:name="hcmute.edu.vn.ticktick.MainActivity"
             android:theme="@style/Theme.TickTick.Splash"
             android:exported="true">
             <intent-filter>
@@ -22,20 +21,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CalendarActivity"
+            android:name="hcmute.edu.vn.ticktick.CalendarActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
         <activity
-            android:name=".CountdownActivity"
+            android:name="hcmute.edu.vn.ticktick.CountdownActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
 
         <activity
-            android:name=".widget.TaskWidgetConfigureActivity"
+            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetConfigureActivity"
             android:exported="true" />
 
         <receiver
-            android:name=".widget.TaskWidgetProvider"
+            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -47,7 +46,7 @@
         </receiver>
 
         <service
-            android:name=".widget.TaskWidgetService"
+            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>

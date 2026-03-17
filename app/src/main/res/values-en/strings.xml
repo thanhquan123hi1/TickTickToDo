@@ -5,14 +5,16 @@
     <!-- Navigation Drawer -->
     <string name="nav_today">Today</string>
     <string name="nav_next_7_days">Next 7 Days</string>
-    <string name="nav_inbox">Inbox</string>
     <string name="nav_lists">Lists</string>
     <string name="nav_filters">Filters</string>
+    <string name="nav_all_tasks">All Tasks</string>
 
     <!-- Filters -->
     <string name="filter_this_week">This Week</string>
     <string name="filter_unscheduled">Unscheduled</string>
     <string name="filter_completed">Completed</string>
+    <string name="filter_date_range">Date Range</string>
+    <string name="filter_clear">Clear Filter</string>
 
     <!-- Section Headers -->
     <string name="section_today">Today</string>
@@ -25,14 +27,25 @@
     <string name="task_priority">Priority</string>
     <string name="task_category">Category</string>
     <string name="task_surface_caption">What would you like to finish today?</string>
-    <string name="task_status">Status</string>
+    <string name="sheet_create_task_title">New Task</string>
+    <string name="sheet_create_task_subtitle">Fill in clear details so this task is categorized correctly and updates immediately in the list.</string>
+    <string name="sheet_edit_task_title">Task Details</string>
+    <string name="sheet_edit_task_subtitle">Update status, schedule, and category so your lists stay in sync.</string>
+    <string name="task_status_new">New</string>
     <string name="task_status_pending">Pending</string>
     <string name="task_status_completed">Completed</string>
-    <string name="task_schedule_section">Schedule</string>
+    <string name="task_section_title">Title</string>
+    <string name="task_section_schedule">Schedule</string>
+    <string name="task_section_meta">Category</string>
+    <string name="task_section_description">Description</string>
+
+    <!-- Buttons -->
+    <string name="btn_save">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_add_task">Add Task</string>
-    <string name="btn_add_category">+ Add Category</string>
-    <string name="btn_manage_category">Manage category</string>
+    <string name="btn_add_category">Add Category</string>
 
     <!-- Priority levels -->
     <string name="priority_none">None</string>
@@ -84,7 +97,7 @@
     <string name="countdown_pause">Pause</string>
     <string name="countdown_resume">Resume</string>
     <string name="countdown_reset">Reset</string>
-    <string name="countdown_running">Running…</string>
+    <string name="countdown_running">Running...</string>
     <string name="countdown_paused">Paused</string>
     <string name="countdown_finished">Time\'s Up!</string>
     <string name="countdown_finished_title">Time\'s Up!</string>
@@ -103,9 +116,6 @@
     <string name="greeting_morning">Good Morning</string>
     <string name="greeting_afternoon">Good Afternoon</string>
     <string name="greeting_evening">Good Evening</string>
-    <string name="profile_name_default">Monica Gamage</string>
-    <string name="profile_handle_default">\@monicagamage</string>
-    <string name="profile_action_label">My Profile</string>
 
     <!-- Category Dialog -->
     <string name="category_dialog_title_add">Add Category</string>
@@ -113,7 +123,7 @@
     <string name="category_name_hint">Category name</string>
     <string name="category_icon_label">Choose an icon</string>
     <string name="dialog_delete_category_title">Delete category?</string>
-    <string name="dialog_delete_category_message">Tasks using this category will be moved back to Inbox.</string>
+    <string name="dialog_delete_category_message">Tasks using this category will be moved to no category.</string>
     <string name="error_task_title_required">Please enter a task title</string>
     <string name="error_category_name_required">Please enter a category name</string>
     <string name="error_category_icon_required">Please choose an icon</string>

@@ -30,7 +30,7 @@
             android:background="@drawable/bg_rail_btn_ripple"
             android:contentDescription="@string/widget_open_app"
             android:padding="8dp"
-            android:src="@drawable/ic_inbox" />
+            android:src="@drawable/ic_list" />
     </LinearLayout>
 
     <TextView
@@ -87,4 +87,3 @@
     </LinearLayout>
 
 </LinearLayout>
-

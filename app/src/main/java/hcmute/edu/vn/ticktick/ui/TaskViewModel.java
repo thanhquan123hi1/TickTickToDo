@@ -53,10 +53,6 @@ public class TaskViewModel extends AndroidViewModel {
         );
     }
 
-    public LiveData<List<Task>> getInboxTasks() {
-        return taskDao.getInboxTasks();
-    }
-
     public LiveData<List<Task>> getTasksByCategory(int categoryId) {
         return taskDao.getTasksByCategory(categoryId);
     }

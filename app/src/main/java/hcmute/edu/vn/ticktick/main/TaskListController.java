@@ -97,14 +97,6 @@ public class TaskListController {
         });
     }
 
-    public void loadInbox(String sectionTitle) {
-        clearActiveSources();
-        observeSource(viewModel.getInboxTasks(), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
-            notifyEmpty();
-        });
-    }
-
     public void loadCategory(int categoryId, String sectionTitle) {
         clearActiveSources();
         observeSource(viewModel.getTasksByCategory(categoryId), tasks -> {

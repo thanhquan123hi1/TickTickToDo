@@ -83,9 +83,9 @@ public class PanelItemBuilder {
     }
 
     /**
-     * Tạo nút "+ Thêm danh mục" với style đặc biệt.
+     * Tạo nút thêm danh mục với style đặc biệt.
      * Icon dấu cộng màu accent, text màu accent.
-     * @param title Text hiển thị (ví dụ: "+ Thêm danh mục")
+     * @param title Text hiển thị (ví dụ: "Thêm danh mục")
      * @param onClick Hành động khi click
      * @return LinearLayout item
      */

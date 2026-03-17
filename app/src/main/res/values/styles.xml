@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WidgetCalendarDayLabel">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/widget_calendar_muted</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="WidgetCalendarDate">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/widget_calendar_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="WidgetCalendarDateMuted" parent="WidgetCalendarDate">
+        <item name="android:textColor">@color/widget_calendar_muted</item>
+    </style>
+</resources>

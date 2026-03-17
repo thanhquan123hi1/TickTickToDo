@@ -166,7 +166,7 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
             requireActivity().runOnUiThread(() -> {
                 categories = loadedCategories;
                 List<String> categoryNames = new ArrayList<>();
-                categoryNames.add(getString(R.string.nav_inbox));
+                categoryNames.add(getString(R.string.filter_unscheduled));
                 for (Category cat : categories) {
                     categoryNames.add(cat.getName());
                 }

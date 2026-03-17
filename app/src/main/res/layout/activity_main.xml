@@ -193,7 +193,7 @@
             android:contentDescription="@string/nav_rail_tasks"
             android:padding="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_inbox" />
+            android:src="@drawable/ic_list" />
 
         <ImageButton
             android:id="@+id/rail_btn_calendar"

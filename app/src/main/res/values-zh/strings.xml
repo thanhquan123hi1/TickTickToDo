@@ -5,14 +5,16 @@
     <!-- Navigation Drawer -->
     <string name="nav_today">今天</string>
     <string name="nav_next_7_days">未来7天</string>
-    <string name="nav_inbox">收件箱</string>
     <string name="nav_lists">列表</string>
     <string name="nav_filters">筛选</string>
+    <string name="nav_all_tasks">全部任务</string>
 
     <!-- Filters -->
     <string name="filter_this_week">本周</string>
     <string name="filter_unscheduled">未安排</string>
     <string name="filter_completed">已完成</string>
+    <string name="filter_date_range">日期范围</string>
+    <string name="filter_clear">清除筛选</string>
 
     <!-- Section Headers -->
     <string name="section_today">今天</string>
@@ -25,6 +27,17 @@
     <string name="task_priority">优先级</string>
     <string name="task_category">分类</string>
     <string name="task_surface_caption">今天你想完成什么？</string>
+    <string name="sheet_create_task_title">新任务</string>
+    <string name="sheet_create_task_subtitle">填写清晰信息，让任务正确归类并立即更新到列表。</string>
+    <string name="sheet_edit_task_title">任务详情</string>
+    <string name="sheet_edit_task_subtitle">更新状态、日程和分类，让列表始终同步。</string>
+    <string name="task_status_new">新建</string>
+    <string name="task_status_pending">未完成</string>
+    <string name="task_status_completed">已完成</string>
+    <string name="task_section_title">标题</string>
+    <string name="task_section_schedule">日程</string>
+    <string name="task_section_meta">分类</string>
+    <string name="task_section_description">描述</string>
 
     <!-- Buttons -->
     <string name="btn_save">保存</string>
@@ -32,8 +45,7 @@
     <string name="btn_cancel">取消</string>
     <string name="btn_edit">编辑</string>
     <string name="btn_add_task">添加任务</string>
-    <string name="btn_add_category">+ 添加分类</string>
-    <string name="btn_manage_category">管理分类</string>
+    <string name="btn_add_category">添加分类</string>
 
     <!-- Priority levels -->
     <string name="priority_none">无优先级</string>
@@ -85,7 +97,7 @@
     <string name="countdown_pause">暂停</string>
     <string name="countdown_resume">继续</string>
     <string name="countdown_reset">重置</string>
-    <string name="countdown_running">运行中…</string>
+    <string name="countdown_running">运行中...</string>
     <string name="countdown_paused">已暂停</string>
     <string name="countdown_finished">时间到！</string>
     <string name="countdown_finished_title">时间到！</string>
@@ -104,9 +116,6 @@
     <string name="greeting_morning">早上好</string>
     <string name="greeting_afternoon">下午好</string>
     <string name="greeting_evening">晚上好</string>
-    <string name="profile_name_default">Monica Gamage</string>
-    <string name="profile_handle_default">\@monicagamage</string>
-    <string name="profile_action_label">我的资料</string>
 
     <!-- Category Dialog -->
     <string name="category_dialog_title_add">添加分类</string>
@@ -114,7 +123,7 @@
     <string name="category_name_hint">分类名称</string>
     <string name="category_icon_label">选择图标</string>
     <string name="dialog_delete_category_title">删除分类？</string>
-    <string name="dialog_delete_category_message">使用此分类的任务将被移回收件箱。</string>
+    <string name="dialog_delete_category_message">使用此分类的任务将被移到未分类。</string>
     <string name="error_task_title_required">请输入任务标题</string>
     <string name="error_category_name_required">请输入分类名称</string>
     <string name="error_category_icon_required">请选择图标</string>

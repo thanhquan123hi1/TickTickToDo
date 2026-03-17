@@ -141,10 +141,6 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
                 updateSectionTitle(getString(R.string.nav_today));
                 taskListController.loadToday(getString(R.string.section_today));
                 break;
-            case INBOX:
-                updateSectionTitle(getString(R.string.nav_inbox));
-                taskListController.loadInbox(getString(R.string.nav_inbox));
-                break;
             case CATEGORY:
                 updateSectionTitle(titleOverride != null ? titleOverride : getString(R.string.task_category));
                 taskListController.loadCategory(categoryId, currentSectionTitle);

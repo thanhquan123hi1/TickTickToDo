@@ -36,10 +36,6 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dueDate >= :startOfDayAfterTomorrow AND dueDate < :endOfWeek AND completed = 0 ORDER BY dueDate ASC")
     LiveData<List<Task>> getTasksUpcoming(long startOfDayAfterTomorrow, long endOfWeek);
 
-    // Hộp thư đến (no category)
-    @Query("SELECT * FROM tasks WHERE categoryId IS NULL AND completed = 0 ORDER BY dueDate ASC")
-    LiveData<List<Task>> getInboxTasks();
-
     // By category
     @Query("SELECT * FROM tasks WHERE categoryId = :categoryId AND completed = 0 ORDER BY dueDate ASC")
     LiveData<List<Task>> getTasksByCategory(int categoryId);

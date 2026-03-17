@@ -5,7 +5,6 @@
     <!-- này là ở nhóm đầu tiên -->
     <string name="nav_today">Hôm nay</string>
     <string name="nav_next_7_days">7 ngày tới</string>
-    <string name="nav_inbox">Hộp thư đến</string>
     <string name="nav_lists">Danh sách</string>
     <string name="nav_filters">Bộ lọc</string>
     <string name="nav_all_tasks">Tất cả công việc</string>
@@ -46,8 +45,7 @@
     <string name="btn_cancel">Hủy</string>
     <string name="btn_edit">Sửa</string>
     <string name="btn_add_task">Thêm công việc</string>
-    <string name="btn_add_category">+ Thêm danh mục</string>
-    <string name="btn_manage_category">Quản lý danh mục</string>
+    <string name="btn_add_category">Thêm danh mục</string>
 
     <!-- Priority levels -->
     <string name="priority_none">Không ưu tiên</string>
@@ -119,18 +117,13 @@
     <string name="greeting_afternoon">Chào buổi chiều</string>
     <string name="greeting_evening">Chào buổi tối</string>
 
-    <!-- Profile Default Values -->
-    <string name="profile_name_default">Monica Gamage</string>
-    <string name="profile_handle_default">\@monicagamage</string>
-    <string name="profile_action_label">Hồ sơ của tôi</string>
-
     <!-- Category Dialog -->
     <string name="category_dialog_title_add">Thêm danh mục</string>
     <string name="category_dialog_title_edit">Chỉnh sửa danh mục</string>
     <string name="category_name_hint">Tên danh mục</string>
     <string name="category_icon_label">Chọn biểu tượng</string>
     <string name="dialog_delete_category_title">Xóa danh mục?</string>
-    <string name="dialog_delete_category_message">Các công việc đang dùng danh mục này sẽ được chuyển về Hộp thư đến.</string>
+    <string name="dialog_delete_category_message">Các công việc đang dùng danh mục này sẽ được chuyển về trạng thái không danh mục.</string>
     <string name="error_task_title_required">Vui lòng nhập tiêu đề công việc</string>
     <string name="error_category_name_required">Vui lòng nhập tên danh mục</string>
     <string name="error_category_icon_required">Vui lòng chọn biểu tượng</string>

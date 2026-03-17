@@ -20,8 +20,10 @@
     <color name="completed">#FF5E8F6B</color>
     <color name="completed_container">#FFE7F3EA</color>
     <color name="overdue">#FFD96A63</color>
-    <color name="danger_soft">#FFFBE8E6</color>
     <color name="nav_item_bg_selected">#33F4C27F</color>
     <color name="nav_item_icon_tint">#FF7D5A33</color>
     <color name="rail_bg_active">#FFFFECD6</color>
+    <color name="widget_calendar_accent">#FFE64A19</color>
+    <color name="widget_calendar_text">#FF212121</color>
+    <color name="widget_calendar_muted">#FF9E9E9E</color>
 </resources>
