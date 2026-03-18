@@ -17,7 +17,7 @@ import hcmute.edu.vn.ticktick.MainActivity;
 import hcmute.edu.vn.ticktick.R;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Task;
-import hcmute.edu.vn.ticktick.widget.TaskWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
 
 public class TaskReminderReceiver extends BroadcastReceiver {
 
@@ -61,8 +61,8 @@ public class TaskReminderReceiver extends BroadcastReceiver {
                                   String taskTitle,
                                   int minutesBefore) {
         Intent openIntent = new Intent(context, MainActivity.class);
-        openIntent.setAction(TaskWidgetProvider.ACTION_OPEN_TASK_DETAIL);
-        openIntent.putExtra(TaskWidgetProvider.EXTRA_TASK_ID, taskId);
+        openIntent.setAction(TodayTasksWidgetProvider.ACTION_OPEN_TASK_DETAIL);
+        openIntent.putExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID, taskId);
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(

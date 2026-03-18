@@ -130,39 +130,15 @@
     <string name="error_category_icon_required">请选择图标</string>
 
     <!-- Home Widget -->
-    <string name="widget_title">任务</string>
-    <string name="widget_add_task">快速添加</string>
-    <string name="widget_open_app">打开应用</string>
-    <string name="widget_empty">暂无任务</string>
-    <string name="widget_due_unscheduled">未安排</string>
-    <string name="widget_due_format">截止：%1$s</string>
-    <string name="widget_description">快速查看任务</string>
-    <string name="widget_task_completed_prefix">[x] %1$s</string>
+    <string name="widget_description">快速查看今天到期任务</string>
 
-    <string name="widget_timer_title">番茄钟</string>
-    <string name="widget_timer_start">开始</string>
-    <string name="widget_timer_pause">暂停</string>
-    <string name="widget_timer_reset">重置</string>
-    <string name="widget_timer_running">运行中</string>
-    <string name="widget_timer_paused">已暂停</string>
-    <string name="widget_timer_done">完成</string>
-    <string name="widget_timer_duration_format">时长：%1$d 分钟</string>
-
-    <string name="widget_settings_title">小组件设置</string>
-    <string name="widget_mode_title">小组件类型</string>
-    <string name="widget_mode_tasks">任务列表</string>
-    <string name="widget_mode_timer">番茄钟</string>
-    <string name="widget_task_count">显示任务数量</string>
-    <string name="widget_include_completed">包含已完成任务</string>
-    <string name="widget_show_deadline">显示截止时间</string>
-    <string name="widget_theme">主题</string>
-    <string name="widget_theme_system">跟随系统</string>
-    <string name="widget_theme_light">浅色</string>
-    <string name="widget_theme_dark">深色</string>
-    <string name="widget_timer_duration">番茄钟时长</string>
-    <string name="widget_timer_custom">自定义</string>
-    <string name="widget_timer_custom_hint">自定义分钟 (1-180)</string>
-    <string name="widget_save">保存设置</string>
+    <!-- Today Widget -->
+    <string name="widget_today_add">添加任务</string>
+    <string name="widget_today_mark_done">标记完成</string>
+    <string name="widget_today_empty">今天没有任务 🎉</string>
+    <string name="widget_today_extra_badge">+%1$d</string>
+    <string name="widget_today_am">上午</string>
+    <string name="widget_today_pm">下午</string>
 
     <!-- Reminder -->
     <string name="reminder_none">不提醒</string>

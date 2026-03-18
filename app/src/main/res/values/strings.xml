@@ -130,39 +130,9 @@
     <string name="error_category_icon_required">Vui lòng chọn biểu tượng</string>
 
     <!-- Home Widget -->
-    <string name="widget_title">Việc cần làm</string>
-    <string name="widget_add_task">Thêm nhanh</string>
-    <string name="widget_open_app">Mở ứng dụng</string>
-    <string name="widget_empty">Chưa có công việc</string>
-    <string name="widget_due_unscheduled">Chưa lên lịch</string>
-    <string name="widget_due_format">Hạn: %1$s</string>
     <string name="widget_description">Hiển thị nhanh các task chưa hoàn thành</string>
-    <string name="widget_task_completed_prefix">[x] %1$s</string>
 
-    <string name="widget_timer_title">Pomodoro</string>
-    <string name="widget_timer_start">Bắt đầu</string>
-    <string name="widget_timer_pause">Tạm dừng</string>
-    <string name="widget_timer_reset">Đặt lại</string>
-    <string name="widget_timer_running">Đang chạy</string>
-    <string name="widget_timer_paused">Đã tạm dừng</string>
-    <string name="widget_timer_done">Hoàn tất</string>
-    <string name="widget_timer_duration_format">Phiên: %1$d phút</string>
 
-    <string name="widget_settings_title">Cấu hình widget</string>
-    <string name="widget_mode_title">Loại widget</string>
-    <string name="widget_mode_tasks">Danh sách công việc</string>
-    <string name="widget_mode_timer">Pomodoro Timer</string>
-    <string name="widget_task_count">Số lượng task hiển thị</string>
-    <string name="widget_include_completed">Bao gồm task đã hoàn thành</string>
-    <string name="widget_show_deadline">Hiển thị deadline</string>
-    <string name="widget_theme">Chủ đề</string>
-    <string name="widget_theme_system">Theo hệ thống</string>
-    <string name="widget_theme_light">Sáng</string>
-    <string name="widget_theme_dark">Tối</string>
-    <string name="widget_timer_duration">Thời lượng Pomodoro</string>
-    <string name="widget_timer_custom">Tùy chỉnh</string>
-    <string name="widget_timer_custom_hint">Số phút tùy chỉnh (1-180)</string>
-    <string name="widget_save">Lưu cấu hình</string>
 
     <!-- Reminder -->
     <string name="reminder_none">Không nhắc</string>
@@ -174,4 +144,13 @@
     <string name="reminder_channel_name">Nhắc nhở deadline</string>
     <string name="reminder_channel_description">Thông báo trước thời điểm task đến hạn</string>
     <string name="reminder_notification_body">Task sẽ đến hạn %1$s</string>
+
+    <!-- Today Widget -->
+    <string name="widget_today_add">Thêm công việc</string>
+    <string name="widget_today_mark_done">Đánh dấu hoàn thành</string>
+    <string name="widget_today_empty">Không có việc hôm nay 🎉</string>
+    <string name="widget_today_extra_badge">+%1$d</string>
+    <string name="widget_today_overdue">Quá hạn</string>
+    <string name="widget_today_am">SA</string>
+    <string name="widget_today_pm">CH</string>
 </resources>

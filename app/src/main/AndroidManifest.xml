@@ -32,15 +32,18 @@
             android:exported="false"
             android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
 
-        <activity
-            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetConfigureActivity"
-            android:exported="true" />
 
         <receiver
-            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetProvider"
+            android:name="hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_CHANGED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="hcmute.edu.vn.ticktick.action.REFRESH_WIDGETS" />
+                <action android:name="hcmute.edu.vn.ticktick.action.MARK_TASK_DONE" />
             </intent-filter>
 
             <meta-data
@@ -64,7 +67,7 @@
         </receiver>
 
         <service
-            android:name="hcmute.edu.vn.ticktick.widget.TaskWidgetService"
+            android:name="hcmute.edu.vn.ticktick.widget.TodayTasksRemoteViewsService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>

@@ -163,8 +163,8 @@ public class DateUtils {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(dueDate);
 
-        int hour = 9;
-        int minute = 0;
+        int hour = 23;
+        int minute = 59;
         if (dueTime != null && dueTime.matches("\\d{2}:\\d{2}")) {
             String[] parts = dueTime.split(":");
             hour = Integer.parseInt(parts[0]);

@@ -38,7 +38,7 @@ import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.ViewDestination;
 import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
-import hcmute.edu.vn.ticktick.widget.TaskWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
 
 /**
  * Thin coordinator: binds views, wires collaborators together, handles back press.
@@ -366,14 +366,22 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         }
 
         String action = intent.getAction();
-        if (TaskWidgetProvider.ACTION_ADD_TASK.equals(action)) {
+        if (TodayTasksWidgetProvider.ACTION_OPEN_TODAY.equals(action)) {
+            closePanel();
+            railController.setActive(railBtnTasks);
+            navigateTo(ViewDestination.TODAY, -1, null);
+            consumeWidgetIntent(intent);
+            return;
+        }
+
+        if (TodayTasksWidgetProvider.ACTION_ADD_TASK.equals(action)) {
             showTaskDetail(null);
             consumeWidgetIntent(intent);
             return;
         }
 
-        if (TaskWidgetProvider.ACTION_OPEN_TASK_DETAIL.equals(action)) {
-            int taskId = intent.getIntExtra(TaskWidgetProvider.EXTRA_TASK_ID, -1);
+        if (TodayTasksWidgetProvider.ACTION_OPEN_TASK_DETAIL.equals(action)) {
+            int taskId = intent.getIntExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID, -1);
             if (taskId <= 0) {
                 consumeWidgetIntent(intent);
                 return;
@@ -398,7 +406,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
     private void consumeWidgetIntent(Intent intent) {
         intent.setAction(null);
-        intent.removeExtra(TaskWidgetProvider.EXTRA_TASK_ID);
+        intent.removeExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID);
     }
 
     private void maybeRequestNotificationPermission() {

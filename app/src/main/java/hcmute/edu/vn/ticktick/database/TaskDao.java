@@ -59,12 +59,15 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive AND completed = 0 ORDER BY dueDate ASC, createdAt ASC")
     LiveData<List<Task>> getTasksForDateRange(long startDate, long endDateExclusive);
 
-    @Query("SELECT * FROM tasks WHERE completed = 0 ORDER BY CASE WHEN dueDate = 0 THEN 1 ELSE 0 END, dueDate ASC, createdAt DESC LIMIT :limit")
-    List<Task> getWidgetTasks(int limit);
-
-    @Query("SELECT * FROM tasks ORDER BY completed ASC, CASE WHEN dueDate = 0 THEN 1 ELSE 0 END, dueDate ASC, createdAt DESC LIMIT :limit")
-    List<Task> getWidgetTasksAll(int limit);
-
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
     Task getTaskByIdSync(int taskId);
+
+    @Query("SELECT * FROM tasks WHERE completed = 0 AND dueDate >= :startOfToday AND dueDate < :endOfToday ORDER BY CASE WHEN dueTime IS NULL OR dueTime = '' THEN 1 ELSE 0 END, dueTime ASC, createdAt ASC LIMIT :limit")
+    List<Task> getTodayWidgetTasks(long startOfToday, long endOfToday, int limit);
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE completed = 0 AND dueDate >= :startOfToday AND dueDate < :endOfToday")
+    int countTodayWidgetTasks(long startOfToday, long endOfToday);
+
+    @Query("UPDATE tasks SET completed = 1 WHERE id = :taskId")
+    void markTaskCompleted(int taskId);
 }

@@ -52,6 +52,8 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
     private final List<Integer> selectedReminderMinutes = new ArrayList<>();
 
     private static final int[] REMINDER_PRESETS_MINUTES = new int[]{
+            5,
+            10,
             30,
             60,
             180,
