@@ -22,7 +22,6 @@ import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
 public class TaskReminderReceiver extends BroadcastReceiver {
 
     public static final String EXTRA_TASK_ID = "extra_task_id";
-    public static final String EXTRA_TASK_TITLE = "extra_task_title";
     public static final String EXTRA_MINUTES_BEFORE = "extra_minutes_before";
 
     private static final String CHANNEL_ID = "deadline_reminders";

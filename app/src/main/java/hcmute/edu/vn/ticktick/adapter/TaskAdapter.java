@@ -176,16 +176,17 @@ public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Date/Time display
             String displayText = DateUtils.getDisplayDateOrTime(task.getDueDate(), task.getDueTime());
+            long dueDateTimeMillis = DateUtils.getDueDateTimeMillis(task.getDueDate(), task.getDueTime());
+            boolean isOverdue = !task.isCompleted() && dueDateTimeMillis > 0 && dueDateTimeMillis < System.currentTimeMillis();
             if (!displayText.isEmpty()) {
-                tvTime.setText(displayText);
-                tvTime.setVisibility(View.VISIBLE);
-
-                // Color overdue tasks red
-                if (task.getDueDate() > 0 && task.getDueDate() < System.currentTimeMillis() && !task.isCompleted()) {
+                if (isOverdue) {
+                    tvTime.setText(itemView.getContext().getString(R.string.task_overdue_with_due, displayText));
                     tvTime.setTextColor(itemView.getContext().getResources().getColor(R.color.overdue, null));
                 } else {
+                    tvTime.setText(displayText);
                     tvTime.setTextColor(itemView.getContext().getResources().getColor(R.color.text_on_primary, null));
                 }
+                tvTime.setVisibility(View.VISIBLE);
             } else {
                 tvTime.setVisibility(View.GONE);
             }

@@ -68,6 +68,9 @@ public interface TaskDao {
     @Query("SELECT COUNT(*) FROM tasks WHERE completed = 0 AND dueDate >= :startOfToday AND dueDate < :endOfToday")
     int countTodayWidgetTasks(long startOfToday, long endOfToday);
 
+    @Query("SELECT * FROM tasks WHERE completed = 0 AND dueDate > 0 ORDER BY dueDate ASC, CASE WHEN dueTime IS NULL OR dueTime = '' THEN 1 ELSE 0 END, dueTime ASC, createdAt ASC")
+    List<Task> getWidgetActiveScheduledTasks();
+
     @Query("UPDATE tasks SET completed = 1 WHERE id = :taskId")
     void markTaskCompleted(int taskId);
 }

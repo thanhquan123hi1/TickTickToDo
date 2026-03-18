@@ -1,6 +1,5 @@
 package hcmute.edu.vn.ticktick.widget
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +9,8 @@ import android.widget.RemoteViewsService
 import hcmute.edu.vn.ticktick.LanguageManager
 import hcmute.edu.vn.ticktick.R
 import hcmute.edu.vn.ticktick.database.AppDatabase
-import java.util.Calendar
+import hcmute.edu.vn.ticktick.database.Task
+import hcmute.edu.vn.ticktick.ui.DateUtils
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -29,12 +29,15 @@ class TodayTasksRemoteViewsFactory(
 
     override fun onDataSetChanged() {
         tasks.clear()
-        val (startOfToday, endOfToday) = todayBounds()
+        val now = System.currentTimeMillis()
 
         try {
             val future = AppDatabase.databaseWriteExecutor.submit<List<TodayWidgetTaskItem>> {
                 appDatabase.taskDao()
-                    .getTodayWidgetTasks(startOfToday, endOfToday, maxVisibleTasks)
+                    .getWidgetActiveScheduledTasks()
+                    .asSequence()
+                    .filter { task -> isNotOverdue(task, now) }
+                    .take(maxVisibleTasks)
                     .map { task ->
                         TodayWidgetTaskItem(
                             taskId = task.id,
@@ -42,6 +45,7 @@ class TodayTasksRemoteViewsFactory(
                             dueTime = task.dueTime?.takeIf { it.isNotBlank() }
                         )
                     }
+                    .toList()
             }
             tasks.addAll(future.get(4, TimeUnit.SECONDS))
         } catch (_: Exception) {
@@ -93,17 +97,6 @@ class TodayTasksRemoteViewsFactory(
 
     override fun hasStableIds(): Boolean = true
 
-    private fun todayBounds(): Pair<Long, Long> {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        val start = calendar.timeInMillis
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        return start to calendar.timeInMillis
-    }
-
     private fun normalizeDueTime(raw: String?): String {
         val value = raw?.trim().orEmpty()
         if (value.isBlank()) return ""
@@ -133,6 +126,11 @@ class TodayTasksRemoteViewsFactory(
         val locale = localizedContext.resources.configuration.locales[0] ?: Locale.getDefault()
         val language = locale.language.lowercase(Locale.ROOT)
         return language != "en"
+    }
+
+    private fun isNotOverdue(task: Task, now: Long): Boolean {
+        val dueAt = DateUtils.getDueDateTimeMillis(task.dueDate, task.dueTime)
+        return !task.isCompleted && dueAt >= now
     }
 
     companion object {

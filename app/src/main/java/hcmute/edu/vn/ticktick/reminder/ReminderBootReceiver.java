@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import hcmute.edu.vn.ticktick.database.AppDatabase;
+import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
 
 public class ReminderBootReceiver extends BroadcastReceiver {
 
@@ -18,10 +19,11 @@ public class ReminderBootReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)
                 || Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(action)
                 || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)) {
-            AppDatabase.databaseWriteExecutor.execute(
-                    () -> ReminderScheduler.rescheduleAllFromDatabase(context.getApplicationContext())
-            );
+            Context appContext = context.getApplicationContext();
+            AppDatabase.databaseWriteExecutor.execute(() -> {
+                ReminderScheduler.rescheduleAllFromDatabase(appContext);
+                TodayTasksWidgetProvider.refreshAllWidgets(appContext);
+            });
         }
     }
 }
-

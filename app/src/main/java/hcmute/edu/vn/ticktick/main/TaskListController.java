@@ -5,10 +5,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import hcmute.edu.vn.ticktick.adapter.TaskAdapter;
 import hcmute.edu.vn.ticktick.database.Task;
+import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
 
 /**
@@ -57,7 +60,7 @@ public class TaskListController {
     public void loadAllTasks(String sectionTitle) {
         clearActiveSources();
         observeSource(viewModel.getAllActiveTasks(), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
+            adapter.setFlatData(sectionTitle, sortByNearestDue(tasks));
             notifyEmpty();
         });
     }
@@ -71,19 +74,19 @@ public class TaskListController {
 
         observeSource(viewModel.getTasksForToday(), tasks -> {
             today.clear();
-            if (tasks != null) today.addAll(tasks);
+            today.addAll(sortByNearestDue(tasks));
             adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
         observeSource(viewModel.getTasksForTomorrow(), tasks -> {
             tomorrow.clear();
-            if (tasks != null) tomorrow.addAll(tasks);
+            tomorrow.addAll(sortByNearestDue(tasks));
             adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
         observeSource(viewModel.getTasksUpcoming(), tasks -> {
             upcoming.clear();
-            if (tasks != null) upcoming.addAll(tasks);
+            upcoming.addAll(sortByNearestDue(tasks));
             adapter.setGroupedData(todayTitle, today, tomorrowTitle, tomorrow, upcomingTitle, upcoming);
             notifyEmpty();
         });
@@ -92,7 +95,7 @@ public class TaskListController {
     public void loadToday(String sectionTitle) {
         clearActiveSources();
         observeSource(viewModel.getTasksForToday(), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
+            adapter.setFlatData(sectionTitle, sortByNearestDue(tasks));
             notifyEmpty();
         });
     }
@@ -100,7 +103,7 @@ public class TaskListController {
     public void loadCategory(int categoryId, String sectionTitle) {
         clearActiveSources();
         observeSource(viewModel.getTasksByCategory(categoryId), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
+            adapter.setFlatData(sectionTitle, sortByNearestDue(tasks));
             notifyEmpty();
         });
     }
@@ -108,7 +111,7 @@ public class TaskListController {
     public void loadThisWeek(String sectionTitle) {
         clearActiveSources();
         observeSource(viewModel.getTasksThisWeek(), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
+            adapter.setFlatData(sectionTitle, sortByNearestDue(tasks));
             notifyEmpty();
         });
     }
@@ -132,7 +135,7 @@ public class TaskListController {
     public void loadDateRange(String sectionTitle, long startDate, long endDateExclusive) {
         clearActiveSources();
         observeSource(viewModel.getTasksForDateRange(startDate, endDateExclusive), tasks -> {
-            adapter.setFlatData(sectionTitle, tasks);
+            adapter.setFlatData(sectionTitle, sortByNearestDue(tasks));
             notifyEmpty();
         });
     }
@@ -155,5 +158,21 @@ public class TaskListController {
 
     private void notifyEmpty() {
         emptyStateListener.onEmptyStateChanged(adapter.isEmpty());
+    }
+
+    private List<Task> sortByNearestDue(List<Task> tasks) {
+        if (tasks == null || tasks.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Task> sorted = new ArrayList<>(tasks);
+        sorted.sort(Comparator.comparingLong(task -> {
+            long dueDate = task.getDueDate();
+            if (dueDate <= 0) {
+                return Long.MAX_VALUE;
+            }
+            return DateUtils.getDueDateTimeMillis(dueDate, task.getDueTime());
+        }));
+        return sorted;
     }
 }

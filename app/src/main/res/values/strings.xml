@@ -151,6 +151,7 @@
     <string name="widget_today_empty">Không có việc hôm nay 🎉</string>
     <string name="widget_today_extra_badge">+%1$d</string>
     <string name="widget_today_overdue">Quá hạn</string>
+    <string name="task_overdue_with_due">Quá hạn - %1$s</string>
     <string name="widget_today_am">SA</string>
     <string name="widget_today_pm">CH</string>
 </resources>
