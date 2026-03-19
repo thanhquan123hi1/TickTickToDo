@@ -105,6 +105,15 @@
     <string name="countdown_finished_message">Thời gian đếm ngược đã kết thúc.</string>
     <string name="countdown_presets">Chọn nhanh:</string>
     <string name="btn_ok">OK</string>
+    <string name="countdown_stop">Dừng</string>
+    <string name="countdown_status_idle">Sẵn sàng bắt đầu</string>
+    <string name="countdown_back">Quay lại</string>
+    <string name="countdown_permission_required">Cần quyền thông báo để chạy countdown nền.</string>
+    <string name="countdown_notification_title">Focus Timer</string>
+    <string name="countdown_notification_running">Đang chạy: %1$s</string>
+    <string name="countdown_notification_paused">Đã tạm dừng: %1$s</string>
+    <string name="countdown_notification_channel_name">Countdown timer</string>
+    <string name="countdown_notification_channel_description">Hiển thị trạng thái timer khi chạy nền</string>
 
     <!-- Language Settings -->
     <string name="language_title">Chọn ngôn ngữ</string>

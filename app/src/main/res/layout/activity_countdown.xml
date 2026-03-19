@@ -1,277 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="@color/countdown_background"
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="20dp">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/countdown_back"
+        android:padding="8dp"
+        android:src="@drawable/ic_countdown_back"
+        android:tint="@color/countdown_text_primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_header_clock"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+        android:text="09:55"
+        android:textColor="@color/countdown_text_primary"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_back" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_countdown"
+    <FrameLayout
+        android:id="@+id/layout_ring_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@id/layout_actions"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back">
+
+        <hcmute.edu.vn.ticktick.countdown.CountdownRingView
+            android:id="@+id/view_countdown_ring"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary"
-            app:layout_anchor="@+id/appBarLayout"
-            app:layout_anchorGravity="center"
-            app:navigationIconTint="@color/text_on_primary"
-            app:title="@string/nav_countdown"
-            app:titleTextColor="@color/text_on_primary" />
-    </com.google.android.material.appbar.AppBarLayout>
-    <!-- vertical là dọc -->
-    <!-- horizontal là ngang -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent" />
 
-        <!-- Input area -->
         <LinearLayout
-            android:id="@+id/layout_input"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="28dp"
-            android:gravity="center_horizontal">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_timer_display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/countdown_set_time"
-                android:textSize="18sp"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold"
-                android:layout_marginBottom="24dp" />
+                android:fontFamily="monospace"
+                android:text="05:00"
+                android:textColor="@color/countdown_text_primary"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_timer_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/countdown_status_idle"
+                android:textColor="@color/countdown_text_secondary"
+                android:textSize="14sp" />
 
             <LinearLayout
+                android:id="@+id/layout_inline_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <!-- Hours -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <NumberPicker
-                        android:id="@+id/picker_hours"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/countdown_hours"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" : "
-                    android:textSize="28sp"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="14dp" />
-
-                <!-- Minutes -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <NumberPicker
                         android:id="@+id/picker_minutes"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="74dp"
+                        android:layout_height="100dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/countdown_minutes"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp" />
+                        android:textColor="@color/countdown_text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" : "
-                    android:textSize="28sp"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="14dp" />
-
-                <!-- Seconds -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <NumberPicker
                         android:id="@+id/picker_seconds"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="74dp"
+                        android:layout_height="100dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/countdown_seconds"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp" />
+                        android:textColor="@color/countdown_text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </FrameLayout>
 
-        <!-- Timer Display -->
-        <TextView
-            android:id="@+id/tv_timer_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00:00"
-            android:textSize="64sp"
-            android:textColor="@color/nav_item_icon_tint"
-            android:textStyle="bold"
-            android:fontFamily="monospace"
-            android:layout_marginTop="24dp"
-            android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/layout_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Progress bar -->
-        <ProgressBar
-            android:id="@+id/progress_countdown"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="24dp"
-            android:max="100"
-            android:progress="100"
-            android:progressTint="@color/accent"
-            android:progressBackgroundTint="@color/divider"
-            android:visibility="gone" />
-
-        <!-- Status text -->
-        <TextView
-            android:id="@+id/tv_timer_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
-        <!-- Buttons -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginTop="32dp">
+            android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/countdown_start"
-                android:textSize="16sp"
-                android:textColor="@color/text_on_primary"
-                app:backgroundTint="@color/accent"
-                android:layout_marginEnd="12dp" />
+                android:id="@+id/btn_secondary_action"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text=""
+                app:backgroundTint="@color/countdown_control_secondary"
+                app:cornerRadius="31dp"
+                app:icon="@drawable/ic_countdown_stop"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/countdown_ring_progress" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_pause"
+            <TextView
+                android:id="@+id/tv_secondary_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/countdown_pause"
-                android:textSize="16sp"
-                app:backgroundTint="@color/priority_medium"
-                android:layout_marginEnd="12dp"
-                android:visibility="gone" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_resume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/countdown_resume"
-                android:textSize="16sp"
-                app:backgroundTint="@color/completed"
-                android:layout_marginEnd="12dp"
-                android:visibility="gone" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_reset"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/countdown_reset"
-                android:textSize="16sp"
-                android:textColor="@color/text_secondary"
-                android:visibility="gone" />
+                android:layout_marginTop="8dp"
+                android:text="@string/countdown_stop"
+                android:textColor="@color/countdown_text_secondary"
+                android:textSize="13sp" />
         </LinearLayout>
 
-        <!-- Preset buttons -->
-        <TextView
-            android:id="@+id/tv_preset_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/countdown_presets"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-
         <LinearLayout
-            android:id="@+id/layout_presets"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_1min"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_primary_action"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text=""
+                app:backgroundTint="@color/countdown_ring_progress"
+                app:cornerRadius="31dp"
+                app:icon="@drawable/ic_countdown_play"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/countdown_control_icon_on_primary" />
+
+            <TextView
+                android:id="@+id/tv_primary_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 phút"
-                style="@style/Widget.Material3.Chip.Suggestion" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_5min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5 phút"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.Material3.Chip.Suggestion" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_10min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 phút"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.Material3.Chip.Suggestion" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_25min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="25 phút"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.Material3.Chip.Suggestion" />
+                android:layout_marginTop="8dp"
+                android:text="@string/countdown_start"
+                android:textColor="@color/countdown_text_secondary"
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

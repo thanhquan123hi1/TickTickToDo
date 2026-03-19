@@ -98,13 +98,22 @@
     <string name="countdown_pause">暂停</string>
     <string name="countdown_resume">继续</string>
     <string name="countdown_reset">重置</string>
-    <string name="countdown_running">运行中...</string>
+    <string name="countdown_running">运行中&#8230;</string>
     <string name="countdown_paused">已暂停</string>
     <string name="countdown_finished">时间到！</string>
     <string name="countdown_finished_title">时间到！</string>
     <string name="countdown_finished_message">倒计时已结束。</string>
     <string name="countdown_presets">快速选择：</string>
     <string name="btn_ok">确定</string>
+    <string name="countdown_stop">停止</string>
+    <string name="countdown_status_idle">准备开始</string>
+    <string name="countdown_back">返回</string>
+    <string name="countdown_permission_required">后台倒计时需要通知权限。</string>
+    <string name="countdown_notification_title">Focus Timer</string>
+    <string name="countdown_notification_running">运行中：%1$s</string>
+    <string name="countdown_notification_paused">已暂停：%1$s</string>
+    <string name="countdown_notification_channel_name">倒计时通知</string>
+    <string name="countdown_notification_channel_description">应用在后台时显示倒计时状态</string>
 
     <!-- Language Settings -->
     <string name="language_title">选择语言</string>
@@ -137,6 +146,8 @@
     <string name="widget_today_mark_done">标记完成</string>
     <string name="widget_today_empty">今天没有任务 🎉</string>
     <string name="widget_today_extra_badge">+%1$d</string>
+    <string name="widget_today_overdue">已过期</string>
+    <string name="task_overdue_with_due">已过期 - %1$s</string>
     <string name="widget_today_am">上午</string>
     <string name="widget_today_pm">下午</string>
 

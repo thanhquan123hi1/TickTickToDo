@@ -98,13 +98,22 @@
     <string name="countdown_pause">Pause</string>
     <string name="countdown_resume">Resume</string>
     <string name="countdown_reset">Reset</string>
-    <string name="countdown_running">Running...</string>
+    <string name="countdown_running">Running&#8230;</string>
     <string name="countdown_paused">Paused</string>
     <string name="countdown_finished">Time\'s Up!</string>
     <string name="countdown_finished_title">Time\'s Up!</string>
     <string name="countdown_finished_message">The countdown has ended.</string>
     <string name="countdown_presets">Quick Select:</string>
     <string name="btn_ok">OK</string>
+    <string name="countdown_stop">Stop</string>
+    <string name="countdown_status_idle">Ready to start</string>
+    <string name="countdown_back">Back</string>
+    <string name="countdown_permission_required">Notification permission is required for background countdown.</string>
+    <string name="countdown_notification_title">Focus Timer</string>
+    <string name="countdown_notification_running">Running: %1$s</string>
+    <string name="countdown_notification_paused">Paused: %1$s</string>
+    <string name="countdown_notification_channel_name">Countdown timer</string>
+    <string name="countdown_notification_channel_description">Shows countdown status while app is in background</string>
 
     <!-- Language Settings -->
     <string name="language_title">Select Language</string>
@@ -137,6 +146,8 @@
     <string name="widget_today_mark_done">Mark as done</string>
     <string name="widget_today_empty">No tasks today 🎉</string>
     <string name="widget_today_extra_badge">+%1$d</string>
+    <string name="widget_today_overdue">Overdue</string>
+    <string name="task_overdue_with_due">Overdue - %1$s</string>
     <string name="widget_today_am">AM</string>
     <string name="widget_today_pm">PM</string>
 

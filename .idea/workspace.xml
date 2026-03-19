@@ -35,6 +35,16 @@
           <theme>@style/Theme.TickTick</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_widget_add_button.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_widget_badge.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_add.xml">
         <config>
           <theme>@style/Theme.TickTick</theme>
@@ -51,6 +61,26 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_completed.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_back.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_pause.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_play.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_stop.xml">
         <config>
           <theme>@style/Theme.TickTick</theme>
         </config>
@@ -86,6 +116,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_week.xml">
+        <config>
+          <theme>@style/Theme.TickTick</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_widget_checkbox_unchecked.xml">
         <config>
           <theme>@style/Theme.TickTick</theme>
         </config>
@@ -162,6 +197,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ed68c7f-827d-4cfc-ab56-c4bd8b5a801e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/countdown/CountdownForegroundService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/countdown/CountdownNotificationHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/countdown/CountdownRingView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/countdown/CountdownState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_back.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_pause.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_play.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_countdown_stop.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/9.1.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.1.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/9.1.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.1.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/9.1.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.1.0/fileHashes/fileHashes.bin" afterDir="false" />
@@ -169,15 +212,17 @@
       <change beforePath="$PROJECT_DIR$/.gradle/9.1.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.1.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/adapter/TaskAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/adapter/TaskAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/database/TaskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/database/TaskDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/main/TaskListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/main/TaskListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/reminder/ReminderBootReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/reminder/ReminderBootReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/reminder/TaskReminderReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/reminder/TaskReminderReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/widget/TodayTasksRemoteViewsFactory.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/widget/TodayTasksRemoteViewsFactory.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/widget/TodayTasksWidgetProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/widget/TodayTasksWidgetProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/CountdownActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hcmute/edu/vn/ticktick/CountdownActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_countdown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_countdown.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,8 +243,8 @@
   <component name="CopilotUserSelectedModel">
     <selectedModels>
       <entry key="edit-panel" value="GPT-5 mini" />
-      <entry key="chat-panel" value="GPT-5.3-Codex" />
-      <entry key="agent-panel" value="GPT-5.3-Codex" />
+      <entry key="chat-panel" value="GPT-5.2" />
+      <entry key="agent-panel" value="GPT-5.2" />
     </selectedModels>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[LocalEmulator::path=C:\Users\phung\.android\avd\Pixel_9_Pro_XL_2.avd]" />
@@ -242,7 +287,7 @@
 }</component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\phung\.gradle\wrapper\dists\gradle-9.1.0-bin\9agqghryom9wkf8r80qlhnts3\gradle-9.1.0" javaHome="C:\Program Files\Android\Android Studio\jbr" gradleVersion="9.1.0" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="_Designer_Tab" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4

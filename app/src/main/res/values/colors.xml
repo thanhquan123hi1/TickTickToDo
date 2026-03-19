@@ -26,4 +26,12 @@
     <color name="widget_calendar_accent">#FFE64A19</color>
     <color name="widget_calendar_text">#FF212121</color>
     <color name="widget_calendar_muted">#FF9E9E9E</color>
+    <color name="countdown_background">#FFF7F0E6</color>
+    <color name="countdown_card_surface">#FFF6EBDD</color>
+    <color name="countdown_text_primary">#FF2A2521</color>
+    <color name="countdown_text_secondary">#FF7A6E63</color>
+    <color name="countdown_ring_track">#FFF0DCCB</color>
+    <color name="countdown_ring_progress">#FFE2674F</color>
+    <color name="countdown_control_secondary">#FFFFFFFF</color>
+    <color name="countdown_control_icon_on_primary">#FFFFFFFF</color>
 </resources>
