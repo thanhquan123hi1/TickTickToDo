@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_contacts">Contacts</string>
+    <string name="contacts_search_hint">Search by name or phone number</string>
+    <string name="contacts_permission_message">Contacts permission is needed to load contacts and open call or SMS actions.</string>
+    <string name="contacts_permission_denied">Contacts permission was denied. You can enable it later in app settings.</string>
+    <string name="contacts_permission_button">Grant contacts permission</string>
+    <string name="contacts_empty">No matching contacts found</string>
+    <string name="contacts_loading_failed">Unable to load contacts</string>
+    <string name="contacts_unknown_name">No name</string>
+    <string name="contacts_phone_count">%1$s (+%2$d more)</string>
+    <string name="contacts_no_phone">This contact has no phone number</string>
+    <string name="contacts_choose_number">Choose a phone number</string>
+    <string name="contact_action_call">Call</string>
+    <string name="contact_action_sms">SMS</string>
+    <string name="contacts_call_unavailable">No dialer app found</string>
+    <string name="contacts_sms_unavailable">No SMS app found</string>
+</resources>
+

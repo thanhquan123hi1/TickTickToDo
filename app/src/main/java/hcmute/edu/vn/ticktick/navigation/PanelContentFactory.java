@@ -18,6 +18,7 @@ import hcmute.edu.vn.ticktick.CalendarActivity;
 import hcmute.edu.vn.ticktick.CountdownActivity;
 import hcmute.edu.vn.ticktick.LanguageSelectionDialog;
 import hcmute.edu.vn.ticktick.R;
+import hcmute.edu.vn.ticktick.contacts.ui.ContactsActivity;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Category;
 import hcmute.edu.vn.ticktick.ui.AddCategoryDialog;
@@ -130,6 +131,10 @@ public class PanelContentFactory {
         addItem(R.drawable.ic_calendar, R.string.nav_calendar, () -> {
             callback.closePanel();
             context.startActivity(new Intent(context, CalendarActivity.class));
+        });
+        addItem(R.drawable.ic_list, R.string.nav_contacts, () -> {
+            callback.closePanel();
+            context.startActivity(new Intent(context, ContactsActivity.class));
         });
     }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_contacts">Danh bạ</string>
+    <string name="contacts_search_hint">Tìm theo tên hoặc số điện thoại</string>
+    <string name="contacts_permission_message">Cần quyền danh bạ để hiển thị liên hệ và hỗ trợ gọi/nhắn tin.</string>
+    <string name="contacts_permission_denied">Bạn đã từ chối quyền danh bạ. Bạn có thể cấp lại quyền trong cài đặt ứng dụng.</string>
+    <string name="contacts_permission_button">Cấp quyền danh bạ</string>
+    <string name="contacts_empty">Không tìm thấy liên hệ phù hợp</string>
+    <string name="contacts_loading_failed">Không thể tải danh bạ</string>
+    <string name="contacts_unknown_name">Không có tên</string>
+    <string name="contacts_phone_count">%1$s (+%2$d số khác)</string>
+    <string name="contacts_no_phone">Liên hệ không có số điện thoại</string>
+    <string name="contacts_choose_number">Chọn số điện thoại</string>
+    <string name="contact_action_call">Gọi điện</string>
+    <string name="contact_action_sms">Nhắn tin</string>
+    <string name="contacts_call_unavailable">Không tìm thấy ứng dụng gọi điện</string>
+    <string name="contacts_sms_unavailable">Không tìm thấy ứng dụng nhắn tin</string>
+</resources>
