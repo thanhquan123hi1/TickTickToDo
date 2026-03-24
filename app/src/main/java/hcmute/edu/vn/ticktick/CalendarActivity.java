@@ -53,10 +53,11 @@ public class CalendarActivity extends BaseActivity {
     private LiveData<List<Task>> currentDateSource;
     private LiveData<List<Long>> monthDaysSource;
 
+    private static final Locale VIETNAM_LOCALE = new Locale("vi", "VN");
     private static final SimpleDateFormat DISPLAY_FORMAT =
-            new SimpleDateFormat("EEEE, dd/MM/yyyy", Locale.of("vi", "VN"));
+            new SimpleDateFormat("EEEE, dd/MM/yyyy", VIETNAM_LOCALE);
     private static final SimpleDateFormat MONTH_LABEL_FORMAT =
-            new SimpleDateFormat("MMMM yyyy", Locale.of("vi", "VN"));
+            new SimpleDateFormat("MMMM yyyy", VIETNAM_LOCALE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

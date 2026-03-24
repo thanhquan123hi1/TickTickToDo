@@ -25,10 +25,11 @@ public class SchoolCalendarAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_EVENT = 1;
 
+    private static final Locale VIETNAM_LOCALE = new Locale("vi", "VN");
     private static final DateTimeFormatter TIME_FORMAT =
-            DateTimeFormatter.ofPattern("HH:mm", Locale.of("vi", "VN"));
+            DateTimeFormatter.ofPattern("HH:mm", VIETNAM_LOCALE);
     private static final DateTimeFormatter DATE_TIME_FORMAT =
-            DateTimeFormatter.ofPattern("dd/MM HH:mm", Locale.of("vi", "VN"));
+            DateTimeFormatter.ofPattern("dd/MM HH:mm", VIETNAM_LOCALE);
 
     private final List<Object> items = new ArrayList<>();
     private OnItemClickListener listener;

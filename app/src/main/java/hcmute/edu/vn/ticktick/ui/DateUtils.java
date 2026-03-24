@@ -14,7 +14,7 @@ import hcmute.edu.vn.ticktick.R;
  */
 public class DateUtils {
 
-    private static final Locale VIETNAM_LOCALE = Locale.of("vi", "VN");
+    private static final Locale VIETNAM_LOCALE = new Locale("vi", "VN");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", VIETNAM_LOCALE);
 
     /**
