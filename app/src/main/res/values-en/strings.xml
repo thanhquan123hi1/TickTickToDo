@@ -161,4 +161,39 @@
     <string name="reminder_channel_name">Deadline reminders</string>
     <string name="reminder_channel_description">Notification before task due time</string>
     <string name="reminder_notification_body">Task is due %1$s</string>
+
+    <!-- School Calendar -->
+    <string name="nav_school_calendar">School Calendar</string>
+    <string name="school_calendar_title">School Calendar</string>
+    <string name="school_calendar_refresh">Refresh</string>
+    <string name="school_calendar_syncing">Syncing...</string>
+    <string name="school_calendar_last_synced">Last synced: %1$s</string>
+    <string name="school_calendar_sync_status_with_warning">Last synced: %1$s - latest sync failed</string>
+    <string name="school_calendar_not_synced_yet">Not synced yet</string>
+    <string name="school_calendar_empty">No School Calendar data yet</string>
+    <string name="school_calendar_empty_error">Unable to sync School Calendar</string>
+    <string name="school_calendar_showing_cached_data">Cannot update right now, showing latest cached data</string>
+    <string name="school_calendar_sync_failed_generic">Sync failed</string>
+    <string name="school_calendar_settings_title">School Calendar Settings</string>
+    <string name="school_calendar_ics_url_hint">ICS URL</string>
+    <string name="school_calendar_restore_default">Restore Default</string>
+    <string name="school_calendar_url_saved">School Calendar URL saved</string>
+    <string name="school_calendar_default_restored">Default URL restored</string>
+    <string name="school_calendar_error_invalid_url">Invalid ICS URL</string>
+    <string name="school_calendar_error_sync_failed">Unable to sync School Calendar</string>
+    <string name="school_calendar_overdue_days">Overdue by %1$d day(s)</string>
+    <string name="school_calendar_time_unknown">Unknown time</string>
+    <string name="school_calendar_default_ics_url">https://moodle.example.com/calendar/export_execute.php?preset_what=all&amp;preset_time=recentupcoming</string>
+    <string name="school_event_detail_title">School Event Details</string>
+    <string name="school_event_detail_subtitle">Edit event and link it to a normal task</string>
+    <string name="btn_export_task">Export to Task</string>
+    <string name="btn_open_task">Open Task</string>
+    <string name="msg_exported_successfully">Exported to normal task</string>
+    <string name="msg_exported_already_exists">This event was already exported</string>
+    <string name="school_event_status_not_exported">Not exported</string>
+    <string name="school_event_status_exported">Exported</string>
+    <string name="school_event_saved">Event changes saved</string>
+    <string name="school_event_deleted">School Calendar event deleted</string>
+    <string name="school_event_delete_title">Delete event?</string>
+    <string name="school_event_delete_message">This removes the event from School Calendar. Exported normal task (if any) is kept.</string>
 </resources>

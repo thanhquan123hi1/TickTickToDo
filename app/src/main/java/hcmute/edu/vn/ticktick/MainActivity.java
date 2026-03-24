@@ -39,6 +39,7 @@ import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
 import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
+import hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarSyncScheduler;
 
 /**
  * Thin coordinator: binds views, wires collaborators together, handles back press.
@@ -64,6 +65,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
     // --- Rail buttons ---
     // Nhom nut dieu huong ben trai (id: rail_btn_* trong activity_main.xml).
     private ImageButton railBtnTasks, railBtnCalendar, railBtnFilter;
+    private ImageButton railBtnSchoolCalendar;
     private ImageButton railBtnTools, railBtnCompleted, railBtnSettings;
 
     // --- Collaborators ---
@@ -92,6 +94,8 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SchoolCalendarSyncScheduler.ensurePeriodicSync(getApplicationContext());
 
         // Khoi tao giao dien va gan hanh vi cho tung khoi chuc nang.
         bindViews();
@@ -217,6 +221,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
         railBtnTasks = findViewById(R.id.rail_btn_tasks);
         railBtnCalendar = findViewById(R.id.rail_btn_calendar);
+        railBtnSchoolCalendar = findViewById(R.id.rail_btn_school_calendar);
         railBtnFilter = findViewById(R.id.rail_btn_filter);
         railBtnTools = findViewById(R.id.rail_btn_tools);
         railBtnCompleted = findViewById(R.id.rail_btn_completed);
@@ -235,7 +240,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
         navPanel = new NavPanel(this);
         railController = new NavRailController(
-                railBtnTasks, railBtnCalendar, railBtnFilter,
+                railBtnTasks, railBtnCalendar, railBtnSchoolCalendar, railBtnFilter,
                 railBtnTools, railBtnCompleted, railBtnSettings);
         panelFactory = new PanelContentFactory(this, panelContent, tvPanelTitle, this);
         taskListController = new TaskListController(
@@ -275,6 +280,11 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         // Moi nut rail mo 1 panel noi dung tuong ung.
         railBtnTasks.setOnClickListener(v -> togglePanel(railBtnTasks, panelFactory::buildTasksPanel));
         railBtnCalendar.setOnClickListener(v -> togglePanel(railBtnCalendar, panelFactory::buildCalendarPanel));
+        railBtnSchoolCalendar.setOnClickListener(v -> {
+            closePanel();
+            railController.setActive(railBtnSchoolCalendar);
+            startActivity(new Intent(this, hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarActivity.class));
+        });
         railBtnFilter.setOnClickListener(v -> togglePanel(railBtnFilter, panelFactory::buildFilterPanel));
         railBtnTools.setOnClickListener(v -> togglePanel(railBtnTools, panelFactory::buildToolsPanel));
         railBtnSettings.setOnClickListener(v -> togglePanel(railBtnSettings, panelFactory::buildSettingsPanel));
@@ -422,3 +432,4 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
                 REQUEST_NOTIFICATIONS);
     }
 }
+

@@ -12,7 +12,10 @@ import androidx.room.PrimaryKey;
                 childColumns = "categoryId",
                 onDelete = ForeignKey.SET_NULL
         ),
-        indices = @Index("categoryId"))
+        indices = {
+                @Index("categoryId"),
+                @Index(value = "linkedSchoolEventUid", unique = true)
+        })
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
@@ -26,6 +29,7 @@ public class Task {
     private Integer categoryId; // id_danh_muc
     private boolean completed;  // da_xong
     private long createdAt;
+    private String linkedSchoolEventUid;
 
     public Task() {
         this.createdAt = System.currentTimeMillis();
@@ -58,4 +62,7 @@ public class Task {
 
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+
+    public String getLinkedSchoolEventUid() { return linkedSchoolEventUid; }
+    public void setLinkedSchoolEventUid(String linkedSchoolEventUid) { this.linkedSchoolEventUid = linkedSchoolEventUid; }
 }
