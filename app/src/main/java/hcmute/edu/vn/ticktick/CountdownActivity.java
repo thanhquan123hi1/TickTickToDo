@@ -26,10 +26,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import hcmute.edu.vn.ticktick.countdown.AlarmPlayer;
+import hcmute.edu.vn.ticktick.countdown.CountdownSoundPreferences;
 import hcmute.edu.vn.ticktick.countdown.CountdownForegroundService;
 import hcmute.edu.vn.ticktick.countdown.CountdownNotificationHelper;
 import hcmute.edu.vn.ticktick.countdown.CountdownRingView;
 import hcmute.edu.vn.ticktick.countdown.CountdownState;
+import hcmute.edu.vn.ticktick.music.MusicPlaylistActivity;
 
 public class CountdownActivity extends BaseActivity {
 
@@ -45,8 +47,10 @@ public class CountdownActivity extends BaseActivity {
     private View layoutInlinePicker;
     private NumberPicker pickerMinutes;
     private NumberPicker pickerSeconds;
+    private TextView tvSoundValue;
 
     private AlarmPlayer alarmPlayer;
+    private CountdownSoundPreferences countdownSoundPreferences;
     private CountdownState currentState = CountdownState.idle();
     private long selectedDurationMillis = 5 * 60 * 1000L;
     private boolean isApplyingPickerValues = false;
@@ -82,6 +86,9 @@ public class CountdownActivity extends BaseActivity {
                 }
             });
 
+    private final ActivityResultLauncher<Intent> soundPickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> refreshSoundLabel());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +99,8 @@ public class CountdownActivity extends BaseActivity {
         setupActions();
 
         alarmPlayer = new AlarmPlayer(this);
+        countdownSoundPreferences = new CountdownSoundPreferences(this);
+        refreshSoundLabel();
     }
 
     @Override
@@ -104,6 +113,7 @@ public class CountdownActivity extends BaseActivity {
         CountdownState persistedState = CountdownForegroundService.readPersistedState(this);
         syncSelectedDurationWithState(persistedState);
         renderState(persistedState);
+        refreshSoundLabel();
     }
 
     @Override
@@ -136,6 +146,7 @@ public class CountdownActivity extends BaseActivity {
         layoutInlinePicker = findViewById(R.id.layout_inline_picker);
         pickerMinutes = findViewById(R.id.picker_minutes);
         pickerSeconds = findViewById(R.id.picker_seconds);
+        tvSoundValue = findViewById(R.id.tv_sound_value);
     }
 
     private void setupPickers() {
@@ -191,6 +202,9 @@ public class CountdownActivity extends BaseActivity {
             alarmPlayer.stop();
             sendServiceCommand(CountdownForegroundService.ACTION_STOP, 0L);
         });
+
+        findViewById(R.id.btn_choose_sound).setOnClickListener(v ->
+                soundPickerLauncher.launch(new Intent(this, MusicPlaylistActivity.class)));
     }
 
     private void startCountdownFromPicker() {
@@ -313,5 +327,9 @@ public class CountdownActivity extends BaseActivity {
         pickerMinutes.setEnabled(enabled);
         pickerSeconds.setEnabled(enabled);
         layoutInlinePicker.setAlpha(enabled ? 1f : 0.5f);
+    }
+
+    private void refreshSoundLabel() {
+        tvSoundValue.setText(countdownSoundPreferences.getSelectedSoundTitle(this));
     }
 }

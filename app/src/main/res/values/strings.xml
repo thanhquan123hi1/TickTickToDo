@@ -84,6 +84,7 @@
     <string name="nav_tools">Công cụ</string>
     <string name="nav_calendar">Lịch</string>
     <string name="nav_countdown">Đồng hồ đếm ngược</string>
+    <string name="nav_music_playlist">Danh sách nhạc</string>
 
     <!-- Calendar -->
     <string name="msg_no_tasks_on_date">Không có công việc nào trong ngày này</string>
@@ -114,6 +115,24 @@
     <string name="countdown_notification_paused">Đã tạm dừng: %1$s</string>
     <string name="countdown_notification_channel_name">Countdown timer</string>
     <string name="countdown_notification_channel_description">Hiển thị trạng thái timer khi chạy nền</string>
+    <string name="countdown_sound_label">Âm báo</string>
+    <string name="countdown_sound_choose">Chọn nhạc</string>
+    <string name="countdown_sound_default">Mặc định hệ thống</string>
+    <string name="countdown_sound_use_default">Dùng mặc định</string>
+    <string name="countdown_sound_refresh">Quét lại</string>
+    <string name="countdown_sound_request_permission">Cấp quyền đọc nhạc</string>
+    <string name="countdown_sound_permission_required">Cần quyền đọc media audio để quét playlist trên thiết bị.</string>
+    <string name="countdown_sound_permission_settings_required">Bạn đã từ chối quyền đọc nhạc. Hãy mở Cài đặt để cấp quyền.</string>
+    <string name="countdown_sound_open_settings">Mở Cài đặt</string>
+    <string name="countdown_sound_loading">Đang quét file nhạc trên thiết bị...</string>
+    <string name="countdown_sound_empty">Không tìm thấy file nhạc. Hãy chép/tải nhạc vào máy rồi bấm Quét lại.</string>
+    <string name="countdown_sound_selected_badge">Đang dùng</string>
+    <string name="countdown_sound_unknown_title">Không rõ tên bài</string>
+    <string name="countdown_sound_unknown_artist">Không rõ nghệ sĩ</string>
+    <string name="countdown_sound_selected_default_toast">Đã chuyển về âm mặc định.</string>
+    <string name="countdown_sound_selected_track_toast">Đã chọn: %1$s</string>
+    <string name="music_playlist_title">Playlist từ máy</string>
+    <string name="music_playlist_subtitle">Ứng dụng sẽ quét MediaStore và biến các file nhạc thành playlist để chọn làm âm báo countdown.</string>
 
     <!-- Language Settings -->
     <string name="language_title">Chọn ngôn ngữ</string>

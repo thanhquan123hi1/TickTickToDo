@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:ignore="ForegroundServicePermission" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -38,6 +42,10 @@
             android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
         <activity
             android:name="hcmute.edu.vn.ticktick.contacts.ui.ContactsActivity"
+            android:exported="false"
+            android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
+        <activity
+            android:name="hcmute.edu.vn.ticktick.music.MusicPlaylistActivity"
             android:exported="false"
             android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
         <activity
