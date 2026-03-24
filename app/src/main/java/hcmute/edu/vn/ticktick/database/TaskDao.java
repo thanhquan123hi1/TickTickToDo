@@ -59,8 +59,14 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive AND completed = 0 ORDER BY dueDate ASC, createdAt ASC")
     LiveData<List<Task>> getTasksForDateRange(long startDate, long endDateExclusive);
 
+    @Query("SELECT DISTINCT dueDate FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive")
+    LiveData<List<Long>> getTaskDueDatesInRange(long startDate, long endDateExclusive);
+
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
     Task getTaskByIdSync(int taskId);
+
+    @Query("SELECT * FROM tasks WHERE linkedSchoolEventUid = :uid LIMIT 1")
+    Task getTaskBySchoolEventUidSync(String uid);
 
     @Query("SELECT * FROM tasks WHERE completed = 0 AND dueDate >= :startOfToday AND dueDate < :endOfToday ORDER BY CASE WHEN dueTime IS NULL OR dueTime = '' THEN 1 ELSE 0 END, dueTime ASC, createdAt ASC LIMIT :limit")
     List<Task> getTodayWidgetTasks(long startOfToday, long endOfToday, int limit);

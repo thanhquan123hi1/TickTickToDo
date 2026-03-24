@@ -163,4 +163,51 @@
     <string name="task_overdue_with_due">Quá hạn - %1$s</string>
     <string name="widget_today_am">SA</string>
     <string name="widget_today_pm">CH</string>
+
+    <!-- School Calendar -->
+    <string name="nav_school_calendar">School Calendar</string>
+    <string name="school_calendar_title">School Calendar</string>
+    <string name="school_calendar_refresh">Làm mới</string>
+    <string name="school_calendar_syncing">Đang đồng bộ...</string>
+    <string name="school_calendar_last_synced">Last synced: %1$s</string>
+    <string name="school_calendar_sync_status_with_warning">Last synced: %1$s - lỗi cập nhật gần nhất</string>
+    <string name="school_calendar_not_synced_yet">Chưa đồng bộ lần nào</string>
+    <string name="school_calendar_empty">Chưa có dữ liệu School Calendar</string>
+    <string name="school_calendar_empty_error">Không thể đồng bộ dữ liệu</string>
+    <string name="school_calendar_showing_cached_data">Không thể cập nhật, đang hiển thị dữ liệu gần nhất</string>
+    <string name="school_calendar_sync_failed_generic">Đồng bộ thất bại</string>
+    <string name="school_calendar_settings_title">School Calendar Settings</string>
+    <string name="school_calendar_ics_url_hint">ICS URL</string>
+    <string name="school_calendar_restore_default">Restore Default</string>
+    <string name="school_calendar_url_saved">Đã lưu URL School Calendar</string>
+    <string name="school_calendar_default_restored">Đã khôi phục URL mặc định</string>
+    <string name="school_calendar_error_invalid_url">URL ICS không hợp lệ</string>
+    <string name="school_calendar_error_sync_failed">Không thể đồng bộ School Calendar</string>
+    <string name="school_calendar_overdue_days">Quá hạn %1$d ngày</string>
+    <string name="school_calendar_time_unknown">Không rõ thời gian</string>
+    <string name="school_calendar_default_ics_url">https://moodle.example.com/calendar/export_execute.php?preset_what=all&amp;preset_time=recentupcoming</string>
+
+    <string name="school_event_detail_title">Chi tiết sự kiện học tập</string>
+    <string name="school_event_detail_subtitle">Chỉnh sửa sự kiện và liên kết sang task thường</string>
+    <string name="btn_export_task">Xuất ra</string>
+    <string name="btn_open_task">Mở task thường</string>
+    <string name="msg_exported_successfully">Đã xuất sang task thường</string>
+    <string name="msg_exported_already_exists">Sự kiện này đã được xuất trước đó</string>
+    <string name="school_event_status_not_exported">Chưa xuất</string>
+    <string name="school_event_status_exported">Đã xuất</string>
+    <string name="school_event_saved">Đã lưu thay đổi sự kiện</string>
+    <string name="school_event_deleted">Đã xóa sự kiện School Calendar</string>
+    <string name="school_event_delete_title">Xóa sự kiện?</string>
+    <string name="school_event_delete_message">Sự kiện sẽ bị xóa khỏi School Calendar. Task thường đã xuất (nếu có) sẽ được giữ lại.</string>
+
+    <!-- Calendar -->
+    <string name="calendar_previous_month">Tháng trước</string>
+    <string name="calendar_next_month">Tháng sau</string>
+    <string name="calendar_weekday_mon">T2</string>
+    <string name="calendar_weekday_tue">T3</string>
+    <string name="calendar_weekday_wed">T4</string>
+    <string name="calendar_weekday_thu">T5</string>
+    <string name="calendar_weekday_fri">T6</string>
+    <string name="calendar_weekday_sat">T7</string>
+    <string name="calendar_weekday_sun">CN</string>
 </resources>

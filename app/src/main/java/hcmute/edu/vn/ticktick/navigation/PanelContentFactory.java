@@ -128,11 +128,7 @@ public class PanelContentFactory {
             callback.closePanel();
             context.startActivity(new Intent(context, CountdownActivity.class));
         });
-        addItem(R.drawable.ic_calendar, R.string.nav_calendar, () -> {
-            callback.closePanel();
-            context.startActivity(new Intent(context, CalendarActivity.class));
-        });
-        addItem(R.drawable.ic_list, R.string.nav_contacts, () -> {
+        addItem(R.drawable.ic_contacts, R.string.nav_contacts, () -> {
             callback.closePanel();
             context.startActivity(new Intent(context, ContactsActivity.class));
         });
@@ -143,8 +139,8 @@ public class PanelContentFactory {
         clearContent();
 
         addItem(R.drawable.ic_settings, R.string.nav_settings_notification, () -> toast(R.string.nav_settings_notification));
-        addItem(R.drawable.ic_filter,   R.string.nav_settings_language,     this::showLanguageDialog);
-        addItem(R.drawable.ic_list,     R.string.nav_settings_backup,       () -> toast(R.string.nav_settings_backup));
+        addItem(R.drawable.ic_translate, R.string.nav_settings_language, this::showLanguageDialog);
+        addItem(R.drawable.ic_backup, R.string.nav_settings_backup, () -> toast(R.string.nav_settings_backup));
     }
 
     public void buildProfilePanel() {

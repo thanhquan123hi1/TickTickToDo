@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:ignore="ForegroundServicePermission" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -37,6 +38,10 @@
             android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
         <activity
             android:name="hcmute.edu.vn.ticktick.contacts.ui.ContactsActivity"
+            android:exported="false"
+            android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
+        <activity
+            android:name="hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarActivity"
             android:exported="false"
             android:parentActivityName="hcmute.edu.vn.ticktick.MainActivity" />
 

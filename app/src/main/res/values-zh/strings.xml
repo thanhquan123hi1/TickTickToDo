@@ -161,4 +161,27 @@
     <string name="reminder_channel_name">截止提醒</string>
     <string name="reminder_channel_description">在任务到期前发送通知</string>
     <string name="reminder_notification_body">任务将在 %1$s 到期</string>
+
+    <!-- School Calendar -->
+    <string name="nav_school_calendar">课程日历</string>
+    <string name="school_calendar_title">课程日历</string>
+    <string name="school_calendar_refresh">刷新</string>
+    <string name="school_calendar_syncing">同步中...</string>
+    <string name="school_calendar_last_synced">上次同步：%1$s</string>
+    <string name="school_calendar_sync_status_with_warning">上次同步：%1$s - 最近一次同步失败</string>
+    <string name="school_calendar_not_synced_yet">尚未同步</string>
+    <string name="school_calendar_empty">暂无课程日历数据</string>
+    <string name="school_calendar_empty_error">无法同步课程日历</string>
+    <string name="school_calendar_showing_cached_data">当前无法更新，正在显示最近缓存数据</string>
+    <string name="school_calendar_sync_failed_generic">同步失败</string>
+    <string name="school_calendar_settings_title">课程日历设置</string>
+    <string name="school_calendar_ics_url_hint">ICS 链接</string>
+    <string name="school_calendar_restore_default">恢复默认</string>
+    <string name="school_calendar_url_saved">课程日历链接已保存</string>
+    <string name="school_calendar_default_restored">已恢复默认链接</string>
+    <string name="school_calendar_error_invalid_url">ICS 链接无效</string>
+    <string name="school_calendar_error_sync_failed">无法同步课程日历</string>
+    <string name="school_calendar_overdue_days">已逾期 %1$d 天</string>
+    <string name="school_calendar_time_unknown">时间未知</string>
+    <string name="school_calendar_default_ics_url">https://moodle.example.com/calendar/export_execute.php?preset_what=all&amp;preset_time=recentupcoming</string>
 </resources>

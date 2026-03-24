@@ -4,91 +4,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:fitsSystemWindows="true">
 
-    <!-- này dùng để làm thanh tool bar -->
-    <!-- thanh tool bar dùng để làm thanh tiêu đề cho app -->
-    <!-- containeer bao bọc bên ngoài -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
-        <!-- Đây chính là thanh công cụ thực tế mà người dùng nhìn thấy. Các thuộc tính bên trong dùng để tùy chỉnh giao diện của nó -->
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_calendar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
-            app:titleTextColor="@color/text_on_primary"
             app:navigationIconTint="@color/text_on_primary"
-            app:title="@string/nav_calendar" />
+            app:title="@string/nav_calendar"
+            app:titleTextColor="@color/text_on_primary" />
     </com.google.android.material.appbar.AppBarLayout>
-    <!-- sử dụng linear layout -->
-    <!-- sắp xếp từ trên xuống dưới nhờ vertical-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- CalendarView -->
-        <CalendarView
-            android:id="@+id/calendar_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/surface" />
-        <!-- kẻ line -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
+            android:background="@drawable/bg_calendar_surface_card"
+            android:orientation="vertical"
+            android:padding="14dp">
 
-        <!-- Selected date label -->
-        <!-- hiển thị thông tin mà người dùng nhập -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_prev_month"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_rail_btn_ripple"
+                    android:contentDescription="@string/calendar_previous_month"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_chevron_left"
+                    app:tint="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/tv_month_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btn_next_month"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_rail_btn_ripple"
+                    android:contentDescription="@string/calendar_next_month"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="@color/text_primary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_mon" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_tue" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_wed" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_thu" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_fri" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_sat" />
+                <TextView style="@style/CalendarWeekdayStyle" android:text="@string/calendar_weekday_sun" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_calendar_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_selected_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:background="@color/surface" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
-
-        <!-- Task list for selected date -->
-        <!-- hiên thị các task -->
-        <!-- height =  0  , weight = 1 sẽ cho nó chiếm toàn bộ phânf trống -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_calendar_tasks"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/background"
-            android:clipToPadding="false"
-            android:paddingBottom="80dp" />
+            android:background="@drawable/bg_calendar_surface_card"
+            android:paddingTop="6dp">
 
-        <!-- Empty state -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_calendar_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="84dp" />
 
-        <TextView
-            android:id="@+id/tv_calendar_empty"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/msg_no_tasks_on_date"
-            android:textColor="@color/text_secondary"
-            android:textSize="15sp"
-            android:visibility="gone" />
-
-
+            <TextView
+                android:id="@+id/tv_calendar_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/msg_no_tasks_on_date"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_task_calendar"
@@ -100,6 +145,5 @@
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/primary"
         app:tint="@color/text_on_primary" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

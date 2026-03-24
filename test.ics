@@ -1,0 +1,127 @@
+BEGIN:VCALENDAR
+METHOD:PUBLISH
+PRODID:-//Moodle Pty Ltd//NONSGML Moodle Version 2024042201.05//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:424265@utexlms.hcmute.edu.vn
+SUMMARY:Lab 3 - Linear Regression tới hạn
+DESCRIPTION:Sinh viên trả lời các câu hỏi trong file .IPYNB\n\nĐẶT TÊN: MSS
+	V_HO_DEM_TEN_LAB3.IPYNB VÀ MSSV_HO_DEM_TEN_LAB3.HTML\n\nHẠN CHÓT: ĐẾN HẾT N
+	GÀY 19/03/2026\n
+	
+CLASS:PUBLIC
+LAST-MODIFIED:20260321T015336Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260319T170000Z
+DTEND:20260319T170000Z
+CATEGORIES:INDS331085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:427988@utexlms.hcmute.edu.vn
+SUMMARY:Sampling Distribution Quiz bắt đầu
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260321T015336Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260320T020500Z
+DTEND:20260320T020500Z
+CATEGORIES:INDS331085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:427991@utexlms.hcmute.edu.vn
+SUMMARY:Sampling Distribution Quiz kết thúc
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260321T015336Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260320T022000Z
+DTEND:20260320T022000Z
+CATEGORIES:INDS331085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:393136@utexlms.hcmute.edu.vn
+SUMMARY:Practice at class tới hạn
+DESCRIPTION:1) Foreground Service \n\nhttps://www.geeksforgeeks.org/foregro
+	und-service-in-android/ [1]\n\nhttps://developer.android.com/develop/backgr
+	ound-work/services/fgs/launch [2]\n\n2) Background Service \n\nhttps://www.
+	tutorialspoint.com/how-to-create-background-service-in-android [3]\n\n3) Bo
+	und Services \n\nhttps://www.stechies.com/bound-service-example-android/ [4
+	]\n\nhttps://www.truiton.com/2014/11/bound-service-example-android/ [5]\n\n
+	4) WorkManager\n\n5) JobIntentService \n\n\nLinks:\n------\n[1] https://www
+	.geeksforgeeks.org/foreground-service-in-android/\n[2] https://developer.an
+	droid.com/develop/background-work/services/fgs/launch\n[3] https://www.tuto
+	rialspoint.com/how-to-create-background-service-in-android\n[4] https://www
+	.stechies.com/bound-service-example-android/\n[5] https://www.truiton.com/2
+	014/11/bound-service-example-android/\n
+	
+CLASS:PUBLIC
+LAST-MODIFIED:20260120T133504Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260322T033200Z
+DTEND:20260322T033200Z
+CATEGORIES:MOPR331279_25_2_09CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:429128@utexlms.hcmute.edu.vn
+SUMMARY:Bài tập về nhà tới hạn
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260322T085644Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260323T050000Z
+DTEND:20260323T050000Z
+CATEGORIES:MALE431085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:429923@utexlms.hcmute.edu.vn
+SUMMARY:Bài tập trên lớp tới hạn
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260323T091253Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260323T090000Z
+DTEND:20260323T090000Z
+CATEGORIES:MALE431085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:429200@utexlms.hcmute.edu.vn
+SUMMARY:Project Proposal tới hạn
+DESCRIPTION:Sinh viên đọc các hướng dẫn ở file đính kèm và hoàn thành bản đ
+	ề xuất cho đề tài. Mỗi nhóm gồm 2-3 SV. Mỗi nhóm cử một bạn đại diện để nộp
+	.\n\nCẦN NỘP: NHOM_XX_TEN_DE_TAI_PROPOSAL.DOCX\n\nHẠN CHÓT: ĐẾN HẾT NGÀY 29
+	/03/2026\n\nLINK ĐĂNG KÝ: HTTPS://DOCS.GOOGLE.COM/SPREADSHEETS/D/1O1RMDWVGZ
+	MKGPBUO48TBKXVMMIWI0OUI/EDIT?USP=DRIVE_LINK&OUID=118280419337319876342&RTPO
+	F=TRUE&SD=TRUE [1]\n\n\nLinks:\n------\n[1] https://docs.google.com/spreads
+	heets/d/1o1RmDWvgZmkGPBUo48tBkXvMmiwI0OuI/edit?usp=drive_link&amp\;ouid=118
+	280419337319876342&amp\;rtpof=true&amp\;sd=true\n
+	
+CLASS:PUBLIC
+LAST-MODIFIED:20260322T140438Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260329T165900Z
+DTEND:20260329T165900Z
+CATEGORIES:INDS331085_25_2_01CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:393100@utexlms.hcmute.edu.vn
+SUMMARY:Quiz bắt đầu
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260120T133505Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260411T113700Z
+DTEND:20260411T113700Z
+CATEGORIES:MOPR331279_25_2_09CLC
+END:VEVENT
+BEGIN:VEVENT
+UID:393211@utexlms.hcmute.edu.vn
+SUMMARY:Quiz kết thúc
+DESCRIPTION:
+CLASS:PUBLIC
+LAST-MODIFIED:20260120T133505Z
+DTSTAMP:20260324T075451Z
+DTSTART:20260411T115300Z
+DTEND:20260411T115300Z
+CATEGORIES:MOPR331279_25_2_09CLC
+END:VEVENT
+END:VCALENDAR
