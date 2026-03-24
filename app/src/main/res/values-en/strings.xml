@@ -186,7 +186,7 @@
     <string name="school_calendar_default_ics_url">https://moodle.example.com/calendar/export_execute.php?preset_what=all&amp;preset_time=recentupcoming</string>
     <string name="school_event_detail_title">School Event Details</string>
     <string name="school_event_detail_subtitle">Edit event and link it to a normal task</string>
-    <string name="btn_export_task">Export to Task</string>
+    <string name="btn_export_task">Export</string>
     <string name="btn_open_task">Open Task</string>
     <string name="msg_exported_successfully">Exported to normal task</string>
     <string name="msg_exported_already_exists">This event was already exported</string>
@@ -196,4 +196,15 @@
     <string name="school_event_deleted">School Calendar event deleted</string>
     <string name="school_event_delete_title">Delete event?</string>
     <string name="school_event_delete_message">This removes the event from School Calendar. Exported normal task (if any) is kept.</string>
+
+    <!-- Calendar Navigation and Weekday Labels -->
+    <string name="calendar_previous_month">Previous month</string>
+    <string name="calendar_next_month">Next month</string>
+    <string name="calendar_weekday_mon">Mon</string>
+    <string name="calendar_weekday_tue">Tue</string>
+    <string name="calendar_weekday_wed">Wed</string>
+    <string name="calendar_weekday_thu">Thu</string>
+    <string name="calendar_weekday_fri">Fri</string>
+    <string name="calendar_weekday_sat">Sat</string>
+    <string name="calendar_weekday_sun">Sun</string>
 </resources>

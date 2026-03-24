@@ -59,6 +59,9 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive AND completed = 0 ORDER BY dueDate ASC, createdAt ASC")
     LiveData<List<Task>> getTasksForDateRange(long startDate, long endDateExclusive);
 
+    @Query("SELECT DISTINCT dueDate FROM tasks WHERE dueDate >= :startDate AND dueDate < :endDateExclusive")
+    LiveData<List<Long>> getTaskDueDatesInRange(long startDate, long endDateExclusive);
+
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
     Task getTaskByIdSync(int taskId);
 

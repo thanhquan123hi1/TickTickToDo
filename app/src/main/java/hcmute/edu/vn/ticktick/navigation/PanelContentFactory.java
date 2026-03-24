@@ -128,10 +128,6 @@ public class PanelContentFactory {
             callback.closePanel();
             context.startActivity(new Intent(context, CountdownActivity.class));
         });
-        addItem(R.drawable.ic_calendar, R.string.nav_calendar, () -> {
-            callback.closePanel();
-            context.startActivity(new Intent(context, CalendarActivity.class));
-        });
         addItem(R.drawable.ic_contacts, R.string.nav_contacts, () -> {
             callback.closePanel();
             context.startActivity(new Intent(context, ContactsActivity.class));

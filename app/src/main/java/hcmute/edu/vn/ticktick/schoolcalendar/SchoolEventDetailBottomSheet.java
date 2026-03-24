@@ -91,11 +91,6 @@ public class SchoolEventDetailBottomSheet extends BottomSheetDialogFragment {
         spinnerCategory = view.findViewById(R.id.spinner_category);
         spinnerPriority = view.findViewById(R.id.spinner_priority);
 
-        View btnCancel = view.findViewById(R.id.btn_cancel);
-        if (btnCancel != null) {
-            btnCancel.setOnClickListener(v -> dismiss());
-        }
-
         setupPrioritySpinner();
         setupDatePicker();
         setupTimePicker();

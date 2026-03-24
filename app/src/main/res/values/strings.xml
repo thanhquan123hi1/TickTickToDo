@@ -189,7 +189,7 @@
 
     <string name="school_event_detail_title">Chi tiết sự kiện học tập</string>
     <string name="school_event_detail_subtitle">Chỉnh sửa sự kiện và liên kết sang task thường</string>
-    <string name="btn_export_task">Xuất sang Task thường</string>
+    <string name="btn_export_task">Xuất ra</string>
     <string name="btn_open_task">Mở task thường</string>
     <string name="msg_exported_successfully">Đã xuất sang task thường</string>
     <string name="msg_exported_already_exists">Sự kiện này đã được xuất trước đó</string>
@@ -199,4 +199,15 @@
     <string name="school_event_deleted">Đã xóa sự kiện School Calendar</string>
     <string name="school_event_delete_title">Xóa sự kiện?</string>
     <string name="school_event_delete_message">Sự kiện sẽ bị xóa khỏi School Calendar. Task thường đã xuất (nếu có) sẽ được giữ lại.</string>
+
+    <!-- Calendar -->
+    <string name="calendar_previous_month">Tháng trước</string>
+    <string name="calendar_next_month">Tháng sau</string>
+    <string name="calendar_weekday_mon">T2</string>
+    <string name="calendar_weekday_tue">T3</string>
+    <string name="calendar_weekday_wed">T4</string>
+    <string name="calendar_weekday_thu">T5</string>
+    <string name="calendar_weekday_fri">T6</string>
+    <string name="calendar_weekday_sat">T7</string>
+    <string name="calendar_weekday_sun">CN</string>
 </resources>

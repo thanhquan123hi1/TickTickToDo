@@ -86,6 +86,10 @@ public class TaskViewModel extends AndroidViewModel {
         return taskDao.getTasksForDateRange(startDate, endDateExclusive);
     }
 
+    public LiveData<List<Long>> getTaskDueDatesInRange(long startDate, long endDateExclusive) {
+        return taskDao.getTaskDueDatesInRange(startDate, endDateExclusive);
+    }
+
     // === Task operations ===
 
     public void insertTask(Task task) {

@@ -298,6 +298,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_delete"
                 android:textColor="@color/overdue"
+                android:textStyle="bold"
                 android:visibility="gone"
                 app:icon="@drawable/ic_delete"
                 app:iconTint="@color/overdue" />
@@ -308,32 +309,31 @@
                 android:layout_weight="1" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_cancel"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/btn_cancel"
-                android:textColor="@color/text_secondary" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_export_task"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="12dp"
+                android:minWidth="96dp"
                 android:text="@string/btn_export_task"
-                android:textColor="@color/primary" />
+                android:textAllCaps="false"
+                android:textColor="@color/primary_dark"
+                android:textStyle="bold"
+                app:cornerRadius="20dp"
+                app:rippleColor="@color/primary_container"
+                app:strokeColor="@color/primary_dark" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="108dp"
+                android:minWidth="112dp"
                 android:text="@string/btn_save"
-                android:textColor="@color/text_on_primary"
-                app:backgroundTint="@color/primary"
-                app:cornerRadius="22dp" />
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@color/primary_dark"
+                app:cornerRadius="22dp"
+                app:rippleColor="@color/primary_container" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
