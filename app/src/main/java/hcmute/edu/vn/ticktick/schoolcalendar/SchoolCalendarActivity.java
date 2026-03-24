@@ -34,8 +34,9 @@ import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 
 public class SchoolCalendarActivity extends BaseActivity {
 
+    private static final Locale VIETNAM_LOCALE = new Locale("vi", "VN");
     private static final SimpleDateFormat SYNC_TIME_FORMAT =
-            new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.of("vi", "VN"));
+            new SimpleDateFormat("dd/MM/yyyy HH:mm", VIETNAM_LOCALE);
 
     private MaterialToolbar toolbar;
     private TextView tvSyncStatus;
