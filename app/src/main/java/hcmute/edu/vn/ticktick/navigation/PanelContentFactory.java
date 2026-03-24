@@ -21,6 +21,7 @@ import hcmute.edu.vn.ticktick.R;
 import hcmute.edu.vn.ticktick.contacts.ui.ContactsActivity;
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.database.Category;
+import hcmute.edu.vn.ticktick.music.MusicPlaylistActivity;
 import hcmute.edu.vn.ticktick.ui.AddCategoryDialog;
 
 /**
@@ -131,6 +132,10 @@ public class PanelContentFactory {
         addItem(R.drawable.ic_contacts, R.string.nav_contacts, () -> {
             callback.closePanel();
             context.startActivity(new Intent(context, ContactsActivity.class));
+        });
+        addItem(R.drawable.ic_list, R.string.nav_music_playlist, () -> {
+            callback.closePanel();
+            context.startActivity(new Intent(context, MusicPlaylistActivity.class));
         });
     }
 

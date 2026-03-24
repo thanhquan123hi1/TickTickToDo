@@ -84,6 +84,7 @@
     <string name="nav_tools">Tools</string>
     <string name="nav_calendar">Calendar</string>
     <string name="nav_countdown">Countdown Timer</string>
+    <string name="nav_music_playlist">Music Playlist</string>
 
     <!-- Calendar -->
     <string name="msg_no_tasks_on_date">No tasks on this day</string>
@@ -114,6 +115,24 @@
     <string name="countdown_notification_paused">Paused: %1$s</string>
     <string name="countdown_notification_channel_name">Countdown timer</string>
     <string name="countdown_notification_channel_description">Shows countdown status while app is in background</string>
+    <string name="countdown_sound_label">Alarm sound</string>
+    <string name="countdown_sound_choose">Choose music</string>
+    <string name="countdown_sound_default">System default</string>
+    <string name="countdown_sound_use_default">Use default</string>
+    <string name="countdown_sound_refresh">Rescan</string>
+    <string name="countdown_sound_request_permission">Grant audio permission</string>
+    <string name="countdown_sound_permission_required">Audio media permission is required to scan your device playlist.</string>
+    <string name="countdown_sound_permission_settings_required">Audio permission was denied. Open Settings to grant access.</string>
+    <string name="countdown_sound_open_settings">Open Settings</string>
+    <string name="countdown_sound_loading">Scanning music files from device...</string>
+    <string name="countdown_sound_empty">No music files found. Copy/download audio to this device, then tap Rescan.</string>
+    <string name="countdown_sound_selected_badge">Selected</string>
+    <string name="countdown_sound_unknown_title">Unknown title</string>
+    <string name="countdown_sound_unknown_artist">Unknown artist</string>
+    <string name="countdown_sound_selected_default_toast">Switched to default alarm sound.</string>
+    <string name="countdown_sound_selected_track_toast">Selected: %1$s</string>
+    <string name="music_playlist_title">Playlist from device</string>
+    <string name="music_playlist_subtitle">The app scans MediaStore and turns local music files into a playlist for countdown alarm sounds.</string>
 
     <!-- Language Settings -->
     <string name="language_title">Select Language</string>

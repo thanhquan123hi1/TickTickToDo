@@ -84,6 +84,7 @@
     <string name="nav_tools">工具</string>
     <string name="nav_calendar">日历</string>
     <string name="nav_countdown">倒计时</string>
+    <string name="nav_music_playlist">音乐播放列表</string>
 
     <!-- Calendar -->
     <string name="msg_no_tasks_on_date">当天没有任务</string>
@@ -114,6 +115,24 @@
     <string name="countdown_notification_paused">已暂停：%1$s</string>
     <string name="countdown_notification_channel_name">倒计时通知</string>
     <string name="countdown_notification_channel_description">应用在后台时显示倒计时状态</string>
+    <string name="countdown_sound_label">提醒音</string>
+    <string name="countdown_sound_choose">选择音乐</string>
+    <string name="countdown_sound_default">系统默认</string>
+    <string name="countdown_sound_use_default">使用默认</string>
+    <string name="countdown_sound_refresh">重新扫描</string>
+    <string name="countdown_sound_request_permission">授予音频权限</string>
+    <string name="countdown_sound_permission_required">需要音频媒体权限才能扫描设备播放列表。</string>
+    <string name="countdown_sound_permission_settings_required">音频权限已被拒绝，请前往设置中授权。</string>
+    <string name="countdown_sound_open_settings">打开设置</string>
+    <string name="countdown_sound_loading">正在扫描设备音乐文件...</string>
+    <string name="countdown_sound_empty">未找到音乐文件。请先将音频下载/复制到设备后再点重新扫描。</string>
+    <string name="countdown_sound_selected_badge">已选</string>
+    <string name="countdown_sound_unknown_title">未知标题</string>
+    <string name="countdown_sound_unknown_artist">未知艺术家</string>
+    <string name="countdown_sound_selected_default_toast">已切换为默认提醒音。</string>
+    <string name="countdown_sound_selected_track_toast">已选择：%1$s</string>
+    <string name="music_playlist_title">设备播放列表</string>
+    <string name="music_playlist_subtitle">应用会扫描 MediaStore，并将本地音乐文件转换为倒计时提醒音播放列表。</string>
 
     <!-- Language Settings -->
     <string name="language_title">选择语言</string>
