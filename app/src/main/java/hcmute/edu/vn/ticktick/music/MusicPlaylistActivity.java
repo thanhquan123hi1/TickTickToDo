@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
 import java.util.List;
+import android.media.MediaPlayer;
+import android.content.Context;
 
 import hcmute.edu.vn.ticktick.BaseActivity;
 import hcmute.edu.vn.ticktick.R;
@@ -45,6 +47,7 @@ public class MusicPlaylistActivity extends BaseActivity {
     private MediaStoreMusicScanner scanner;
     private CountdownSoundPreferences soundPreferences;
     private boolean triedPermissionRequest = false;
+    private MediaPlayer mediaPlayer;
 
     private static String getAudioPermissionForSdk() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -85,6 +88,18 @@ public class MusicPlaylistActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopPreview();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPreview();
+    }
+
     private void bindViews() {
         btnBack = findViewById(R.id.btn_back);
         btnUseDefault = findViewById(R.id.btn_use_default_sound);
@@ -107,6 +122,7 @@ public class MusicPlaylistActivity extends BaseActivity {
         btnBack.setOnClickListener(v -> finish());
 
         btnUseDefault.setOnClickListener(v -> {
+            stopPreview();
             soundPreferences.clearSelection();
             adapter.setSelectedUri(null);
             Toast.makeText(this, R.string.countdown_sound_selected_default_toast, Toast.LENGTH_SHORT).show();
@@ -250,6 +266,29 @@ public class MusicPlaylistActivity extends BaseActivity {
         soundPreferences.saveSelection(item.getUri().toString(), trackTitle);
         adapter.setSelectedUri(item.getUri().toString());
         Toast.makeText(this, getString(R.string.countdown_sound_selected_track_toast, trackTitle), Toast.LENGTH_SHORT).show();
+        playPreview(item.getUri());
+    }
+
+    private void playPreview(Uri uri) {
+        stopPreview();
+        try {
+            mediaPlayer = MediaPlayer.create(this, uri);
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(mp -> stopPreview());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopPreview() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
-

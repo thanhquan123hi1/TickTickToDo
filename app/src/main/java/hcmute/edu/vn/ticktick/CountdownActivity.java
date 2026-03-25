@@ -273,12 +273,10 @@ public class CountdownActivity extends BaseActivity {
             return;
         }
 
-        alarmPlayer.play();
         new AlertDialog.Builder(this)
                 .setTitle(R.string.countdown_finished_title)
                 .setMessage(R.string.countdown_finished_message)
                 .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
-                    alarmPlayer.stop();
                     sendServiceCommand(CountdownForegroundService.ACTION_STOP, 0L);
                 })
                 .setCancelable(false)
