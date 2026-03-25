@@ -3,8 +3,10 @@ package hcmute.edu.vn.ticktick;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -23,6 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.util.Calendar;
 
@@ -36,8 +44,10 @@ import hcmute.edu.vn.ticktick.navigation.PanelContentFactory;
 import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.NavPanelCallback;
 import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.ViewDestination;
 import hcmute.edu.vn.ticktick.ui.DateUtils;
+import hcmute.edu.vn.ticktick.ui.MultiTaskPreviewDialog;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
+import hcmute.edu.vn.ticktick.utils.VietnameseDateTimeParser;
 import hcmute.edu.vn.ticktick.widget.TasksWidgetProvider;
 import hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarSyncScheduler;
 
@@ -84,6 +94,10 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
     private long currentRangeStart = 0L;
     private long currentRangeEnd = 0L;
 
+    // --- ML Kit Camera ---
+    private ActivityResultLauncher<Void> cameraLauncher;
+    private ActivityResultLauncher<String> permissionLauncher;
+
     // -------------------------------------------------------------------------
     // Lifecycle
     // -------------------------------------------------------------------------
@@ -107,6 +121,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         setupBackPress();
         updateGreeting();
         maybeRequestNotificationPermission();
+        setupCameraLaunchers();
 
         // Default view
         railController.setActive(railBtnTasks);
@@ -266,8 +281,94 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         // FAB va add task bar deu mo form tao task moi.
         FloatingActionButton fab = findViewById(R.id.fab_add_task);
         View addTaskBar = findViewById(R.id.add_task_bar);
+        View btnScan = findViewById(R.id.btn_scan);
+
         fab.setOnClickListener(v -> showTaskDetail(null));
         addTaskBar.setOnClickListener(v -> showTaskDetail(null));
+
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    cameraLauncher.launch(null);
+                } else {
+                    permissionLauncher.launch(Manifest.permission.CAMERA);
+                }
+            });
+        }
+    }
+
+    private void setupCameraLaunchers() {
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                cameraLauncher.launch(null);
+            } else {
+                Toast.makeText(this, "Camera permission required for scanning", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), bitmap -> {
+            if (bitmap != null) {
+                processImageWithMLKit(bitmap);
+            } else {
+                Toast.makeText(this, "No image captured", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void processImageWithMLKit(Bitmap bitmap) {
+        InputImage image = InputImage.fromBitmap(bitmap, 0);
+        com.google.mlkit.vision.text.TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+
+        recognizer.process(image)
+                .addOnSuccessListener(result -> {
+                    String resultText = result.getText();
+                    if (resultText == null || resultText.trim().isEmpty()) {
+                        Toast.makeText(MainActivity.this, "No text recognized", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Parse text lines
+                    String[] lines = resultText.split("\n");
+                    String title = lines.length > 0 ? lines[0] : "New Scan Task";
+                    StringBuilder descBuilder = new StringBuilder();
+                    for (int i = 1; i < lines.length; i++) {
+                        descBuilder.append(lines[i]).append("\n");
+                    }
+
+                    Long parsedDate = null;
+                    String parsedTime = null;
+
+                    VietnameseDateTimeParser.ParsedResult parseResult = VietnameseDateTimeParser.parse(resultText);
+                    if (parseResult != null) {
+                        parsedDate = parseResult.dueDate;
+                        parsedTime = parseResult.dueTime;
+                    }
+
+                    boolean isMultiTask = lines.length > 2; // naive approach
+                    java.util.List<hcmute.edu.vn.ticktick.utils.OCRTaskParser.TaskDraft> drafts = hcmute.edu.vn.ticktick.utils.OCRTaskParser.parseText(resultText);
+
+                    if (drafts.size() == 1) {
+                         TaskDetailBottomSheet sheet = TaskDetailBottomSheet.newTaskWithTitleDescription(
+                             drafts.get(0).title, drafts.get(0).description, drafts.get(0).dueDate, drafts.get(0).dueTime);
+                         sheet.show(getSupportFragmentManager(), "TASK_DETAIL");
+                    } else {
+                         MultiTaskPreviewDialog.show(MainActivity.this, drafts, editedDrafts -> {
+                             for (hcmute.edu.vn.ticktick.utils.OCRTaskParser.TaskDraft draft : editedDrafts) {
+                                  Task t = new Task();
+                                  t.setTitle(draft.title);
+                                  t.setDescription(draft.description);
+                                  t.setDueDate(draft.dueDate != null ? draft.dueDate : 0L);
+                                  t.setDueTime(draft.dueTime);
+                                  t.setPriority(0);
+                                  viewModel.insertTask(t, new java.util.ArrayList<>());
+                             }
+                             Toast.makeText(MainActivity.this, "Đã lưu " + editedDrafts.size() + " tasks từ ảnh!", Toast.LENGTH_SHORT).show();
+                         });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, "Text recognition failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void setupHeroActions() {
