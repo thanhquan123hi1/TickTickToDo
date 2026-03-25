@@ -53,7 +53,7 @@
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:background="@drawable/bg_widget_add_button"
-            android:contentDescription="@string/widget_today_add"
+            android:contentDescription="@string/widget_tasks_add"
             android:padding="12dp"
             android:src="@drawable/ic_add" />
     </LinearLayout>
@@ -76,7 +76,7 @@
         android:gravity="center_vertical"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="@string/widget_today_empty"
+        android:text="@string/widget_tasks_empty"
         android:textColor="@color/text_secondary"
         android:textSize="14sp"
         android:visibility="gone" />

@@ -16,7 +16,7 @@ import hcmute.edu.vn.ticktick.database.TaskDao;
 import hcmute.edu.vn.ticktick.database.TaskReminder;
 import hcmute.edu.vn.ticktick.database.TaskReminderDao;
 import hcmute.edu.vn.ticktick.reminder.ReminderScheduler;
-import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TasksWidgetProvider;
 
 public class TaskViewModel extends AndroidViewModel {
 
@@ -107,7 +107,7 @@ public class TaskViewModel extends AndroidViewModel {
             ReminderScheduler.scheduleTaskReminders(getApplication(), task, safeMinutes);
 
             Log.d(TAG, "insertTask() id=" + id + " -> refresh widgets");
-            TodayTasksWidgetProvider.refreshAllWidgets(getApplication());
+            TasksWidgetProvider.refreshAllWidgets(getApplication());
         });
     }
 
@@ -131,7 +131,7 @@ public class TaskViewModel extends AndroidViewModel {
             ReminderScheduler.replaceTaskReminders(getApplication(), task, oldMinutes, targetMinutes);
 
             Log.d(TAG, "updateTask() taskId=" + task.getId() + " -> refresh widgets");
-            TodayTasksWidgetProvider.refreshAllWidgets(getApplication());
+            TasksWidgetProvider.refreshAllWidgets(getApplication());
         });
     }
 
@@ -143,7 +143,7 @@ public class TaskViewModel extends AndroidViewModel {
             taskReminderDao.deleteByTaskId(task.getId());
             taskDao.delete(task);
             Log.d(TAG, "deleteTask() taskId=" + task.getId() + " -> refresh widgets");
-            TodayTasksWidgetProvider.refreshAllWidgets(getApplication());
+            TasksWidgetProvider.refreshAllWidgets(getApplication());
         });
     }
 

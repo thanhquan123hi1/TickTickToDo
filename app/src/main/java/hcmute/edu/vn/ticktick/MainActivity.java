@@ -38,7 +38,7 @@ import hcmute.edu.vn.ticktick.navigation.PanelContentFactory.ViewDestination;
 import hcmute.edu.vn.ticktick.ui.DateUtils;
 import hcmute.edu.vn.ticktick.ui.TaskDetailBottomSheet;
 import hcmute.edu.vn.ticktick.ui.TaskViewModel;
-import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TasksWidgetProvider;
 import hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarSyncScheduler;
 
 /**
@@ -376,7 +376,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         }
 
         String action = intent.getAction();
-        if (TodayTasksWidgetProvider.ACTION_OPEN_TODAY.equals(action)) {
+        if (TasksWidgetProvider.ACTION_OPEN_TODAY.equals(action)) {
             closePanel();
             railController.setActive(railBtnTasks);
             navigateTo(ViewDestination.TODAY, -1, null);
@@ -384,14 +384,14 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
             return;
         }
 
-        if (TodayTasksWidgetProvider.ACTION_ADD_TASK.equals(action)) {
+        if (TasksWidgetProvider.ACTION_ADD_TASK.equals(action)) {
             showTaskDetail(null);
             consumeWidgetIntent(intent);
             return;
         }
 
-        if (TodayTasksWidgetProvider.ACTION_OPEN_TASK_DETAIL.equals(action)) {
-            int taskId = intent.getIntExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID, -1);
+        if (TasksWidgetProvider.ACTION_OPEN_TASK_DETAIL.equals(action)) {
+            int taskId = intent.getIntExtra(TasksWidgetProvider.EXTRA_TASK_ID, -1);
             if (taskId <= 0) {
                 consumeWidgetIntent(intent);
                 return;
@@ -416,7 +416,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
     private void consumeWidgetIntent(Intent intent) {
         intent.setAction(null);
-        intent.removeExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID);
+        intent.removeExtra(TasksWidgetProvider.EXTRA_TASK_ID);
     }
 
     private void maybeRequestNotificationPermission() {

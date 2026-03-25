@@ -14,7 +14,7 @@ import hcmute.edu.vn.ticktick.ui.DateUtils
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class TodayTasksRemoteViewsFactory(
+class TasksRemoteViewsFactory(
     context: Context,
     intent: Intent?
 ) : RemoteViewsService.RemoteViewsFactory {
@@ -23,7 +23,7 @@ class TodayTasksRemoteViewsFactory(
     private val appDatabase: AppDatabase = AppDatabase.getDatabase(localizedContext)
     private val maxVisibleTasks: Int = intent?.getIntExtra(EXTRA_MAX_VISIBLE_TASKS, 4) ?: 4
 
-    private val tasks = mutableListOf<TodayWidgetTaskItem>()
+    private val tasks = mutableListOf<TasksWidgetTaskItem>()
 
     override fun onCreate() = Unit
 
@@ -32,16 +32,17 @@ class TodayTasksRemoteViewsFactory(
         val now = System.currentTimeMillis()
 
         try {
-            val future = AppDatabase.databaseWriteExecutor.submit<List<TodayWidgetTaskItem>> {
+            val future = AppDatabase.databaseWriteExecutor.submit<List<TasksWidgetTaskItem>> {
                 appDatabase.taskDao()
                     .getWidgetActiveScheduledTasks()
                     .asSequence()
                     .filter { task -> isNotOverdue(task, now) }
                     .take(maxVisibleTasks)
                     .map { task ->
-                        TodayWidgetTaskItem(
+                        TasksWidgetTaskItem(
                             taskId = task.id,
                             title = task.title.orEmpty(),
+                            dueDate = task.dueDate,
                             dueTime = task.dueTime?.takeIf { it.isNotBlank() }
                         )
                     }
@@ -63,25 +64,27 @@ class TodayTasksRemoteViewsFactory(
         if (position !in tasks.indices) return null
         val item = tasks[position]
 
-        val row = RemoteViews(localizedContext.packageName, R.layout.widget_today_item)
+        val row = RemoteViews(localizedContext.packageName, R.layout.widget_tasks_item)
         row.setTextViewText(R.id.widget_item_title, item.title)
 
-        val dueLabel = normalizeDueTime(item.dueTime)
+        val timeLabel = normalizeDueTime(item.dueTime)
+        val dateLabel = if (item.dueDate > 0L) DateUtils.formatDate(item.dueDate) else ""
+        val dueLabel = listOf(dateLabel, timeLabel).filter { it.isNotBlank() }.joinToString(" ")
 
         row.setViewVisibility(R.id.widget_item_due, if (dueLabel.isBlank()) View.GONE else View.VISIBLE)
         row.setTextViewText(R.id.widget_item_due, dueLabel)
         row.setImageViewResource(R.id.widget_item_check, R.drawable.ic_widget_checkbox_unchecked)
 
         val openDetailIntent = Intent().apply {
-            action = TodayTasksWidgetProvider.ACTION_OPEN_TASK_DETAIL
-            putExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID, item.taskId)
+            action = TasksWidgetProvider.ACTION_OPEN_TASK_DETAIL
+            putExtra(TasksWidgetProvider.EXTRA_TASK_ID, item.taskId)
             data = Uri.parse("ticktick://widget/task/${item.taskId}")
         }
         row.setOnClickFillInIntent(R.id.widget_item_root, openDetailIntent)
 
         val markDoneIntent = Intent().apply {
-            action = TodayTasksWidgetProvider.ACTION_MARK_TASK_DONE
-            putExtra(TodayTasksWidgetProvider.EXTRA_TASK_ID, item.taskId)
+            action = TasksWidgetProvider.ACTION_MARK_TASK_DONE
+            putExtra(TasksWidgetProvider.EXTRA_TASK_ID, item.taskId)
             data = Uri.parse("ticktick://widget/task/${item.taskId}/done")
         }
         row.setOnClickFillInIntent(R.id.widget_item_check, markDoneIntent)
@@ -110,7 +113,7 @@ class TodayTasksRemoteViewsFactory(
             if (is24HourFormat()) {
                 String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
             } else {
-                val amPm = if (hour >= 12) localizedContext.getString(R.string.widget_today_pm) else localizedContext.getString(R.string.widget_today_am)
+                val amPm = if (hour >= 12) localizedContext.getString(R.string.widget_tasks_pm) else localizedContext.getString(R.string.widget_tasks_am)
                 val hour12 = when (val h = hour % 12) {
                     0 -> 12
                     else -> h

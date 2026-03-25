@@ -55,7 +55,7 @@
 
 
         <receiver
-            android:name="hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider"
+            android:name="hcmute.edu.vn.ticktick.widget.TasksWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -93,7 +93,7 @@
             android:foregroundServiceType="dataSync" />
 
         <service
-            android:name="hcmute.edu.vn.ticktick.widget.TodayTasksRemoteViewsService"
+            android:name="hcmute.edu.vn.ticktick.widget.TasksRemoteViewsService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>

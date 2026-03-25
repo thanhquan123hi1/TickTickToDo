@@ -174,14 +174,14 @@
     <string name="reminder_notification_body">Task sẽ đến hạn %1$s</string>
 
     <!-- Today Widget -->
-    <string name="widget_today_add">Thêm công việc</string>
-    <string name="widget_today_mark_done">Đánh dấu hoàn thành</string>
-    <string name="widget_today_empty">Không có việc hôm nay 🎉</string>
-    <string name="widget_today_extra_badge">+%1$d</string>
-    <string name="widget_today_overdue">Quá hạn</string>
+    <string name="widget_tasks_add">Thêm công việc</string>
+    <string name="widget_tasks_mark_done">Đánh dấu hoàn thành</string>
+    <string name="widget_tasks_empty">Không có việc hôm nay 🎉</string>
+    <string name="widget_tasks_extra_badge">+%1$d</string>
+    <string name="widget_tasks_overdue">Quá hạn</string>
     <string name="task_overdue_with_due">Quá hạn - %1$s</string>
-    <string name="widget_today_am">SA</string>
-    <string name="widget_today_pm">CH</string>
+    <string name="widget_tasks_am">SA</string>
+    <string name="widget_tasks_pm">CH</string>
 
     <!-- School Calendar -->
     <string name="nav_school_calendar">School Calendar</string>

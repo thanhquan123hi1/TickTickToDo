@@ -11,7 +11,7 @@ import hcmute.edu.vn.ticktick.database.SchoolCalendarTaskLink;
 import hcmute.edu.vn.ticktick.database.SchoolCalendarTaskLinkDao;
 import hcmute.edu.vn.ticktick.database.Task;
 import hcmute.edu.vn.ticktick.database.TaskDao;
-import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TasksWidgetProvider;
 
 public class SchoolTaskLinkRepository {
 
@@ -69,7 +69,7 @@ public class SchoolTaskLinkRepository {
             holder[0] = new ExportResult(task, true);
         });
 
-        TodayTasksWidgetProvider.refreshAllWidgets(appContext);
+        TasksWidgetProvider.refreshAllWidgets(appContext);
         return holder[0];
     }
 
@@ -91,7 +91,7 @@ public class SchoolTaskLinkRepository {
             }
         });
 
-        TodayTasksWidgetProvider.refreshAllWidgets(appContext);
+        TasksWidgetProvider.refreshAllWidgets(appContext);
     }
 
     public void deleteSchoolEvent(SchoolCalendarEventEntity event) {
@@ -107,7 +107,7 @@ public class SchoolTaskLinkRepository {
             linkDao.deleteBySchoolEventUid(event.getUid());
         });
 
-        TodayTasksWidgetProvider.refreshAllWidgets(appContext);
+        TasksWidgetProvider.refreshAllWidgets(appContext);
     }
 
     public static class ExportResult {

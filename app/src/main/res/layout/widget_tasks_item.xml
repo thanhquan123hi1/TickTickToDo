@@ -13,7 +13,7 @@
         android:id="@+id/widget_item_check"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:contentDescription="@string/widget_today_mark_done"
+        android:contentDescription="@string/widget_tasks_mark_done"
         android:src="@drawable/ic_widget_checkbox_unchecked" />
 
     <LinearLayout

@@ -19,7 +19,7 @@ import hcmute.edu.vn.ticktick.ui.DateUtils
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class TodayTasksWidgetProvider : AppWidgetProvider() {
+class TasksWidgetProvider : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
@@ -94,7 +94,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
         @JvmStatic
         fun refreshAllWidgets(context: Context) {
             val appWidgetManager = AppWidgetManager.getInstance(context)
-            val component = ComponentName(context, TodayTasksWidgetProvider::class.java)
+            val component = ComponentName(context, TasksWidgetProvider::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(component)
             if (appWidgetIds.isEmpty()) {
                 cancelPeriodicRefresh(context)
@@ -112,19 +112,19 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
 
         private fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val localizedContext = LanguageManager.wrapContext(context)
-            val views = RemoteViews(localizedContext.packageName, R.layout.widget_today)
+            val views = RemoteViews(localizedContext.packageName, R.layout.widget_tasks)
             val maxVisibleTasks = resolveVisibleCount(appWidgetManager, appWidgetId)
             val taskItems = loadVisibleTaskItems(localizedContext, maxVisibleTasks)
             val summary = loadTaskSummary(localizedContext, maxVisibleTasks)
 
-            views.setTextViewText(R.id.widget_title, localizedContext.getString(R.string.section_today))
+            views.setTextViewText(R.id.widget_title, localizedContext.getString(R.string.nav_all_tasks))
             views.setTextViewText(R.id.widget_footer, localizedContext.getString(R.string.app_name))
 
             if (summary.extraCount > 0) {
                 views.setViewVisibility(R.id.widget_badge, View.VISIBLE)
                 views.setTextViewText(
                     R.id.widget_badge,
-                    localizedContext.getString(R.string.widget_today_extra_badge, summary.extraCount)
+                    localizedContext.getString(R.string.widget_tasks_extra_badge, summary.extraCount)
                 )
             } else {
                 views.setViewVisibility(R.id.widget_badge, View.GONE)
@@ -163,7 +163,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_badge, openTodayPendingIntent)
             views.setOnClickPendingIntent(R.id.widget_empty, openTodayPendingIntent)
 
-            val taskTemplateIntent = Intent(localizedContext, TodayTasksWidgetProvider::class.java)
+            val taskTemplateIntent = Intent(localizedContext, TasksWidgetProvider::class.java)
             val taskTemplatePendingIntent = PendingIntent.getBroadcast(
                 localizedContext,
                 appWidgetId + 13000,
@@ -178,17 +178,20 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             }
             views.setRemoteAdapter(R.id.widget_task_list, itemsBuilder.build())
             views.setEmptyView(R.id.widget_task_list, R.id.widget_empty)
-            views.setTextViewText(R.id.widget_empty, localizedContext.getString(R.string.widget_today_empty))
+            views.setTextViewText(R.id.widget_empty, localizedContext.getString(R.string.widget_tasks_empty))
 
             applyTheme(localizedContext, views)
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
-        private fun buildTaskRow(context: Context, item: TodayWidgetTaskItem): RemoteViews {
-            val row = RemoteViews(context.packageName, R.layout.widget_today_item)
+        private fun buildTaskRow(context: Context, item: TasksWidgetTaskItem): RemoteViews {
+            val row = RemoteViews(context.packageName, R.layout.widget_tasks_item)
             row.setTextViewText(R.id.widget_item_title, item.title)
 
-            val dueLabel = normalizeDueTime(context, item.dueTime)
+            val timeLabel = normalizeDueTime(context, item.dueTime)
+            val dateLabel = if (item.dueDate > 0L) DateUtils.formatDate(item.dueDate) else ""
+            val dueLabel = listOf(dateLabel, timeLabel).filter { it.isNotBlank() }.joinToString(" ")
+
             row.setViewVisibility(R.id.widget_item_due, if (dueLabel.isBlank()) View.GONE else View.VISIBLE)
             row.setTextViewText(R.id.widget_item_due, dueLabel)
             row.setImageViewResource(R.id.widget_item_check, R.drawable.ic_widget_checkbox_unchecked)
@@ -208,9 +211,9 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             return row
         }
 
-        private fun loadVisibleTaskItems(context: Context, visibleLimit: Int): List<TodayWidgetTaskItem> {
+        private fun loadVisibleTaskItems(context: Context, visibleLimit: Int): List<TasksWidgetTaskItem> {
             return try {
-                val future = AppDatabase.databaseWriteExecutor.submit<List<TodayWidgetTaskItem>> {
+                val future = AppDatabase.databaseWriteExecutor.submit<List<TasksWidgetTaskItem>> {
                     val now = System.currentTimeMillis()
                     AppDatabase.getDatabase(context)
                         .taskDao()
@@ -219,9 +222,10 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
                         .filter { task -> isNotOverdue(task, now) }
                         .take(visibleLimit)
                         .map { task ->
-                            TodayWidgetTaskItem(
+                            TasksWidgetTaskItem(
                                 taskId = task.id,
                                 title = task.title.orEmpty(),
+                                dueDate = task.dueDate,
                                 dueTime = task.dueTime?.takeIf { it.isNotBlank() }
                             )
                         }
@@ -281,7 +285,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             val pending = PendingIntent.getBroadcast(
                 context,
                 PERIODIC_REFRESH_REQUEST_CODE,
-                Intent(context, TodayTasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
+                Intent(context, TasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             alarmManager.setInexactRepeating(
@@ -297,7 +301,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             val pending = PendingIntent.getBroadcast(
                 context,
                 PERIODIC_REFRESH_REQUEST_CODE,
-                Intent(context, TodayTasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
+                Intent(context, TasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             alarmManager.cancel(pending)
@@ -306,7 +310,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
         @JvmStatic
         fun rescheduleNextDeadlineRefresh(context: Context) {
             val appWidgetManager = AppWidgetManager.getInstance(context)
-            val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, TodayTasksWidgetProvider::class.java))
+            val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, TasksWidgetProvider::class.java))
             if (widgetIds.isEmpty()) {
                 cancelNextDeadlineRefresh(context)
                 return
@@ -327,7 +331,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             val pending = PendingIntent.getBroadcast(
                 context,
                 NEXT_DEADLINE_REFRESH_REQUEST_CODE,
-                Intent(context, TodayTasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
+                Intent(context, TasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
@@ -343,7 +347,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
             val pending = PendingIntent.getBroadcast(
                 context,
                 NEXT_DEADLINE_REFRESH_REQUEST_CODE,
-                Intent(context, TodayTasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
+                Intent(context, TasksWidgetProvider::class.java).setAction(ACTION_REFRESH_WIDGETS),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             alarmManager.cancel(pending)
@@ -380,7 +384,7 @@ class TodayTasksWidgetProvider : AppWidgetProvider() {
                 if (is24HourFormat(context)) {
                     String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
                 } else {
-                    val amPm = if (hour >= 12) context.getString(R.string.widget_today_pm) else context.getString(R.string.widget_today_am)
+                    val amPm = if (hour >= 12) context.getString(R.string.widget_tasks_pm) else context.getString(R.string.widget_tasks_am)
                     val hour12 = when (val h = hour % 12) {
                         0 -> 12
                         else -> h

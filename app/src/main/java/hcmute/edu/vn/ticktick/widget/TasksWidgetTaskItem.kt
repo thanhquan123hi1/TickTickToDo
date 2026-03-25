@@ -1,10 +1,8 @@
 package hcmute.edu.vn.ticktick.widget
 
-/**
- * Small immutable model used by the widget renderer.
- */
-data class TodayWidgetTaskItem(
+data class TasksWidgetTaskItem(
     val taskId: Int,
     val title: String,
+    val dueDate: Long,
     val dueTime: String?
 )

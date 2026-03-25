@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import hcmute.edu.vn.ticktick.database.AppDatabase;
 import hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarSyncScheduler;
-import hcmute.edu.vn.ticktick.widget.TodayTasksWidgetProvider;
+import hcmute.edu.vn.ticktick.widget.TasksWidgetProvider;
 
 public class ReminderBootReceiver extends BroadcastReceiver {
 
@@ -23,7 +23,7 @@ public class ReminderBootReceiver extends BroadcastReceiver {
             Context appContext = context.getApplicationContext();
             AppDatabase.databaseWriteExecutor.execute(() -> {
                 ReminderScheduler.rescheduleAllFromDatabase(appContext);
-                TodayTasksWidgetProvider.refreshAllWidgets(appContext);
+                TasksWidgetProvider.refreshAllWidgets(appContext);
                 SchoolCalendarSyncScheduler.ensurePeriodicSync(appContext);
             });
         }
