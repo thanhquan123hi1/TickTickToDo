@@ -48,6 +48,21 @@ public final class CountdownNotificationHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
+        PendingIntent stopPendingIntent = createServicePendingIntent(context, CountdownForegroundService.ACTION_STOP, 3);
+
+        if (state.isCompleted()) {
+            return new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_timer)
+                    .setContentTitle(context.getString(R.string.countdown_notification_title))
+                    .setContentText(context.getString(R.string.countdown_finished_title))
+                    .setOnlyAlertOnce(false)
+                    .setOngoing(true)
+                    .setSilent(true)
+                    .setContentIntent(openPendingIntent)
+                    .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.countdown_stop), stopPendingIntent)
+                    .build();
+        }
+
         String pauseOrResumeAction = state.isRunning()
                 ? CountdownForegroundService.ACTION_PAUSE
                 : CountdownForegroundService.ACTION_RESUME;
@@ -59,7 +74,7 @@ public final class CountdownNotificationHelper {
                 : android.R.drawable.ic_media_play;
 
         PendingIntent pauseOrResumePendingIntent = createServicePendingIntent(context, pauseOrResumeAction, 2);
-        PendingIntent stopPendingIntent = createServicePendingIntent(context, CountdownForegroundService.ACTION_STOP, 3);
+        PendingIntent stopPendingIntent2 = createServicePendingIntent(context, CountdownForegroundService.ACTION_STOP, 3);
 
         String contentText = context.getString(
                 state.isRunning() ? R.string.countdown_notification_running : R.string.countdown_notification_paused,
@@ -75,7 +90,7 @@ public final class CountdownNotificationHelper {
                 .setSilent(true)
                 .setContentIntent(openPendingIntent)
                 .addAction(pauseOrResumeIcon, context.getString(pauseOrResumeLabel), pauseOrResumePendingIntent)
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.countdown_stop), stopPendingIntent)
+                .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.countdown_stop), stopPendingIntent2)
                 .build();
     }
 

@@ -34,7 +34,7 @@ public class AlarmPlayer {
             }
 
             if (mediaPlayer != null) {
-                mediaPlayer.setLooping(false);
+                mediaPlayer.setLooping(true);
                 mediaPlayer.start();
             }
         } catch (Exception e) {

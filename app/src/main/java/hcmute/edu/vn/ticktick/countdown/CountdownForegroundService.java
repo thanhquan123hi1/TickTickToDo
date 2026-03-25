@@ -14,6 +14,9 @@ import android.os.SystemClock;
 import androidx.annotation.Nullable;
 import androidx.core.app.ServiceCompat;
 
+import hcmute.edu.vn.ticktick.countdown.CountdownState;
+import hcmute.edu.vn.ticktick.countdown.AlarmPlayer;
+
 public class CountdownForegroundService extends Service {
 
     public static final String ACTION_START = "hcmute.edu.vn.ticktick.action.COUNTDOWN_START";
@@ -42,6 +45,7 @@ public class CountdownForegroundService extends Service {
     private CountdownState currentState = CountdownState.idle();
     private long endElapsedRealtime = 0L;
     private boolean isInForeground = false;
+    private AlarmPlayer alarmPlayer;
 
     @Nullable
     @Override
@@ -53,6 +57,7 @@ public class CountdownForegroundService extends Service {
     public void onCreate() {
         super.onCreate();
         CountdownNotificationHelper.ensureChannel(this);
+        alarmPlayer = new AlarmPlayer(this);
     }
 
     @Override
@@ -85,6 +90,9 @@ public class CountdownForegroundService extends Service {
     @Override
     public void onDestroy() {
         stopTicker();
+        if (alarmPlayer != null) {
+            alarmPlayer.stop();
+        }
         super.onDestroy();
     }
 
@@ -125,6 +133,9 @@ public class CountdownForegroundService extends Service {
             return;
         }
 
+        if (alarmPlayer != null) {
+            alarmPlayer.stop();
+        }
         endElapsedRealtime = SystemClock.elapsedRealtime() + durationMs;
         currentState = new CountdownState(CountdownState.STATUS_RUNNING, durationMs, durationMs);
         persistState(currentState, endElapsedRealtime);
@@ -173,6 +184,9 @@ public class CountdownForegroundService extends Service {
 
     private void handleStop() {
         stopTicker();
+        if (alarmPlayer != null) {
+            alarmPlayer.stop();
+        }
         currentState = CountdownState.idle();
         endElapsedRealtime = 0L;
 
@@ -216,16 +230,15 @@ public class CountdownForegroundService extends Service {
         currentState = new CountdownState(CountdownState.STATUS_COMPLETED, currentState.getTotalDurationMillis(), 0L);
         endElapsedRealtime = 0L;
 
+        if (alarmPlayer != null) {
+            alarmPlayer.play();
+        }
+
         persistState(currentState, 0L);
         broadcastState();
-        stopForeground(STOP_FOREGROUND_REMOVE);
-        isInForeground = false;
-
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        if (manager != null) {
-            manager.cancel(CountdownNotificationHelper.NOTIFICATION_ID);
-        }
-        stopSelf();
+        
+        // Update the notification to show "Finished" instead of canceling it
+        updateNotification();
     }
 
     private void promoteToForeground() {
