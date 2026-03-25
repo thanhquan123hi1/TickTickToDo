@@ -83,6 +83,21 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    public static TaskDetailBottomSheet newTaskWithTitleDescription(String title, String description, Long dueDate, String dueTime) {
+        TaskDetailBottomSheet fragment = new TaskDetailBottomSheet();
+        Bundle args = new Bundle();
+        args.putString("initialTitle", title);
+        args.putString("initialDescription", description);
+        if (dueDate != null) {
+            args.putLong("initialDueDate", dueDate);
+        }
+        if (dueTime != null) {
+            args.putString("initialDueTime", dueTime);
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -137,6 +152,26 @@ public class TaskDetailBottomSheet extends BottomSheetDialogFragment {
         if (!isEditMode() && initialDueDate != null) {
             selectedDueDate = initialDueDate;
             btnSelectDate.setText(DateUtils.formatDate(selectedDueDate));
+        }
+        if (getArguments() != null) {
+            String initialTitle = getArguments().getString("initialTitle");
+            String initialDesc = getArguments().getString("initialDescription");
+            if (initialTitle != null && etTitle != null && !isEditMode()) {
+                etTitle.setText(initialTitle);
+            }
+            if (initialDesc != null && etDescription != null && !isEditMode()) {
+                etDescription.setText(initialDesc);
+            }
+            if (getArguments().containsKey("initialDueDate") && !isEditMode()) {
+                selectedDueDate = getArguments().getLong("initialDueDate");
+                btnSelectDate.setText(DateUtils.formatDate(selectedDueDate));
+            }
+            if (getArguments().containsKey("initialDueTime") && !isEditMode()) {
+                selectedDueTime = getArguments().getString("initialDueTime");
+                if (btnSelectTime != null && selectedDueTime != null) {
+                    btnSelectTime.setText(selectedDueTime);
+                }
+            }
         }
     }
 
