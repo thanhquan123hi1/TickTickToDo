@@ -74,9 +74,14 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
     // --- Rail buttons ---
     // Nhom nut dieu huong ben trai (id: rail_btn_* trong activity_main.xml).
-    private ImageButton railBtnTasks, railBtnCalendar, railBtnFilter;
+    private ImageButton railBtnTasks;
+    private ImageButton railBtnCalendar;
     private ImageButton railBtnSchoolCalendar;
-    private ImageButton railBtnTools, railBtnCompleted, railBtnSettings;
+    private ImageButton railBtnDiary;
+    private ImageButton railBtnFilter;
+    private ImageButton railBtnTools;
+    private ImageButton railBtnCompleted;
+    private ImageButton railBtnSettings;
 
     // --- Collaborators ---
     // Cac thanh phan tach rieng trach nhiem: nav, du lieu, adapter, state.
@@ -237,6 +242,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
         railBtnTasks = findViewById(R.id.rail_btn_tasks);
         railBtnCalendar = findViewById(R.id.rail_btn_calendar);
         railBtnSchoolCalendar = findViewById(R.id.rail_btn_school_calendar);
+        railBtnDiary = findViewById(R.id.rail_btn_diary);
         railBtnFilter = findViewById(R.id.rail_btn_filter);
         railBtnTools = findViewById(R.id.rail_btn_tools);
         railBtnCompleted = findViewById(R.id.rail_btn_completed);
@@ -255,7 +261,7 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
 
         navPanel = new NavPanel(this);
         railController = new NavRailController(
-                railBtnTasks, railBtnCalendar, railBtnSchoolCalendar, railBtnFilter,
+                railBtnTasks, railBtnCalendar, railBtnSchoolCalendar, railBtnDiary, railBtnFilter,
                 railBtnTools, railBtnCompleted, railBtnSettings);
         panelFactory = new PanelContentFactory(this, panelContent, tvPanelTitle, this);
         taskListController = new TaskListController(
@@ -385,6 +391,11 @@ public class MainActivity extends BaseActivity implements NavPanelCallback, NavP
             closePanel();
             railController.setActive(railBtnSchoolCalendar);
             startActivity(new Intent(this, hcmute.edu.vn.ticktick.schoolcalendar.SchoolCalendarActivity.class));
+        });
+        railBtnDiary.setOnClickListener(v -> {
+            closePanel();
+            railController.setActive(railBtnDiary);
+            startActivity(new Intent(this, hcmute.edu.vn.ticktick.diary.DiaryActivity.class));
         });
         railBtnFilter.setOnClickListener(v -> togglePanel(railBtnFilter, panelFactory::buildFilterPanel));
         railBtnTools.setOnClickListener(v -> togglePanel(railBtnTools, panelFactory::buildToolsPanel));

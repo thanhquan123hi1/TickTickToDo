@@ -229,6 +229,18 @@
             android:src="@drawable/ic_school_calendar" />
 
         <ImageButton
+            android:id="@+id/rail_btn_diary"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/bg_rail_btn_ripple"
+            android:contentDescription="@string/diary_title"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_camera"
+            app:tint="@color/text_primary" />
+
+        <ImageButton
             android:id="@+id/rail_btn_filter"
             android:layout_width="44dp"
             android:layout_height="44dp"
