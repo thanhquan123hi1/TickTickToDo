@@ -229,4 +229,21 @@
     <string name="calendar_weekday_fri">T6</string>
     <string name="calendar_weekday_sat">T7</string>
     <string name="calendar_weekday_sun">CN</string>
+    <string name="diary_title">Nhật ký</string>
+    <string name="diary_new_moment">Khoảnh khắc mới</string>
+    <string name="diary_close">Đóng</string>
+    <string name="diary_caption_hint">Viết caption...</string>
+    <string name="diary_note_hint">Thêm ghi chú... (tùy chọn)</string>
+    <string name="diary_emotion">Cảm xúc</string>
+    <string name="diary_save_moment">Lưu khoảnh khắc</string>
+    <string name="diary_empty_note">Chưa có ghi chú</string>
+    <string name="diary_icon_favorite">Đánh dấu yêu thích</string>
+    <string name="diary_icon_note">Ghi chú</string>
+    <string name="diary_camera_permission_required">Cần cấp quyền camera để thêm ảnh nhật ký</string>
+    <string name="diary_camera_not_found">Không tìm thấy ứng dụng camera</string>
+    <string name="diary_saved">Đã lưu khoảnh khắc</string>
+    <string name="diary_album_open_failed">Không mở được album</string>
+    <string name="diary_album_read_failed">Không thể đọc ảnh từ album</string>
+    <string name="diary_camera_start_failed">Không thể khởi động camera</string>
+    <string name="diary_capture_failed">Chụp ảnh thất bại: %1$s</string>
 </resources>

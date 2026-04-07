@@ -98,6 +98,22 @@
             android:name="hcmute.edu.vn.ticktick.widget.TasksRemoteViewsService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity
+            android:name=".diary.DiaryActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TickTick" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <activity android:name=".diary.CustomCameraActivity" android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>
